@@ -1,40 +1,65 @@
-// interface IProps {
-//   title: string
-// }
-// import styles from './Header.module.css'
-import { useState } from 'react'
+interface IProps {
+  showModalLogin: boolean
+  setShowModalLogin: React.Dispatch<React.SetStateAction<boolean>>
+}
+import { useRef, useState } from 'react'
 import styles from './Header.module.css'
-const Header = () => {
-  const [openDropdownMenu, setOpenDropdpwnMenu] = useState<boolean>(false)
-  console.log(styles)
+import useClickOutSide from '~/helps/clickOutSide'
+const Header = ({ setShowModalLogin }: IProps) => {
+  const [openDropdownMenu, setOpenDropdownMenu] = useState<boolean>(false)
   const handleClick = () => {
-    setOpenDropdpwnMenu(prev => !prev)
+    setOpenDropdownMenu((prev) => !prev)
   }
+  const DropdownMenuRef = useRef(null)
+  useClickOutSide(DropdownMenuRef, () => {
+    setOpenDropdownMenu(false)
+  })
   return (
-    <header className={`${styles.header} container`}>
+    <header className={`${styles.header}`}>
       <div className={styles.navbar}>
         <div className={styles.logo}>
-          <a href="!#">DoAnTotNghiep</a>
+          <a href='!#'>DoAnTotNghiep</a>
         </div>
         <ul className={styles.nav_links}>
-          <li><a href="!#">Home</a></li>
-          <li><a href="!#">About</a></li>
-          <li><a href="!#">Services</a></li>
-          <li><a href="!#">Contact</a></li>
+          <li>
+            <a href='!#'>Home</a>
+          </li>
+          <li>
+            <a href='!#'>About</a>
+          </li>
+          <li>
+            <a href='!#'>Services</a>
+          </li>
+          <li>
+            <a href='!#'>Contact</a>
+          </li>
         </ul>
-        <a href='!#' className={styles.action_btn}>
+        <a href='!#' className={styles.action_btn} onClick={() => setShowModalLogin(true)}>
           Login
         </a>
         <div className={styles.toggle_btn} onClick={handleClick} role='presentation'>
           <i className='fa-solid fa-bars'></i>
         </div>
       </div>
-      <ul className={`${styles.dropdown_menu} ${openDropdownMenu ? styles.open : ''}`}>
-        <li><a href="!#">Home</a></li>
-        <li><a href="!#">About</a></li>
-        <li><a href="!#">Services</a></li>
-        <li><a href="!#">Contact</a></li>
-        <li><a href='!#' className={styles.action_btn}>Login</a></li>
+      {/* Dropdown Menu */}
+      <ul className={`${styles.dropdown_menu} ${openDropdownMenu ? styles.open : ''}`} ref={DropdownMenuRef}>
+        <li>
+          <a href='!#'>Home</a>
+        </li>
+        <li>
+          <a href='!#'>About</a>
+        </li>
+        <li>
+          <a href='!#'>Services</a>
+        </li>
+        <li>
+          <a href='!#'>Contact</a>
+        </li>
+        <li>
+          <a href='!#' className={styles.action_btn} onClick={() => setShowModalLogin(true)}>
+            Login
+          </a>
+        </li>
       </ul>
     </header>
   )
