@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import Header from './components/Header/Header'
-import LoginModal from './components/LoginModal'
+import LoginModal from './components/LoginRegisterModal'
 
 function App() {
   const [showModalLogin, setShowModalLogin] = useState(false)
