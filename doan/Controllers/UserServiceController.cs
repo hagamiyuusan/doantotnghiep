@@ -38,11 +38,29 @@ namespace doan.Controllers
                 return BadRequest(ModelState);
             }
             var result = await _userService.Register(request);
-            if(!result)
+            if (!result)
             {
                 return BadRequest("ERROR");
             }
             return Ok();
         }
+        [HttpPost("changepassword")]
+        [AllowAnonymous]
+        
+        public async Task<IActionResult> ChangePassword([FromBody] AppUserChangePassword request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = await _userService.ChangePassword(request);
+            if (!result)
+            {
+                return BadRequest("ERROR");
+            }
+            return Ok();
+        }
+
+
     }
 }
