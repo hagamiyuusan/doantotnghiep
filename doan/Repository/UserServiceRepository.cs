@@ -57,13 +57,20 @@ namespace doan.Repository
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token) ;
-
-
-
-
         }
 
+        public async Task<bool> ChangePassword(AppUserChangePassword request)
+        {
+            var userId = await _userManager.FindByNameAsync(request.UserName);
 
+            var result = await _userManager.ChangePasswordAsync(userId, request.Password, request.ConfirmPassword);
+            
+            if (result.Succeeded)
+            {
+                return true;
+            }
+            return false;
+        }
 
         public async Task<bool> Register(AppUserRegistration request)
         {

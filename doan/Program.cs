@@ -47,6 +47,7 @@ builder.Services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
 builder.Services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
 builder.Services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
 builder.Services.AddScoped<IUserService, UserServiceRepository>();
+builder.Services.AddScoped<IAppUser, AppUserRepository>();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Test", Version = "v1" });
