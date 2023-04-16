@@ -1,4 +1,5 @@
-﻿using doan.Entities;
+﻿using doan.DTO.ProductDuration;
+using doan.Entities;
 
 namespace doan.Interface
 {
@@ -8,6 +9,6 @@ namespace doan.Interface
         public Task<List<ProductDuration>> getProductDurationsById(int id);
         public Task<bool> deleteProductDuration(int id);
         public Task<bool> editProductDuration(int id);
-        public Task<ProductDuration> createProductDuration(ProductDuration product);
+        public Task<ProductDuration> createProductDuration(ProductDurationCreateRequest request);
     }
 }

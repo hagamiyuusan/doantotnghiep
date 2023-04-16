@@ -1,4 +1,4 @@
-﻿namespace doan.DTO
+﻿namespace doan.DTO.AppUser
 {
     public class AppUserChangePassword
     {

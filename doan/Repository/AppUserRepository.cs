@@ -1,8 +1,10 @@
 ﻿using doan.DTO;
+using doan.DTO.AppUser;
 using doan.EF;
 using doan.Entities;
 using doan.Interface;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata.Ecma335;
@@ -12,13 +14,16 @@ namespace doan.Repository
     public class AppUserRepository : IAppUser
     {
         private readonly UserManager<AppUser> _userManager;
-
+        private readonly RoleManager<AppRole> _roleManager;
         private readonly IConfiguration _config;
         private readonly ApplicationDbContext _context;
 
-        public AppUserRepository(UserManager<AppUser> userManager, IConfiguration config, ApplicationDbContext context)
+
+
+        public AppUserRepository(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IConfiguration config, ApplicationDbContext context)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _config = config;
             _context = context;
         }
@@ -58,6 +63,14 @@ namespace doan.Repository
         
         }
 
+        public async Task<IList<string>> getUserRole(string id)
+        {
+            var user = await _userManager.FindByNameAsync(id);
+            var result = await _userManager.GetRolesAsync(user);
+            return result;
+            
+        }
+
         public async Task<bool> updateUser(string id, AppUserChangeRequest request)
         {
             var user = await _userManager.FindByEmailAsync(id);
@@ -74,5 +87,7 @@ namespace doan.Repository
 
 
         }
+
+
     }
 }

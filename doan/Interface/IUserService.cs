@@ -1,4 +1,5 @@
 ﻿using doan.DTO;
+using doan.DTO.AppUser;
 using doan.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +14,6 @@ namespace doan.Interface
         public Task<bool> Register(AppUserRegistration request);
 
         public Task<bool> ChangePassword(AppUserChangePassword request);
-
+        public Task<bool> Logout();
     }
 }

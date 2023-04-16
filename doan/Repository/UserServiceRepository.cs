@@ -1,4 +1,5 @@
 ﻿using doan.DTO;
+using doan.DTO.AppUser;
 using doan.EF;
 using doan.Entities;
 using doan.Interface;
@@ -50,7 +51,7 @@ namespace doan.Repository
                 new Claim(ClaimTypes.Email,user.Email),
                 new Claim(ClaimTypes.Role,String.Join(";",roles))
             };
-            var token = new JwtSecurityToken(_config["JWT:ValidIssuer"],
+            var token = new JwtSecurityToken(_config["JWT:ValidIssuer"], 
                 _config["JWT:ValidIssuer"],
                 claims,
                 expires: DateTime.Now.AddHours(3),
@@ -70,6 +71,11 @@ namespace doan.Repository
                 return true;
             }
             return false;
+        }
+
+        public Task<bool> Logout()
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<bool> Register(AppUserRegistration request)
