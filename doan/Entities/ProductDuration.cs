@@ -11,5 +11,7 @@
 
         public decimal price { set; get; }
         public ICollection<Subscription> subscriptions { set; get; }
+
+
     }
 }

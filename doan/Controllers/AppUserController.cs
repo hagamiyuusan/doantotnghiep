@@ -1,4 +1,5 @@
 ﻿using doan.DTO;
+using doan.DTO.AppUser;
 using doan.Entities;
 using doan.Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +17,7 @@ namespace doan.Controllers
             _appuser = appuser;
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AppUserGet>>> GetAllUser()
+        public async Task<ActionResult> GetAllUser()
         {
             var result = await _appuser.getAllUser();
             if (result == null)
@@ -35,6 +36,12 @@ namespace doan.Controllers
 
             }
             return new JsonResult(user);
+        }
+        [HttpGet("role")]
+        public async Task<IList<string>> getRoleByName(string role)
+        {
+            var result = await _appuser.getUserRole(role);
+            return result;
         }
         [HttpPut("{name}")]
         public async Task<ActionResult<AppUserGet>> updateUser(string name, [FromBody]AppUserChangeRequest request)
