@@ -22,7 +22,7 @@ namespace doan.Repository
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public async Task<bool> uploadFile(UploadImageRequest input)
+        public async Task<string> uploadFile(UploadImageRequest input)
         {
             string uniqueFileName = UploadedFile(input);
             ImageForCaptioning file = new ImageForCaptioning
@@ -32,7 +32,7 @@ namespace doan.Repository
             };
             await _context.ImageForCaptionings.AddAsync(file);
             await _context.SaveChangesAsync();
-            return true;
+            return uniqueFileName;
 
         }
         private string UploadedFile(UploadImageRequest model)
@@ -51,15 +51,26 @@ namespace doan.Repository
             }
             return uniqueFileName;
         }
-        public async Task<string> useProduct(UploadImageRequest input)
+        public async Task<string> useProduct(UploadImageRequest input, string API_URL)
         {
-            
-            var tokenString = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiMSIsIm5iZiI6MTY4MTU0MjM5MywiZXhwIjoxNjg0MTM0MzkzLCJpYXQiOjE2ODE1NDIzOTN9.HtPIhk_eLlllnE_vgGcB4r8s4abLPlDvpOqZW33wnNs";
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenString);
-            var response = await _httpClient.GetAsync("http://127.0.0.1:8000/books");
-            response.EnsureSuccessStatusCode(); 
-            var content = await response.Content.ReadAsStringAsync();
-            return content;
+
+            using (var content = new MultipartFormDataContent())
+            {
+                var fileContent = new StreamContent(input.image.OpenReadStream());
+                content.Add(fileContent, "file", input.image.FileName);
+                var response = await _httpClient.PostAsync(API_URL, content);
+                response.EnsureSuccessStatusCode();
+                var result = await response.Content.ReadAsStringAsync();
+                return result;
+            }
+
+
+            //var tokenString = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0eXBlIjoiMSIsIm5iZiI6MTY4MTU0MjM5MywiZXhwIjoxNjg0MTM0MzkzLCJpYXQiOjE2ODE1NDIzOTN9.HtPIhk_eLlllnE_vgGcB4r8s4abLPlDvpOqZW33wnNs";
+            //_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tokenString);
+            //var response = await _httpClient.GetAsync("http://127.0.0.1:8000/books");
+            //response.EnsureSuccessStatusCode(); 
+            //var content = await response.Content.ReadAsStringAsync();
+            //return content;
         }
     }
 }

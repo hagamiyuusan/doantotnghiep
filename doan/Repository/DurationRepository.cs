@@ -46,9 +46,19 @@ namespace doan.Repository
             }
         }
 
-        public Task<bool> editDurationt(int id)
+        public async Task<bool> editDuration(int id, DurationEditRequest request)
         {
-            throw new NotImplementedException();
+            var duration = await _context.Durations.FindAsync(id);
+            
+            if (duration == null)
+            {
+                return false;
+            }
+            duration.name = request.name;
+            duration.day = request.day;
+            await _context.SaveChangesAsync();
+            return true;
+
         }
 
         public async Task<List<Duration>> getAllDuration()
