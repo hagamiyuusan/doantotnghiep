@@ -42,6 +42,7 @@ namespace doan.Repository
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim("type", productDuration.product.Id.ToString()),
+                    new Claim("username", userId.UserName.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddDays(productDuration.duration.day),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),

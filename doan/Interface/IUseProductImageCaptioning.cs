@@ -5,8 +5,8 @@ namespace doan.Interface
 {
     public interface IUseProductImageCaptioning
     {
-        public Task<string> useProduct(UploadImageRequest input);
-        public Task<bool> uploadFile(UploadImageRequest input);
+        public Task<string> useProduct(UploadImageRequest input, string API_URL);
+        public Task<string> uploadFile(UploadImageRequest input);
 
     }
 }
