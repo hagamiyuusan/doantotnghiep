@@ -1,6 +1,7 @@
 .header {
   position: relative;
   padding: 0 2rem;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .navbar {
@@ -22,21 +23,39 @@
   gap: 2rem;
 }
 
+.nav_links a {
+  color: #e2e2e2;
+  padding: 12px 22px;
+  background-color: #00acff;
+  border-radius: 4px;
+  transition: all 0.5s ease;
+
+}
+
+.nav_links a:hover {
+  border: 1px solid #00acff;
+  background-color: #fff;
+  color: black
+}
+
 .action_btn {
-  background-color: orange;
-  color: white;
+  display: inline-block;
+  border: 1px solid #00acff;
+  color: rgb(34, 24, 131);
   padding: 0.5rem 2rem;
-  border: none;
+  /* border: none; */
   outline: none;
   border-radius: 8px;
   font-weight: bold;
   cursor: pointer;
-  animation: scale 0.2 ease;
+  /* animation: scale 0.2 ease; */
+  transition: all 0.5s ease;
+
 }
 
 .action_btn:hover {
-  scale: 1.05;
-  color: #fff;
+  background-color: #00acff;
+  color: black
 }
 
 .action_btn:active {
@@ -58,8 +77,16 @@
 }
 
 .dropdown_menu li {
-  padding: 0.7rem;
   text-align: center;
+}
+
+.dropdown_menu li a {
+  display: inline-block;
+  width: 100%;
+  padding: 0.7rem;
+  background-color: #fff;
+  color: #1b1919;
+  border-radius: 4px;
 }
 
 .dropdown_menu li:last-child {
@@ -91,6 +118,7 @@
 
 /* Reponsive */
 @media (max-width: 992px) {
+
   .navbar .nav_links,
   .navbar .action_btn {
     display: none;
