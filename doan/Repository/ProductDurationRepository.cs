@@ -2,6 +2,8 @@
 using doan.EF;
 using doan.Entities;
 using doan.Interface;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 
 namespace doan.Repository
 {
@@ -32,9 +34,13 @@ namespace doan.Repository
             return productDurationEntity;
         }
 
-        public Task<bool> deleteProductDuration(int id)
+        public async Task<bool> deleteProductDuration(int id)
         {
-            throw new NotImplementedException();
+            var productDuration = await _context.ProductDurations.FindAsync(id);
+
+            _context.ProductDurations.Remove(productDuration);
+            var result = await _context.SaveChangesAsync();
+            return (result == 1 ? true : false);
         }
 
         public Task<bool> editProductDuration(int id)
@@ -42,12 +48,13 @@ namespace doan.Repository
             throw new NotImplementedException();
         }
 
-        public Task<ProductDuration> getAllProductDuration()
+        public async Task<List<ProductDuration>> getAllProductDuration()
         {
-            throw new NotImplementedException();
+            var result = await _context.ProductDurations.ToListAsync();
+            return result;
         }
 
-        public Task<List<ProductDuration>> getProductDurationsById(int id)
+        public Task<ProductDuration> getProductDurationsById(int id)
         {
             throw new NotImplementedException();
         }

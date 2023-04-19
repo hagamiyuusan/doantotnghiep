@@ -11,7 +11,7 @@ namespace doan.Interface
 
         public Task<(List<AppUserGet>,PaginationFilter, int)> getAllUser(PaginationFilter filter);
 
-        public Task<bool> updateUser(string id, AppUserChangeRequest request);
+        public Task<bool> updateUser(AppUserChangeRequest request);
 
         public Task<IList<string>> getUserRole(string id);
     }

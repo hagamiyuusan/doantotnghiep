@@ -51,12 +51,12 @@ namespace doan.Controllers
             return result;
         }
         [HttpPut("{name}")]
-        public async Task<ActionResult<AppUserGet>> updateUser(string name, [FromBody]AppUserChangeRequest request)
+        public async Task<ActionResult<AppUserGet>> updateUser(AppUserChangeRequest request)
         {
             if (!ModelState.IsValid)
 
                 return new JsonResult( new { success = false, message = "Item modified failed" });
-            await _appuser.updateUser(name, request);
+            await _appuser.updateUser(request);
             var result = new { success = true, message = "Item modified successfully" };
             return new JsonResult(result);
         }
