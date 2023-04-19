@@ -1,6 +1,7 @@
 ﻿using doan.DTO;
 using doan.DTO.AppUser;
 using doan.Entities;
+using doan.Wrapper;
 
 namespace doan.Interface
 {
@@ -8,7 +9,7 @@ namespace doan.Interface
     {
         public Task<AppUserGet> getUserbyID(string id);
 
-        public Task<List<AppUserGet>> getAllUser();
+        public Task<(List<AppUserGet>,PaginationFilter, int)> getAllUser(PaginationFilter filter);
 
         public Task<bool> updateUser(string id, AppUserChangeRequest request);
 

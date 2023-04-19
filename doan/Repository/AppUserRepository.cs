@@ -3,6 +3,7 @@ using doan.DTO.AppUser;
 using doan.EF;
 using doan.Entities;
 using doan.Interface;
+using doan.Wrapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
@@ -28,11 +29,40 @@ namespace doan.Repository
             _context = context;
         }
 
-        public async Task<List<AppUserGet>> getAllUser()
+        public async Task<(List<AppUserGet>, PaginationFilter, int)> getAllUser(PaginationFilter filter)
         {
             List<AppUserGet> result = new List<AppUserGet>();
-            var listUser = await _userManager.Users.ToListAsync();
-            foreach(var user in listUser)
+
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize, filter.key);
+
+            if (!String.IsNullOrEmpty(filter.key))
+            {
+                var userFilter = await _userManager.Users.Where(x => x.UserName == filter.key)
+                    .Skip((filter.PageNumber - 1) * validFilter.PageSize)
+                    .Take(validFilter.PageSize)
+                    .ToListAsync();
+
+                var countFilter = await _userManager.Users.Where(x => x.UserName == filter.key).CountAsync();
+
+
+                foreach (var user in userFilter)
+                {
+                    var tempUse = new AppUserGet
+                    {
+                        Id = user.Id,
+                        Username = user.UserName
+                    };
+                    result.Add(tempUse);
+                }
+
+                return (result, validFilter, countFilter);
+            }
+
+            var listUser = await _userManager.Users
+                    .Skip((filter.PageNumber - 1) * validFilter.PageSize)
+                    .Take(validFilter.PageSize)
+                    .ToListAsync();
+            foreach (var user in listUser)
             {
                 var tempUse = new AppUserGet
                 {
@@ -41,8 +71,8 @@ namespace doan.Repository
                 };
                 result.Add(tempUse);
             }
-  
-            return result;
+            var count = await _userManager.Users.CountAsync();
+            return (result, validFilter, count);
 
         }
 
@@ -60,7 +90,7 @@ namespace doan.Repository
             };
 
             return gotUser;
-        
+
         }
 
         public async Task<IList<string>> getUserRole(string id)
@@ -68,7 +98,7 @@ namespace doan.Repository
             var user = await _userManager.FindByNameAsync(id);
             var result = await _userManager.GetRolesAsync(user);
             return result;
-            
+
         }
 
         public async Task<bool> updateUser(string id, AppUserChangeRequest request)
@@ -83,7 +113,7 @@ namespace doan.Repository
             user.Email = request.email;
             await _userManager.UpdateAsync(user);
             var result = await getUserbyID(request.email);
-            return true ;
+            return true;
 
 
         }

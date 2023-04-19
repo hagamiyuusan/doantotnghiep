@@ -1,7 +1,10 @@
 ﻿using doan.DTO;
 using doan.DTO.AppUser;
 using doan.Entities;
+using doan.Helpers;
 using doan.Interface;
+using doan.Services;
+using doan.Wrapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace doan.Controllers
@@ -11,20 +14,24 @@ namespace doan.Controllers
     public class AppUserController : ControllerBase
     {
         private readonly IAppUser _appuser;
+        private readonly IUriService _IUriService;
 
-        public AppUserController(IAppUser appuser)
+        public AppUserController(IAppUser appuser, IUriService iUriService)
         {
             _appuser = appuser;
+            _IUriService = iUriService;
         }
+
         [HttpGet]
-        public async Task<ActionResult> GetAllUser()
+        public async Task<ActionResult> GetAllUser([FromQuery] PaginationFilter filter)
         {
-            var result = await _appuser.getAllUser();
-            if (result == null)
-            {
-                return NotFound();
-            }
-            return new JsonResult(result);
+            var route = Request.Path.Value;
+
+            var result = await _appuser.getAllUser(filter);
+
+            var pagedReponse = PaginationHelper.CreatePagedReponse<AppUserGet>(result.Item1, result.Item2, result.Item3, _IUriService, route);
+
+            return new JsonResult(pagedReponse);
         }
         [HttpGet("name")]
         public async Task<ActionResult<AppUserGet>> getUserByName(string name)
