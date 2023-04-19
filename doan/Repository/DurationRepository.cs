@@ -33,17 +33,10 @@ namespace doan.Repository
 
         public async Task<bool> deleteDuration(int id)
         {
-            var durationEntity = await _context.Durations.Where(x => x.Id == id).FirstOrDefaultAsync();
-            _context.Durations.Remove(durationEntity);
-            try
-            {
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            var duration = await _context.Durations.Where(x => x.Id == id).FirstOrDefaultAsync();
+            _context.Durations.Remove(duration);
+            var result = await _context.SaveChangesAsync();
+            return (result == 1 ? true : false);
         }
 
         public async Task<bool> editDuration(int id, DurationEditRequest request)
