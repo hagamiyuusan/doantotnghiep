@@ -2,6 +2,7 @@ using doan.EF;
 using doan.Entities;
 using doan.Interface;
 using doan.Repository;
+using doan.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -57,6 +58,15 @@ builder.Services.AddScoped<IAppUser, AppUserRepository>();
 builder.Services.AddScoped<IProduct, ProductRepository>();
 builder.Services.AddScoped<ISubscription,SubscriptionRepository>();
 builder.Services.AddScoped<IUseProductImageCaptioning, UseProductImageCaptioningRepository>();
+
+builder.Services.AddSingleton<IUriService>(o =>
+{
+    var accessor = o.GetRequiredService<IHttpContextAccessor>();
+    var request = accessor.HttpContext.Request;
+    var uri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent());
+    return new UriService(uri);
+});
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Test", Version = "v1" });
