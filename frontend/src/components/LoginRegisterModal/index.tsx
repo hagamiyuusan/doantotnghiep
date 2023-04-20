@@ -1,4 +1,4 @@
-import useClickOutSide from '~/helps/clickOutSide'
+import useClickOutSide from '../../helps/clickOutSide'
 import styles from './LoginModal.module.css'
 import './style.css'
 import { useRef, useState } from 'react'
@@ -32,8 +32,6 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
   useClickOutSide(loginModalRef, () => {
     setShowModalLogin(false)
   })
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  console.log('🚀 ~ file: index.tsx:28 ~ LoginModal ~ formData:', formData)
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setErrorMessage('')
     setFormData((prev) => {
@@ -47,7 +45,8 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
     e.preventDefault()
     if (typeSubmit === TypeSubmit.REGISTER) {
       if (formData.password !== formData.confirm_password) {
-        setErrorMessage('Nhap lai!!')
+        setErrorMessage('Enter again!')
+        return
       }
       // handle Register
     }
@@ -74,6 +73,7 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
                   required
                   value={formData.username}
                   onChange={handleChangeInput}
+                  className='pl-3'
                 />
                 <input
                   type='email'
@@ -82,6 +82,7 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
                   required
                   value={formData.email}
                   onChange={handleChangeInput}
+                  className='pl-3'
                 />
                 <input
                   type='password'
@@ -90,6 +91,7 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
                   required
                   value={formData.password}
                   onChange={handleChangeInput}
+                  className='pl-3'
                 />
                 <input
                   type='password'

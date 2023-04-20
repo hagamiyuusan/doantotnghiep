@@ -2,15 +2,14 @@ import { useState } from 'react'
 import './App.css'
 import Header from './components/Header/Header'
 import LoginModal from './components/LoginRegisterModal'
+import useRouterElement from './helps/useRouterElement'
 
 function App() {
-  const [showModalLogin, setShowModalLogin] = useState(false)
-
+  const routerElements = useRouterElement()
   return (
-    <div className='container'>
-      <Header showModalLogin={showModalLogin} setShowModalLogin={setShowModalLogin} />
-      <LoginModal showModalLogin={showModalLogin} setShowModalLogin={setShowModalLogin} />
-    </div>
+    <>
+      {routerElements}
+    </>
   )
 }
 
