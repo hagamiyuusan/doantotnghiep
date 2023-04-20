@@ -32,7 +32,7 @@ namespace doan.Repository
         public async Task<string> Authencate(AppUserLogin request)
         {
             
-            var user = await _userManager.FindByNameAsync(request.Email);
+            var user = await _userManager.FindByNameAsync(request.UserName);
 
 
             if (user == null) return null ;
@@ -48,8 +48,9 @@ namespace doan.Repository
 
             var claims = new[]
 {
-                new Claim(ClaimTypes.Email,user.Email),
-                new Claim(ClaimTypes.Role,String.Join(";",roles))
+                new Claim("Email:",user.Email),
+                new Claim("User:",user.UserName),
+                new Claim("Roles",String.Join(";",roles))
             };
             var token = new JwtSecurityToken(_config["JWT:ValidIssuer"], 
                 _config["JWT:ValidIssuer"],

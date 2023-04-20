@@ -77,7 +77,7 @@ builder.Services.AddControllers();
 
 
 var app = builder.Build();
-
+app.UseCors(options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
