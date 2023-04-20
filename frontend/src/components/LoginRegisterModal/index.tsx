@@ -3,7 +3,9 @@ import styles from './LoginModal.module.css'
 import './style.css'
 import { useRef, useState } from 'react'
 import { ErrorMessage } from '../ErrorMessage'
-// create modal login 
+import axios from 'axios'
+import jwt_decode from "jwt-decode";
+// create modal login
 
 interface IProps {
   showModalLogin: boolean
@@ -41,7 +43,7 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
       }
     })
   }
-  const handleSubmitForm = (typeSubmit: string) => (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmitForm = (typeSubmit: string) => async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (typeSubmit === TypeSubmit.REGISTER) {
       if (formData.password !== formData.confirm_password) {
@@ -49,9 +51,23 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
         return
       }
       // handle Register
-    }
-    else {
+      const res = await axios.post('https://localhost:7749/api/UserService/register', {
+        userName: formData.username,
+        password: formData.password,
+        email: formData.email
+      })
+      console.log(res)
+    } else {
       // handle Login
+      console.log('asdasdsad');
+      const res = await axios.post('https://localhost:7749/api/UserService/authenticate', {
+        UserName: formData.username,
+        password: formData.password,
+      });
+      if (res.data) {
+        console.log(jwt_decode(res.data?.token))
+      }
+
     }
   }
   return (
@@ -100,9 +116,14 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
                   required
                   value={formData.confirm_password}
                   onChange={handleChangeInput}
+                  className='pl-3'
                 />
                 <ErrorMessage errorMessage={errorMessage} />
-                <button type='submit'>Sign up</button>
+                <div className='flex justify-center items-center'>
+                  <button type='submit' className='text-white border border-cyan-300'>
+                    Sign up
+                  </button>
+                </div>
               </form>
             </div>
 
@@ -111,9 +132,24 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
                 <label htmlFor='chk' aria-hidden='true'>
                   Login
                 </label>
-                <input type='email' name='email' placeholder='Email' />
-                <input type='password' name='pswd' placeholder='Password' />
-                <button type='submit'>Login</button>
+                <input
+                  type='text'
+                  name='username'
+                  placeholder='User Name...'
+                  className=' mx-auto pl-2'
+                  value={formData.username}
+                  onChange={handleChangeInput} />
+                <input
+                  type='password'
+                  name='password'
+                  placeholder='Password'
+                  className=' mx-auto pl-2 mt-3'
+                  value={formData.password}
+                  onChange={handleChangeInput} />
+                <div className="min-h[1.25rem]"></div>
+                <div className='flex justify-center items-center pt-6'>
+                  <button type='submit' className='text-black border  border-black'>Login</button>
+                </div>
               </form>
             </div>
           </div>
