@@ -361,3 +361,8 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+frontend/.vite/deps_temp_5f35e3f0/package.json
+frontend/.vite/deps_temp_26b0243e/package.json
+frontend/.vite/deps_temp_4702d006/package.json
+frontend/yarn.lock
+frontend/package-lock.json
