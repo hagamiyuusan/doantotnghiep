@@ -8,7 +8,7 @@ namespace doan.Interface
         public Task<List<Product>> getAllProduct();
         public Task<Product> getProductsById(int id);
         public Task<bool> deleteProduct(int id);
-        public Task<bool> editProduct(int id);
+        public Task<bool> editProduct(ProductEditRequest request );
         public Task<Product> createProduct(ProductCreateRequest product);
         
     }

@@ -14,6 +14,6 @@ namespace doan.Interface
         public Task<bool> Register(AppUserRegistration request);
 
         public Task<bool> ChangePassword(AppUserChangePassword request);
-        public Task<bool> Logout();
+        public Task<bool> confirmEmail(string code, string userId);
     }
 }

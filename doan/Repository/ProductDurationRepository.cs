@@ -54,9 +54,9 @@ namespace doan.Repository
             return result;
         }
 
-        public Task<ProductDuration> getProductDurationsById(int id)
+        public async Task<ProductDuration> getProductDurationsById(int id)
         {
-            throw new NotImplementedException();
+            return await _context.ProductDurations.FindAsync(id);
         }
     }
 }

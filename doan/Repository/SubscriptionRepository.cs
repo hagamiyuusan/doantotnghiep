@@ -63,9 +63,12 @@ namespace doan.Repository
             return createObject;
         }
 
-        public Task<bool> deleteSubscription(int id)
+        public async Task<bool> deleteSubscription(int id)
         {
-            throw new NotImplementedException();
+            var subscription = await _context.Subscriptions.FindAsync(id);
+            _context.Subscriptions.Remove(subscription);
+            var result = await _context.SaveChangesAsync();
+            return (result == 1 ? true : false);
         }
 
         public Task<bool> editSubscription(int id)
@@ -73,14 +76,15 @@ namespace doan.Repository
             throw new NotImplementedException();
         }
 
-        public Task<List<Subscription>> getAllSubscription()
+        public async Task<List<Subscription>> getAllSubscription()
         {
-            throw new NotImplementedException();
+            return await _context.Subscriptions.ToListAsync();
         }
 
-        public Task<List<Subscription>> getSubscriptionsById(int id)
+        public async Task<Subscription> getSubscriptionsById(int id)
         {
-            throw new NotImplementedException();
+            var subscription = await _context.Subscriptions.FindAsync(id);
+            return subscription;
         }
 
 

@@ -3,6 +3,7 @@ using doan.EF;
 using doan.Entities;
 using doan.Interface;
 using Microsoft.EntityFrameworkCore;
+using System.Net.WebSockets;
 
 namespace doan.Repository
 {
@@ -41,9 +42,13 @@ namespace doan.Repository
             return false;
         }
 
-        public Task<bool> editProduct(int id)
+        public async Task<bool> editProduct(ProductEditRequest request)
         {
-            throw new NotImplementedException();
+            var product = await _context.Products.FindAsync(request.productId);
+            product.Name = request.name;
+            product.API_URL = request.API_URL;
+            var result = await  _context.SaveChangesAsync();
+            return (result == 1 ? true : false);
         }
 
         public async Task<List<Product>> getAllProduct()
@@ -52,9 +57,9 @@ namespace doan.Repository
             return listProduct;
         }
 
-        public Task<Product> getProductsById(int id)
+        public async Task<Product> getProductsById(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Products.FindAsync(id);
         }
 
 
