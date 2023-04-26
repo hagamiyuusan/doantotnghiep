@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Newtonsoft.Json.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -88,13 +89,14 @@ namespace doan.Controllers
             }
             var user = await _userManager.FindByNameAsync(request.UserName);
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 
             var callbackUrl = Url.ActionLink(
                  action: nameof(confirmEmail),
                  values:
                      new
                      {
-                         code = code,
+                         code = token,
                          userId = user.Id.ToString(),
 
                      },
@@ -102,7 +104,7 @@ namespace doan.Controllers
             await _emailSender.SendEmailAsync(request.Email,
             "Xác nhận địa chỉ email",
             @$"Bạn đã đăng ký tài khoản trên Image Captioning, 
-                                               hãy <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>bấm vào đây</a> 
+                                               hãy <a href='{(callbackUrl)}'>bấm vào đây</a> 
                                                để kích hoạt tài khoản.");
             return Ok();
         }
