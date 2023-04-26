@@ -1,4 +1,4 @@
-﻿using doan.Config;
+using doan.Config;
 using doan.Entities;
 using doan.Extensions;
 using Microsoft.AspNetCore.Identity;
@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 namespace doan.EF
 {
-    public class ApplicationDbContext : IdentityDbContext<AppUser,AppRole, Guid>
+    public class ApplicationDbContext : IdentityDbContext<AppUser, AppRole, Guid>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -20,6 +20,7 @@ namespace doan.EF
             builder.ApplyConfiguration(new SubscriptionConfig());
             builder.ApplyConfiguration(new AppUserConfig());
             builder.ApplyConfiguration(new AppRoleConfig());
+            builder.ApplyConfiguration(new ImageForCaptioningConfig());
 
             builder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims");
             builder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles")
@@ -47,7 +48,7 @@ namespace doan.EF
         public DbSet <ProductDuration> ProductDurations { set; get; }
         public DbSet<Subscription> Subscriptions { set; get; }
 
-
+        public DbSet<ImageForCaptioning> ImageForCaptionings { set; get; }
 
 
 

@@ -1,11 +1,19 @@
-﻿using doan.DTO;
+﻿using Azure.Core;
+using doan.Controllers;
+using doan.DTO;
+using doan.DTO.AppUser;
 using doan.EF;
 using doan.Entities;
 using doan.Interface;
+using doan.Mail;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.WebSockets;
+
 using System.Security.Claims;
 using System.Text;
 
@@ -17,24 +25,25 @@ namespace doan.Repository
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IConfiguration _config;
-        public UserServiceRepository
-            (UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
-            RoleManager<AppRole> roleManager, IConfiguration config)
+        private readonly IEmailSender _emailSender;
+
+        public UserServiceRepository(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<AppRole> roleManager, IConfiguration config, IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _config = config;
+            _emailSender = emailSender;
 
         }
 
         public async Task<string> Authencate(AppUserLogin request)
         {
-            
-            var user = await _userManager.FindByNameAsync(request.Email);
+
+            var user = await _userManager.FindByNameAsync(request.UserName);
 
 
-            if (user == null) return null ;
+            if (user == null) return null;
 
             var result = await _signInManager.PasswordSignInAsync(user, request.Password, true, true);
             if (!result.Succeeded)
@@ -46,7 +55,9 @@ namespace doan.Repository
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
-{
+            {
+                new Claim(ClaimTypes.Name, user.UserName),
+
                 new Claim(ClaimTypes.Email,user.Email),
                 new Claim(ClaimTypes.Role,String.Join(";",roles))
             };
@@ -56,16 +67,35 @@ namespace doan.Repository
                 expires: DateTime.Now.AddHours(3),
                 signingCredentials: creds);
 
-            return new JwtSecurityTokenHandler().WriteToken(token) ;
-
-
-
-
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+        public async Task<IdentityResult> ChangePassword(AppUserChangePassword request)
+        {
+            var userId = await _userManager.FindByNameAsync(request.UserName);
 
+            var result = await _userManager.ChangePasswordAsync(userId, request.currentPassword, request.newPassword);
 
-        public async Task<bool> Register(AppUserRegistration request)
+            return result;
+        }
+
+        public async Task<bool> confirmEmail(string code, string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+            return (result.Succeeded ? true : false);
+        }
+
+        public async Task<string> generateForgotPasswordToken(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            string token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            return token;
+        }
+
+        public async Task<IdentityResult> Register(AppUserRegistration request)
+
         {
             var user = new AppUser()
             {
@@ -73,12 +103,12 @@ namespace doan.Repository
                 Email = request.Email
 
             };
-            var result = await _userManager.CreateAsync(user,request.Password);
-            if( result.Succeeded )
-            {
-                return true;
-            }
-            return false;
+            var result = await _userManager.CreateAsync(user, request.Password);
+
+            return result;
+
         }
     }
 }
+        
+

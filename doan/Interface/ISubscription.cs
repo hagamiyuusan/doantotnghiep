@@ -1,6 +1,16 @@
-﻿namespace doan.Interface
+﻿using doan.DTO.Subscription;
+using doan.Entities;
+
+namespace doan.Interface
 {
-    public class ISubscription
+    public interface ISubscription
     {
+        public Task<List<Subscription>> getSubscriptionsByUserId(Guid id);
+        public Task<List<Subscription>> getAllSubscription();
+        public Task<Subscription> getSubscriptionsById(int id);
+        public Task<bool> deleteSubscription(int id);
+        public Task<bool> editSubscription(int id);
+        public Task<Subscription> createSubscription(SubscriptionCreateRequest request);
+
     }
 }

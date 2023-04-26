@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../components/Header'
 // import Header from '../components/Header'
 import LoginModal from '../components/LoginRegisterModal'
@@ -7,6 +7,7 @@ interface IProps {
 }
 export default function MainLayout({ children }: IProps) {
   const [showModalLogin, setShowModalLogin] = useState(false)
+  const [user, setUserInfo] = useState();
 
   return (
     <div>

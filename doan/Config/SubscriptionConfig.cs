@@ -11,8 +11,7 @@ namespace doan.Config
             builder.ToTable("subscriptions");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).UseIdentityColumn();
-            builder.Property(x => x.createDate).IsRequired();
-            
+
             builder.HasOne(x => x.productDuration).WithMany(x => x.subscriptions)
                 .HasForeignKey(x => x.productDurationId).OnDelete(DeleteBehavior.Cascade);
             builder.HasOne(x => x.AppUser).WithMany(x => x.Subscriptions)

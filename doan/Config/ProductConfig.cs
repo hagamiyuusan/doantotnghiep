@@ -14,6 +14,7 @@ namespace doan.Config
             builder.Property(x => x.Name).IsRequired(true).IsUnicode(true);
             builder.Property(x => x.Created).IsRequired(true);
 
+
             builder.HasMany(e=>e.productDurations)
                 .WithOne(e=>e.product)
                 .HasForeignKey(e=>e.productId)
