@@ -37,11 +37,11 @@ namespace doan.Repository
 
         public async Task<string> Authencate(AppUserLogin request)
         {
-            
+
             var user = await _userManager.FindByNameAsync(request.UserName);
 
 
-            if (user == null) return null ;
+            if (user == null) return null;
 
             var result = await _signInManager.PasswordSignInAsync(user, request.Password, true, true);
             if (!result.Succeeded)
@@ -66,26 +66,22 @@ namespace doan.Repository
                 new Claim(ClaimTypes.Role,String.Join(";",roles))
 >>>>>>> e077d4d (add validate email)
             };
-            var token = new JwtSecurityToken(_config["JWT:ValidIssuer"], 
+            var token = new JwtSecurityToken(_config["JWT:ValidIssuer"],
                 _config["JWT:ValidIssuer"],
                 claims,
                 expires: DateTime.Now.AddHours(3),
                 signingCredentials: creds);
 
-            return new JwtSecurityTokenHandler().WriteToken(token) ;
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public async Task<bool> ChangePassword(AppUserChangePassword request)
+        public async Task<IdentityResult> ChangePassword(AppUserChangePassword request)
         {
             var userId = await _userManager.FindByNameAsync(request.UserName);
 
-            var result = await _userManager.ChangePasswordAsync(userId, request.Password, request.ConfirmPassword);
-            
-            if (result.Succeeded)
-            {
-                return true;
-            }
-            return false;
+            var result = await _userManager.ChangePasswordAsync(userId, request.currentPassword, request.newPassword);
+
+            return result;
         }
 
         public async Task<bool> confirmEmail(string code, string userId)
@@ -96,7 +92,14 @@ namespace doan.Repository
             return (result.Succeeded ? true : false);
         }
 
-        public async Task<bool> Register(AppUserRegistration request)
+        public async Task<string> generateForgotPasswordToken(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            string token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            return token;
+        }
+
+        public async Task<IdentityResult> Register(AppUserRegistration request)
         {
             var user = new AppUser()
             {
@@ -104,14 +107,10 @@ namespace doan.Repository
                 Email = request.Email
 
             };
-            var result = await _userManager.CreateAsync(user,request.Password);
+            var result = await _userManager.CreateAsync(user, request.Password);
 
-            if ( result.Succeeded )
-            {
+            return result;
 
-                return true;
-            }
-            return false;
         }
     }
 }

@@ -4,6 +4,7 @@ namespace doan.DTO
 {
     public class AppUserLogin
     {
+        [Required(ErrorMessage = "Password is required")]
         public string? UserName { set; get; }
 
 <<<<<<< HEAD
@@ -12,7 +13,6 @@ namespace doan.DTO
 >>>>>>> e077d4d (add validate email)
 
         [Required(ErrorMessage = "Password is required")]
-
         public string? Password { get; set; }
     }
 }

@@ -11,9 +11,10 @@ namespace doan.Interface
     {
         public Task<string> Authencate(AppUserLogin request);
 
-        public Task<bool> Register(AppUserRegistration request);
+        public Task<IdentityResult> Register(AppUserRegistration request);
 
-        public Task<bool> ChangePassword(AppUserChangePassword request);
+        public Task<IdentityResult> ChangePassword(AppUserChangePassword request);
         public Task<bool> confirmEmail(string code, string userId);
+        public Task<string> generateForgotPasswordToken(string username);
     }
 }
