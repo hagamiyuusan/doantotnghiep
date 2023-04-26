@@ -52,19 +52,11 @@ namespace doan.Repository
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-<<<<<<< HEAD
             var claims = new[]
 {
                 new Claim("Email:",user.Email),
-                new Claim("User:",user.UserName),
+                new Claim("User:",user.åUserName),
                 new Claim("Roles",String.Join(";",roles))
-=======
-            var claims = new[] 
-            {
-                new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Email,user.Email),
-                new Claim(ClaimTypes.Role,String.Join(";",roles))
->>>>>>> e077d4d (add validate email)
             };
             var token = new JwtSecurityToken(_config["JWT:ValidIssuer"],
                 _config["JWT:ValidIssuer"],
