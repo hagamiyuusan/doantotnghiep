@@ -13,14 +13,13 @@ export default function OCR() {
       reader.onload = (readerEvent) => {
         setImage(readerEvent?.target?.result)
       }
-      // setImageName(e.target.files[0]) //error
     }
   }
   console.log('Imgae Name', imgName)
 
   return (
     <div className={`container mx-auto ${styles.ocr} `}>
-      <div className={`${styles.title}`}>OCR VIP PRO</div>
+      <div className={`${styles.title} text-white`}>OCR VIP PRO</div>
       <div className={`${styles.box_ocr} rounded`}>
         <div className='header text-center mt-5'>
           <p className='text-3xl'>Try It Now!</p>

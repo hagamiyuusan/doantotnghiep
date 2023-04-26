@@ -1,4 +1,3 @@
-
 import { useRef, useState } from 'react'
 import useClickOutSide from '../../helps/clickOutSide'
 import styles from './Header.module.css'
@@ -17,7 +16,7 @@ const Header = ({ setShowModalLogin }: IProps) => {
   })
 
   return (
-    <header className={`${styles.header}`}>
+    <header className={`${styles.header} mb-16`}>
       <div className={styles.navbar}>
         <div className={styles.logo}>
           <a href='!#'>LoGO</a>
@@ -36,9 +35,23 @@ const Header = ({ setShowModalLogin }: IProps) => {
             <a href='!#'>Contact</a>
           </li>
         </ul>
-        <a href='#!' className={styles.action_btn} onClick={() => setShowModalLogin(true)}>
-          Login
-        </a>
+        <div className=' flex gap-6'>
+          <a
+            href='#!'
+            className={`${styles.action_btn} border text-yellow-500 border-yellow-300 hover:border-yellow-300  hover:text-zinc-50 `}
+            onClick={() => setShowModalLogin(true)}
+          >
+            Try It Now!
+          </a>
+          <a
+            href='#!'
+            className={`${styles.action_btn} border border-white  text-white hover:text`}
+            onClick={() => setShowModalLogin(true)}
+          >
+            Login
+          </a>
+        </div>
+
         <div className={styles.toggle_btn} onClick={handleClick} role='presentation'>
           <i className='fa-solid fa-bars text-stone-950	'></i>
         </div>

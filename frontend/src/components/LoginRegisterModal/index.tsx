@@ -4,7 +4,7 @@ import './style.css'
 import { useRef, useState } from 'react'
 import { ErrorMessage } from '../ErrorMessage'
 import axios from 'axios'
-import jwt_decode from "jwt-decode";
+import jwt_decode from 'jwt-decode'
 // create modal login
 
 interface IProps {
@@ -59,15 +59,14 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
       console.log(res)
     } else {
       // handle Login
-      console.log('asdasdsad');
+      console.log('asdasdsad')
       const res = await axios.post('https://localhost:7749/api/UserService/authenticate', {
         UserName: formData.username,
-        password: formData.password,
-      });
+        password: formData.password
+      })
       if (res.data) {
         console.log(jwt_decode(res.data?.token))
       }
-
     }
   }
   return (
@@ -138,17 +137,21 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
                   placeholder='User Name...'
                   className=' mx-auto pl-2'
                   value={formData.username}
-                  onChange={handleChangeInput} />
+                  onChange={handleChangeInput}
+                />
                 <input
                   type='password'
                   name='password'
                   placeholder='Password'
                   className=' mx-auto pl-2 mt-3'
                   value={formData.password}
-                  onChange={handleChangeInput} />
-                <div className="min-h[1.25rem]"></div>
+                  onChange={handleChangeInput}
+                />
+                <div className='min-h[1.25rem]'></div>
                 <div className='flex justify-center items-center pt-6'>
-                  <button type='submit' className='text-black border  border-black'>Login</button>
+                  <button type='submit' className='text-black border  border-black'>
+                    Login
+                  </button>
                 </div>
               </form>
             </div>
