@@ -7,7 +7,6 @@ namespace doan.DTO
         [Required(ErrorMessage = "Password is required")]
         public string? UserName { set; get; }
 
-        public string? UserName { get; set; }
 
         [Required(ErrorMessage = "Password is required")]
         public string? Password { get; set; }

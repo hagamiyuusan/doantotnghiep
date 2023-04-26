@@ -53,10 +53,10 @@ namespace doan.Repository
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
-{
-                new Claim("Email:",user.Email),
-                new Claim("User:",user.åUserName),
-                new Claim("Roles",String.Join(";",roles))
+            {
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Email,user.Email),
+                new Claim(ClaimTypes.Role,String.Join(";",roles))
             };
             var token = new JwtSecurityToken(_config["JWT:ValidIssuer"],
                 _config["JWT:ValidIssuer"],
@@ -106,3 +106,4 @@ namespace doan.Repository
         }
     }
 }
+        
