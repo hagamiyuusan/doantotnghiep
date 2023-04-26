@@ -1,7 +1,7 @@
 ﻿namespace doan.Interface
 {
-    public class IAppRole
+    public interface IAppRole
     {
-
+         
     }
 }

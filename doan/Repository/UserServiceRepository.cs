@@ -1,12 +1,18 @@
-﻿using doan.DTO;
+﻿using Azure.Core;
+using doan.Controllers;
+using doan.DTO;
 using doan.DTO.AppUser;
 using doan.EF;
 using doan.Entities;
 using doan.Interface;
+using doan.Mail;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.WebSockets;
 using System.Security.Claims;
 using System.Text;
 
@@ -18,15 +24,15 @@ namespace doan.Repository
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IConfiguration _config;
-        public UserServiceRepository
-            (UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,
-            RoleManager<AppRole> roleManager, IConfiguration config)
+        private readonly IEmailSender _emailSender;
+
+        public UserServiceRepository(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<AppRole> roleManager, IConfiguration config, IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _config = config;
-
+            _emailSender = emailSender;
         }
 
         public async Task<string> Authencate(AppUserLogin request)
@@ -46,11 +52,19 @@ namespace doan.Repository
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
+<<<<<<< HEAD
             var claims = new[]
 {
                 new Claim("Email:",user.Email),
                 new Claim("User:",user.UserName),
                 new Claim("Roles",String.Join(";",roles))
+=======
+            var claims = new[] 
+            {
+                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Email,user.Email),
+                new Claim(ClaimTypes.Role,String.Join(";",roles))
+>>>>>>> e077d4d (add validate email)
             };
             var token = new JwtSecurityToken(_config["JWT:ValidIssuer"], 
                 _config["JWT:ValidIssuer"],
@@ -74,9 +88,12 @@ namespace doan.Repository
             return false;
         }
 
-        public Task<bool> Logout()
+        public async Task<bool> confirmEmail(string code, string userId)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByIdAsync(userId.ToString());
+            code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+            return (result.Succeeded ? true : false);
         }
 
         public async Task<bool> Register(AppUserRegistration request)
@@ -88,8 +105,10 @@ namespace doan.Repository
 
             };
             var result = await _userManager.CreateAsync(user,request.Password);
-            if( result.Succeeded )
+
+            if ( result.Succeeded )
             {
+
                 return true;
             }
             return false;

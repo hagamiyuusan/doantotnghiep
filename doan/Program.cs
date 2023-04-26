@@ -1,6 +1,7 @@
 using doan.EF;
 using doan.Entities;
 using doan.Interface;
+using doan.Mail;
 using doan.Repository;
 using doan.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -22,7 +23,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(
     options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddIdentity<AppUser, AppRole>()
+builder.Services.AddIdentity<AppUser, AppRole>(
+    config =>
+    {
+        config.SignIn.RequireConfirmedEmail = true;
+    })
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
@@ -58,6 +63,9 @@ builder.Services.AddScoped<IAppUser, AppUserRepository>();
 builder.Services.AddScoped<IProduct, ProductRepository>();
 builder.Services.AddScoped<ISubscription,SubscriptionRepository>();
 builder.Services.AddScoped<IUseProductImageCaptioning, UseProductImageCaptioningRepository>();
+builder.Services.AddTransient<IEmailSender, SendMailService>();
+
+
 
 builder.Services.AddSingleton<IUriService>(o =>
 {
@@ -66,6 +74,12 @@ builder.Services.AddSingleton<IUriService>(o =>
     var uri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent());
     return new UriService(uri);
 });
+
+builder.Services.AddOptions();
+var mailsettings = configuration.GetSection("MailSettings");
+builder.Services.Configure<MailSettings>(mailsettings);
+
+
 
 builder.Services.AddSwaggerGen(c =>
 {
