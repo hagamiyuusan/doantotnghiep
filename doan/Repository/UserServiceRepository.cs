@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.WebSockets;
+
 using System.Security.Claims;
 using System.Text;
 
@@ -33,6 +34,7 @@ namespace doan.Repository
             _roleManager = roleManager;
             _config = config;
             _emailSender = emailSender;
+
         }
 
         public async Task<string> Authencate(AppUserLogin request)
@@ -55,6 +57,7 @@ namespace doan.Repository
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name, user.UserName),
+
                 new Claim(ClaimTypes.Email,user.Email),
                 new Claim(ClaimTypes.Role,String.Join(";",roles))
             };
@@ -92,6 +95,7 @@ namespace doan.Repository
         }
 
         public async Task<IdentityResult> Register(AppUserRegistration request)
+
         {
             var user = new AppUser()
             {
@@ -107,3 +111,4 @@ namespace doan.Repository
     }
 }
         
+

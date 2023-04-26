@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using doan.EF;
 
@@ -11,9 +12,11 @@ using doan.EF;
 namespace doan.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230410030051_seedUserData")]
+    partial class seedUserData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -147,8 +150,7 @@ namespace doan.Migrations
                         new
                         {
                             Id = new Guid("823b98ec-f77f-4ccc-a5f7-3765156b9950"),
-                            ConcurrencyStamp = "7730abb6-e7a2-447d-9551-0927f3580c14",
-
+                            ConcurrencyStamp = "a6335dbe-0bff-4344-a008-ae4a13ef9c13",
                             Name = "admin",
                             NormalizedName = "admin"
                         });
@@ -200,8 +202,6 @@ namespace doan.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
-
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -213,15 +213,13 @@ namespace doan.Migrations
                         {
                             Id = new Guid("0790f531-8010-4bf4-8b92-0a8b7549c406"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8762ac46-a6de-435e-8eb3-f6d0b7d705b7",
-
+                            ConcurrencyStamp = "64d86425-234b-4d24-9539-a084bd44aa52",
                             Email = "vinhhuyqna@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "vinhhuyqna@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEC7VES4YF9pZN4284yo8lPrfvJLtp+ob4crxOwl+9gD+9WlWjS/OJHzfWmVzqsbbSw==",
-
+                            PasswordHash = "AQAAAAEAACcQAAAAEISLUFWN+ivFRU8zfE3Wcgw05EDGjZrg79daRZkirZ69VvSVxk9DiRO1hP+JiEoGEg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -264,33 +262,6 @@ namespace doan.Migrations
                         });
                 });
 
-            modelBuilder.Entity("doan.Entities.ImageForCaptioning", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("caption")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("path")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("userId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("userId");
-
-                    b.ToTable("ImageForCaptioning", (string)null);
-                });
-
-
             modelBuilder.Entity("doan.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -298,11 +269,6 @@ namespace doan.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("API_URL")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
@@ -320,9 +286,7 @@ namespace doan.Migrations
                         new
                         {
                             Id = 1,
-                            API_URL = "",
-                            Created = new DateTime(2023, 4, 15, 0, 0, 0, 0, DateTimeKind.Local),
-
+                            Created = new DateTime(2023, 4, 10, 0, 0, 0, 0, DateTimeKind.Local),
                             Name = "API Image Captioning"
                         });
                 });
@@ -383,15 +347,8 @@ namespace doan.Migrations
                     b.Property<DateTime>("createDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("isActivate")
-                        .HasColumnType("bit");
-
                     b.Property<int>("productDurationId")
                         .HasColumnType("int");
-
-                    b.Property<string>("token")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -401,17 +358,6 @@ namespace doan.Migrations
 
                     b.ToTable("subscriptions", (string)null);
                 });
-
-            modelBuilder.Entity("doan.Entities.ImageForCaptioning", b =>
-                {
-                    b.HasOne("doan.Entities.AppUser", "user")
-                        .WithMany("imageForCaptionings")
-                        .HasForeignKey("userId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("user");
-                });
-
 
             modelBuilder.Entity("doan.Entities.ProductDuration", b =>
                 {
@@ -454,9 +400,6 @@ namespace doan.Migrations
             modelBuilder.Entity("doan.Entities.AppUser", b =>
                 {
                     b.Navigation("Subscriptions");
-
-                    b.Navigation("imageForCaptionings");
-
                 });
 
             modelBuilder.Entity("doan.Entities.Duration", b =>

@@ -1,4 +1,4 @@
-﻿namespace doan.Entities
+namespace doan.Entities
 {
     public class Product
     {

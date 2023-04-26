@@ -1,4 +1,4 @@
-﻿using doan.Entities;
+using doan.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,6 +11,7 @@ namespace doan.Extensions
             builder.Entity<Product>().HasData(
                 new Product() { Id =1, Name = "API Image Captioning",Created = DateTime.Today ,
                 API_URL = ""}
+
                 );
             builder.Entity<Duration>().HasData(
                 new Duration() { Id = 1, name = "30 ngày", day = 30 },

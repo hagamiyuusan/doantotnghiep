@@ -11,5 +11,6 @@ namespace doan.Interface
         public Task<bool> editProduct(ProductEditRequest request );
         public Task<Product> createProduct(ProductCreateRequest product);
         
+
     }
 }

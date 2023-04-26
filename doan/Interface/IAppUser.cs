@@ -1,7 +1,8 @@
-﻿using doan.DTO;
+using doan.DTO;
 using doan.DTO.AppUser;
 using doan.Entities;
 using doan.Wrapper;
+
 
 namespace doan.Interface
 {
@@ -14,5 +15,6 @@ namespace doan.Interface
         public Task<bool> updateUser(AppUserChangeRequest request);
 
         public Task<IList<string>> getUserRole(string id);
+
     }
 }

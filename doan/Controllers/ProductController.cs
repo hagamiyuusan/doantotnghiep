@@ -1,4 +1,4 @@
-﻿using doan.DTO.API;
+using doan.DTO.API;
 using doan.DTO.Product;
 using doan.EF;
 using doan.Entities;
@@ -46,7 +46,5 @@ namespace doan.Controllers
         //    var result = await _useProductImageCaptioning.uploadFile(request);
         //    return result;
         //}
-
-
     }
 }

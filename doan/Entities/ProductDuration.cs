@@ -1,4 +1,4 @@
-﻿namespace doan.Entities
+namespace doan.Entities
 {
     public class ProductDuration
     {
@@ -11,7 +11,6 @@
 
         public decimal price { set; get; }
         public ICollection<Subscription> subscriptions { set; get; }
-
 
     }
 }

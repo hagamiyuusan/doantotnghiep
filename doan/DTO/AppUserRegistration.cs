@@ -17,6 +17,7 @@ namespace doan.DTO
         [RegularExpression(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$",
     ErrorMessage = "Email không hợp lệ")]
         [Required(ErrorMessage = "Email không được để trống")]
+
         public string? Email { get; init; }
 
     }

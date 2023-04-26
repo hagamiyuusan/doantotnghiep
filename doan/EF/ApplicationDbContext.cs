@@ -1,4 +1,4 @@
-﻿using doan.Config;
+using doan.Config;
 using doan.Entities;
 using doan.Extensions;
 using Microsoft.AspNetCore.Identity;
@@ -47,8 +47,8 @@ namespace doan.EF
         public DbSet<Duration> Durations { set; get; }
         public DbSet <ProductDuration> ProductDurations { set; get; }
         public DbSet<Subscription> Subscriptions { set; get; }
-        public DbSet<ImageForCaptioning> ImageForCaptionings { set; get; }
 
+        public DbSet<ImageForCaptioning> ImageForCaptionings { set; get; }
 
 
 
