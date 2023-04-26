@@ -1,9 +1,12 @@
+using doan.DTO.AppUser;
 using doan.EF;
 using doan.Entities;
 using doan.Interface;
 using doan.Mail;
 using doan.Repository;
 using doan.Services;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +31,7 @@ builder.Services.AddIdentity<AppUser, AppRole>(
     {
         config.SignIn.RequireConfirmedEmail = true;
     })
+    .AddErrorDescriber<IdentityErrorDescriber>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
@@ -64,8 +68,7 @@ builder.Services.AddScoped<IProduct, ProductRepository>();
 builder.Services.AddScoped<ISubscription,SubscriptionRepository>();
 builder.Services.AddScoped<IUseProductImageCaptioning, UseProductImageCaptioningRepository>();
 builder.Services.AddTransient<IEmailSender, SendMailService>();
-
-
+builder.Services.AddTransient<IValidator<AppUserChangePassword>,AppUserChangePasswordValidate>();
 
 builder.Services.AddSingleton<IUriService>(o =>
 {
@@ -87,7 +90,13 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddControllersWithViews();
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AppUserChangePasswordValidate>());
+
+builder.Services.ConfigureApplicationCookie(o => {
+    o.ExpireTimeSpan = TimeSpan.FromDays(5);
+    o.SlidingExpiration = true;
+});
 
 
 var app = builder.Build();

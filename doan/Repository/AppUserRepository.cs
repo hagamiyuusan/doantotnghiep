@@ -57,7 +57,6 @@ namespace doan.Repository
 
                 return (result, validFilter, countFilter);
             }
-
             var listUser = await _userManager.Users
                     .Skip((filter.PageNumber - 1) * validFilter.PageSize)
                     .Take(validFilter.PageSize)
