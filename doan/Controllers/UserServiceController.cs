@@ -38,9 +38,10 @@ namespace doan.Controllers
                 return BadRequest(ModelState);
             }
             var result = await _userService.Register(request);
-            if(!result)
+           if (!result.Succeeded)
             {
-                return BadRequest("ERROR");
+                var errors = result.Errors.SelectMany(e => e.Code).ToList();
+                return BadRequest(new { errors });
             }
             return Ok();
         }

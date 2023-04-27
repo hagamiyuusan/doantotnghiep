@@ -56,10 +56,10 @@ namespace doan.Repository
 
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, user.UserName),
+                new Claim("userName", user.UserName),
 
-                new Claim(ClaimTypes.Email,user.Email),
-                new Claim(ClaimTypes.Role,String.Join(";",roles))
+                new Claim("email",user.Email),
+                new Claim("role",String.Join(";",roles))
             };
             var token = new JwtSecurityToken(_config["JWT:ValidIssuer"],
                 _config["JWT:ValidIssuer"],
