@@ -1,10 +1,11 @@
 import useClickOutSide from '../../helps/clickOutSide'
 import styles from './LoginModal.module.css'
 import './style.css'
-import { useRef, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import { ErrorMessage } from '../ErrorMessage'
 import axios from 'axios'
 import jwt_decode from 'jwt-decode'
+import { AppContext } from '../../Context/context'
 // create modal login
 
 interface IProps {
@@ -31,6 +32,9 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
   const loginModalRef = useRef(null)
   const [formData, setFormData] = useState<IFormData>(initFormData)
   const [errorMessage, setErrorMessage] = useState('')
+  const appContext = useContext(AppContext)
+
+
   useClickOutSide(loginModalRef, () => {
     setShowModalLogin(false)
   })
@@ -51,22 +55,38 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
         return
       }
       // handle Register
-      const res = await axios.post('https://localhost:7749/api/UserService/register', {
-        userName: formData.username,
-        password: formData.password,
-        email: formData.email
-      })
-      console.log(res)
+      try {
+        const res = await axios.post('https://localhost:7749/api/UserService/register', {
+          userName: formData.username,
+          password: formData.password,
+          email: formData.email
+        })
+        if (res.status === 200) {
+          appContext.setProfile(res.data)
+          console.log(res)
+        }
+      } catch (error: any) {
+        setErrorMessage(error.message)
+      }
     } else {
       // handle Login
-      console.log('asdasdsad')
-      const res = await axios.post('https://localhost:7749/api/UserService/authenticate', {
-        UserName: formData.username,
-        password: formData.password
-      })
-      if (res.data) {
-        console.log(jwt_decode(res.data?.token))
+      try {
+        const res = await axios.post('https://localhost:7749/api/UserService/authenticate', {
+          UserName: formData.username,
+          password: formData.password
+        })
+        if (res.data) {
+          appContext.setProfile(jwt_decode(res.data?.token))
+          appContext.setIsAuthenticated(true)
+          console.log(jwt_decode(res.data?.token))
+          localStorage.setItem('access_token', res.data?.token)
+          // localStorage.setItem('profile', JSON.stringify)
+          setShowModalLogin(false)
+        }
+      } catch (error: any) {
+        setErrorMessage(error.response.data)
       }
+
     }
   }
   return (
@@ -119,7 +139,7 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
                 />
                 <ErrorMessage errorMessage={errorMessage} />
                 <div className='flex justify-center items-center'>
-                  <button type='submit' className='text-white border border-cyan-300'>
+                  <button type='submit' className='text-white border border-cyan-300 w-7/12'>
                     Sign up
                   </button>
                 </div>
@@ -138,6 +158,7 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
                   className=' mx-auto pl-2'
                   value={formData.username}
                   onChange={handleChangeInput}
+                  required
                 />
                 <input
                   type='password'
@@ -146,10 +167,11 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
                   className=' mx-auto pl-2 mt-3'
                   value={formData.password}
                   onChange={handleChangeInput}
+                  required
                 />
-                <div className='min-h[1.25rem]'></div>
-                <div className='flex justify-center items-center pt-6'>
-                  <button type='submit' className='text-black border  border-black'>
+                <ErrorMessage errorMessage={errorMessage} />
+                <div className='flex justify-center items-center '>
+                  <button type='submit' className='text-black border  border-black w-7/12'>
                     Login
                   </button>
                 </div>

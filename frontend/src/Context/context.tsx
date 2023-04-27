@@ -1,32 +1,60 @@
-import React, { useReducer, createContext } from 'react'
-import { initialState, AuthReducer } from './reducer'
-const AuthStateContext = createContext(null)
-const AuthDispatchContext = createContext(null)
+import jwtDecode from 'jwt-decode'
+import { createContext, useState } from 'react'
 
-export function useAuthState() {
-  const context = React.useContext(AuthStateContext)
-  if (context === undefined) {
-    throw new Error('useAuthState must be used within a AuthProvider')
-  }
+import { IUser } from 'src/types/user.type'
+export interface AppContextInterface {
+  isAuthenticated: boolean
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>
+  profile: IUser | null
+  setProfile: React.Dispatch<React.SetStateAction<IUser | null>>
+  reset: () => void
 
-  return context
 }
-
-export function useAuthDispatch() {
-  const context = React.useContext(AuthDispatchContext)
-  if (context === undefined) {
-    throw new Error('useAuthDispatch must be used within a AuthProvider')
-  }
-
-  return context
+const getAccessTokenFromLS = () => localStorage.getItem('access_token') || ''
+const getProfileFromLS = () => {
+  const result = localStorage.getItem('access_token')
+  return result ? jwtDecode<IUser>(result) : null
 }
+// const setProfileToLS = (profile: IUser) => {
+//   localStorage.setItem('profile', JSON.stringify(profile))
+// }
+export const getInitialAppContext: () => AppContextInterface = () => ({
+  isAuthenticated: Boolean(getAccessTokenFromLS()),
+  setIsAuthenticated: () => null,
+  profile: getProfileFromLS(),
+  setProfile: () => null,
+  reset: () => null
+})
+const initialAppContext = getInitialAppContext()
 
-export const AuthProvider = ({ children }: { children: JSX.Element }) => {
-  const [user, dispatch] = useReducer(AuthReducer, initialState)
+export const AppContext = createContext<AppContextInterface>(initialAppContext)
+
+export default function AppProvider({
+  children,
+  defaultValue = initialAppContext
+}: {
+  children: React.ReactNode
+  defaultValue?: AppContextInterface
+}) {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(defaultValue.isAuthenticated)
+  const [profile, setProfile] = useState<IUser | null>(defaultValue.profile)
+
+  const reset = () => {
+    setIsAuthenticated(false)
+    setProfile(null)
+  }
 
   return (
-    <AuthStateContext.Provider value={user}>
-      <AuthDispatchContext.Provider value={dispatch}>{children}</AuthDispatchContext.Provider>
-    </AuthStateContext.Provider>
+    <AppContext.Provider
+      value={{
+        isAuthenticated,
+        setIsAuthenticated,
+        profile,
+        setProfile,
+        reset
+      }}
+    >
+      {children}
+    </AppContext.Provider>
   )
 }
