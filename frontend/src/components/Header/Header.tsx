@@ -47,6 +47,7 @@ const Header = ({ setShowModalLogin, user }: IProps) => {
               className={`${styles.action_btn} border text-yellow-500 border-yellow-300 hover:border-yellow-300  hover:text-zinc-50 `}
               onClick={() => setShowModalLogin(true)}
             >
+
               Try It Now!
             </a>
             <button
@@ -63,6 +64,7 @@ const Header = ({ setShowModalLogin, user }: IProps) => {
                 className={`${styles.action_btn} border text-yellow-500 border-yellow-300 hover:border-yellow-300  hover:text-zinc-50 `}
                 onClick={() => setShowModalLogin(true)}
               >
+
                 Try It Now!
               </button>
               <a
@@ -119,7 +121,7 @@ const Header = ({ setShowModalLogin, user }: IProps) => {
               Login
             </button>
           ) : (
-            <button className={styles.action_btn} onClick={() => setShowModalLogin(true)}>
+            <button className={styles.action_btn} onClick={() => user.reset()}>
               Logout
             </button>
           )}

@@ -38,12 +38,12 @@ export default function AppProvider({
 }) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(defaultValue.isAuthenticated)
   const [profile, setProfile] = useState<IUser | null>(defaultValue.profile)
-
+  // const ocrElementRef = useRef(null)
   const reset = () => {
     setIsAuthenticated(false)
     setProfile(null)
+    localStorage.removeItem('access_token')
   }
-
   return (
     <AppContext.Provider
       value={{
@@ -51,7 +51,7 @@ export default function AppProvider({
         setIsAuthenticated,
         profile,
         setProfile,
-        reset
+        reset,
       }}
     >
       {children}

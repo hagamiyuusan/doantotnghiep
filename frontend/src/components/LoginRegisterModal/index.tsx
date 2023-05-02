@@ -169,6 +169,12 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
                   onChange={handleChangeInput}
                   required
                 />
+                <p className='text-center mt-4'>
+                  Forget password?
+                  <a target='_blank' href='http://gmail.com' className='text-blue-700'>
+                    Click Here!!
+                  </a>
+                </p>
                 <ErrorMessage errorMessage={errorMessage} />
                 <div className='flex justify-center items-center '>
                   <button type='submit' className='text-black border  border-black w-7/12'>
