@@ -47,7 +47,7 @@ namespace doan.EF
         }
         public DbSet<Product> Products { set; get; }
         public DbSet<Duration> Durations { set; get; }
-        public DbSet <ProductDuration> ProductDurations { set; get; }
+        public DbSet<ProductDuration> ProductDurations { set; get; }
         public DbSet<Subscription> Subscriptions { set; get; }
         public DbSet<ImageToTextResult> ImageForCaptionings { set; get; }
         public DbSet<Invoice> Invoices { set; get; }

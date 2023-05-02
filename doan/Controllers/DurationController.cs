@@ -20,13 +20,13 @@ namespace doan.Controllers
         [HttpGet]
         public async Task<IActionResult> getAllDuration()
         {
-            var result = _duration.getAllDuration();
+            var result =  await _duration.getAllDuration();
             return Ok(new JsonResult(result));
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> getDurationById([FromRoute] int id)
         {
-            var result = _duration.getDurationById(id);
+            var result = await _duration.getDurationById(id);
             return Ok(new JsonResult(result));
         }
         [HttpPost]

@@ -37,7 +37,7 @@ namespace doan.Repository
 
         public async Task<bool> deleteProduct(int id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = await this.getProductsById(id);
             if (product != null )
             {
                 _context.Products.Remove(product);

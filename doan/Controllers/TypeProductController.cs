@@ -24,13 +24,13 @@ namespace doan.Controllers
         [HttpGet]
         public async Task<IActionResult> getAllTypeProduct()
         {
-            var result = _typeProduct.getAllTypeProduct();
+            var result = await _typeProduct.getAllTypeProduct();
             return Ok(new JsonResult(result));
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> getTypeProductById([FromRoute] int id)
         {
-            var result = _typeProduct.getTypeProductById(id);
+            var result = await _typeProduct.getTypeProductById(id);
             return Ok(new JsonResult(result));
         }
         [HttpPost]
@@ -40,8 +40,8 @@ namespace doan.Controllers
             return Ok(new JsonResult(result));
         }
 
-        [HttpDelete("id")]
-        public async Task<IActionResult> deleteTypeProduct([FromRoute] int id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> deleteTypeProduct([FromRoute(Name = "id")] int id)
         {
             var result = await _typeProduct.deleteTypeProduct(id);
             return Ok(new JsonResult(result));   

@@ -97,7 +97,14 @@ namespace doan.Controllers
         //    var result = await _useProductImageCaptioning.uploadFile(request);
         //    return result;
         //}
-
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> deletedProduct([FromRoute(Name="id")] int id)
+        {
+            var result = await _product.deleteProduct(id);
+            return new JsonResult(result);
+            
+            
+        }
 
     }
 }

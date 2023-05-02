@@ -28,12 +28,17 @@ namespace doan.Repository
                 name = duration.name
             };
             var result = await _context.Durations.AddAsync(durationEntity);
+            await _context.SaveChangesAsync();
             return durationEntity;
         }
 
         public async Task<bool> deleteDuration(int id)
         {
-            var duration = await _context.Durations.Where(x => x.Id == id).FirstOrDefaultAsync();
+            var duration = await _context.Durations.FindAsync(id);
+            if (duration == null)
+            {
+                return false;
+            }
             _context.Durations.Remove(duration);
             var result = await _context.SaveChangesAsync();
             return (result == 1 ? true : false);

@@ -138,7 +138,7 @@ namespace doan.Controllers
             return payment;
         }
         [HttpGet("success/{IdOrder}")]
-        public async Task<IActionResult> SuccessfulPaid([FromRoute] string IdOrder)
+        public async Task<IActionResult> SuccessfulPaid([FromRoute(Name = "IdOrder")] string IdOrder)
         {
             var request = Request.RouteValues.ToList();
 

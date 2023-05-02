@@ -28,7 +28,8 @@ namespace doan.Extensions
 
             builder.Entity<Duration>().HasData(
                 new Duration() { Id = 1, name = "30 ngày", day = 30 },
-                new Duration() { Id = 2, name = "90 ngày", day = 90 });
+                new Duration() { Id = 2, name = "90 ngày", day = 90 },
+                new Duration() { Id = 3, name = "90 ngày", day = 120});
             builder.Entity<ProductDuration>().HasData(
                 new ProductDuration
                 {

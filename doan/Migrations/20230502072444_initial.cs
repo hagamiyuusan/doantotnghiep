@@ -281,7 +281,7 @@ namespace doan.Migrations
             migrationBuilder.InsertData(
                 table: "AppRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { new Guid("823b98ec-f77f-4ccc-a5f7-3765156b9950"), "0e6d49ca-a5c1-427e-ab6a-7b06f98b4715", "admin", "admin" });
+                values: new object[] { new Guid("823b98ec-f77f-4ccc-a5f7-3765156b9950"), "90c651b2-887f-48a7-b137-cbc90b0830fc", "admin", "admin" });
 
             migrationBuilder.InsertData(
                 table: "AppUserRoles",
@@ -291,7 +291,7 @@ namespace doan.Migrations
             migrationBuilder.InsertData(
                 table: "AppUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("0790f531-8010-4bf4-8b92-0a8b7549c406"), 0, "812b7a88-e348-45b8-aabf-ca76eda95e03", "vinhhuyqna@gmail.com", true, false, null, "vinhhuyqna@gmail.com", "admin", "AQAAAAEAACcQAAAAEBCcG+BfMrBXb8iqOz3ehJ9hO+WNCILTzikyXUMaLlzbcoSAsorW0OWuNHyMkXiI/A==", null, false, "", false, "admin" });
+                values: new object[] { new Guid("0790f531-8010-4bf4-8b92-0a8b7549c406"), 0, "3db3152f-779a-4a29-92f6-7538f13ae92d", "vinhhuyqna@gmail.com", true, false, null, "vinhhuyqna@gmail.com", "admin", "AQAAAAEAACcQAAAAEM0nnPoXxx4O3hhYV3GsMEVazDIfPtiDcHrymzH1AQsG+L5pTozNW2M612uf1Vmqzw==", null, false, "", false, "admin" });
 
             migrationBuilder.InsertData(
                 table: "Categories",
@@ -304,13 +304,14 @@ namespace doan.Migrations
                 values: new object[,]
                 {
                     { 1, 30, "30 ngày" },
-                    { 2, 90, "90 ngày" }
+                    { 2, 90, "90 ngày" },
+                    { 3, 120, "90 ngày" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "Id", "API_URL", "Created", "Name", "productTypeId" },
-                values: new object[] { 1, "", new DateTime(2023, 5, 1, 0, 0, 0, 0, DateTimeKind.Local), "API Image Captioning", 1 });
+                values: new object[] { 1, "", new DateTime(2023, 5, 2, 0, 0, 0, 0, DateTimeKind.Local), "API Image Captioning", 1 });
 
             migrationBuilder.InsertData(
                 table: "ProductDurations",
