@@ -149,12 +149,17 @@ namespace doan.Controllers
 
         [HttpGet("resetpassword/{email}/{token}")]
         [AllowAnonymous]
-        public async Task<ActionResult> ResetPassword([FromRoute] string email,[FromRoute] string token)
+        public async Task<ActionResult> ResetPassword([FromRoute(Name = "email")] string email,[FromRoute(Name = "token")] string token)
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
             {
-                return BadRequest("Email không hợp lệ");
+                return BadRequest(new
+                {
+                    status = 404,
+                    value = "Email không hợp lệ"
+                }
+                );;
             }
             var newToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
 
@@ -162,7 +167,12 @@ namespace doan.Controllers
                 "ResetPassword", newToken);
             if (!checkToken)
             {
-                return BadRequest("Hết hạn thực hiện");
+                return BadRequest(new
+                {
+                    status = 404,
+                    value = "Hết hạn thực hiện"
+                }
+                ); ;
             }
             return Ok(new
             {
@@ -176,7 +186,7 @@ namespace doan.Controllers
 
         [HttpPost("resetpassword/{email}/{token}")]
         [AllowAnonymous]
-        public async Task<ActionResult> ResetPassword([FromRoute] string email, [FromRoute] string token, [FromBody] ResetPasswordModel model)
+        public async Task<ActionResult> ResetPassword([FromRoute(Name = "email")] string email, [FromRoute(Name = "token")] string token, [FromBody] ResetPasswordModel model)
         {
             if (ModelState.IsValid)
             {
@@ -186,10 +196,19 @@ namespace doan.Controllers
                 var resetResponse = await _userManager.ResetPasswordAsync(user, newToken, model.newPassword);
                 if (resetResponse.Succeeded)
                 {
-                    return Ok("Đổi mật khẩu thành công");
+                    return Ok(new
+                    {
+                        status = 200,
+                        value = "Đổi mật khẩu thành công"
+                    }
+               ); ;
                 }
             }
-            return BadRequest("Không hợp lệ");
+            return BadRequest(new
+            {
+                status = 404,
+                value = "Không hợp lệ"
+            });
         }
 
         [HttpPost("changepassword")]
@@ -207,7 +226,11 @@ namespace doan.Controllers
                 var errors = result.Errors.SelectMany(e => e.Code).ToList();
                 return BadRequest(new { errors });
             }
-            return Ok();
+            return Ok(new
+            {
+                status = 200,
+                value = "Đổi mật khẩu thành công"
+            }); ;
         }
 
 

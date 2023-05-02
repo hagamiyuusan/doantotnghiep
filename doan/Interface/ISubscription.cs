@@ -8,8 +8,8 @@ namespace doan.Interface
         public Task<List<Subscription>> getSubscriptionsByUserId(Guid id);
         public Task<List<Subscription>> getAllSubscription();
         public Task<Subscription> getSubscriptionsById(int id);
-        public Task<bool> deleteSubscription(int id);
-        public Task<bool> editSubscription(int id);
-        public Task<Subscription> createSubscription(SubscriptionCreateRequest request);
+        public Task<int> deleteSubscription(int id);
+        public Task<int> editSubscription(int id);
+        public Task<int> createSubscription(SubscriptionCreateRequest request);
     }
 }

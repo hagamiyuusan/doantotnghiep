@@ -18,7 +18,7 @@ namespace doan.Repository
             _context = context;
         }
 
-        public async Task<ProductDuration> createProductDuration(ProductDurationCreateRequest request)
+        public async Task<int> createProductDuration(ProductDurationCreateRequest request)
         {
             var product = await _context.Products.FindAsync(request.productId);
             var duration = await _context.Durations.FindAsync(request.durationId);
@@ -30,22 +30,30 @@ namespace doan.Repository
                 price = request.price,
             };
             await _context.ProductDurations.AddAsync(productDurationEntity);
-            await _context.SaveChangesAsync();
-            return productDurationEntity;
+            var result = await _context.SaveChangesAsync();
+            return result;
         }
 
-        public async Task<bool> deleteProductDuration(int id)
+        public async Task<int> deleteProductDuration(int id)
         {
             var productDuration = await _context.ProductDurations.FindAsync(id);
 
             _context.ProductDurations.Remove(productDuration);
             var result = await _context.SaveChangesAsync();
-            return (result == 1 ? true : false);
+            return result;
         }
 
-        public Task<bool> editProductDuration(int id)
+        public async Task<int> editProductDuration(int id, ProducDurationEditRequest request)
         {
-            throw new NotImplementedException();
+            var productDuration = await _context.ProductDurations.FindAsync(id);
+
+            if (productDuration == null)
+            {
+                return 0;
+            }
+            productDuration.price = request.price;
+            var result = await _context.SaveChangesAsync();
+            return result;
         }
 
         public async Task<List<ProductDuration>> getAllProductDuration()

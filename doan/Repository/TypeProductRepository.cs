@@ -15,28 +15,41 @@ namespace doan.Repository
             _context = context;
         }
 
-        public async Task<TypeProduct> createTypeProduct(TypeProductCreateRequest request)
+        public async Task<int> createTypeProduct(TypeProductCreateRequest request)
         {
             var typeProductCreate = new TypeProduct
             {
                 name = request.name
             };
             await _context.typeProducts.AddAsync(typeProductCreate);
-            await _context.SaveChangesAsync();
-            return typeProductCreate;
+            var result =  await _context.SaveChangesAsync();
+            return result;
         }
 
 
-        public async Task<bool> deleteTypeProduct(int id)
+        public async Task<int> deleteTypeProduct(int id)
         {
             var objectToDelete = await _context.typeProducts.FindAsync(id);
             if (objectToDelete == null)
             {
-                return false;
+                return 0;
             }
             _context.typeProducts.Remove(objectToDelete);
-            await _context.SaveChangesAsync();
-            return true;
+            var result = await _context.SaveChangesAsync();
+            return result;
+        }
+
+        public async Task<int> editTypeProduct(int id, TypeProductCreateRequest request)
+        {
+            var typeProduct = await _context.typeProducts.FindAsync(id);
+
+            if (typeProduct == null)
+            {
+                return 0;
+            }
+            typeProduct.name = request.name;
+            var result = await _context.SaveChangesAsync();
+            return result;
         }
 
         public async Task<List<TypeProduct>> getAllTypeProduct()
@@ -48,5 +61,8 @@ namespace doan.Repository
         {
             return await _context.typeProducts.FindAsync(id);
         }
+
+
+
     }
 }

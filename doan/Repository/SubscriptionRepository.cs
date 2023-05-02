@@ -28,7 +28,7 @@ namespace doan.Repository
             _config = config;
         }
 
-        public async Task<Subscription> createSubscription(SubscriptionCreateRequest request)
+        public async Task<int> createSubscription(SubscriptionCreateRequest request)
         {
             var userId = await _userManager.FindByIdAsync(request.userId.ToString());
             //var productDuration = await _context.ProductDurations.Include.FindAsync(request.productDurationId);
@@ -49,8 +49,8 @@ namespace doan.Repository
                 {
                     checkExistSubscription.dueDate = checkExistSubscription.dueDate.AddDays(productDuration.duration.day);
                 }
-                await _context.SaveChangesAsync();
-                return checkExistSubscription;
+                var result = await _context.SaveChangesAsync();
+                return result;
 
             }
             else
@@ -64,8 +64,8 @@ namespace doan.Repository
                     token = token
                 };
                 await _context.Subscriptions.AddAsync(toCreateObject);
-                await _context.SaveChangesAsync();
-                return toCreateObject;
+                var result = await _context.SaveChangesAsync();
+                return result;
 
             }
             //var tokenHandler = new JwtSecurityTokenHandler();
@@ -97,15 +97,15 @@ namespace doan.Repository
             //return createObject;
         }
 
-        public async Task<bool> deleteSubscription(int id)
+        public async Task<int> deleteSubscription(int id)
         {
             var subscription = await _context.Subscriptions.FindAsync(id);
             _context.Subscriptions.Remove(subscription);
             var result = await _context.SaveChangesAsync();
-            return (result == 1 ? true : false);
+            return result;
         }
 
-        public Task<bool> editSubscription(int id)
+        public Task<int> editSubscription(int id)
         {
             throw new NotImplementedException();
         }
@@ -128,5 +128,7 @@ namespace doan.Repository
             List<Subscription> listSubscription = await _context.Subscriptions.Where(x => x.AppUser == user).ToListAsync();
             return listSubscription;
         }
+
+
     }
 }

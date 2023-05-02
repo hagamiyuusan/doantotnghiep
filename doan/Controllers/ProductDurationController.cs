@@ -20,7 +20,7 @@ namespace doan.Controllers
         [HttpGet]
         public async Task<IActionResult> getAllProductDuration()
         {
-            var result = _productDuration.getAllProductDuration();
+            var result = await _productDuration.getAllProductDuration();
             return Ok(new JsonResult(result));
         }
         [HttpGet("{id}")]
@@ -33,19 +33,22 @@ namespace doan.Controllers
         public async Task<IActionResult> createProductDuration([FromBody] ProductDurationCreateRequest request)
         {
             var result = await _productDuration.createProductDuration(request);
-            return Ok(new JsonResult(result));
+            if (result == 0) return BadRequest("Không thể thực hiện");
+            return Ok("Thực hiện thành công");
         }
-        // [HttpPut]
-        // public async Task<IActionResult> editProductDuration([FromBody] ProductDurationEditRequest request)
-        // {
-        //     var result = await _productDuration.editProductDuration(request);
-        //     return Ok(new JsonResult(result));
-        // }
-        [HttpDelete("id")]
-        public async Task<IActionResult> deleteProductDuration([FromRoute] int id)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> editProductDuration([FromRoute(Name = "id")] int id,[FromBody] ProducDurationEditRequest request)
+        {
+            var result = await _productDuration.editProductDuration(id, request);
+            if (result == 0) return BadRequest("Không thể thực hiện");
+            return Ok("Thực hiện thành công");
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> deleteProductDuration([FromRoute(Name = "id")] int id)
         {
             var result = await _productDuration.deleteProductDuration(id);
-            return Ok(new JsonResult(result));
+            if (result == 0) return BadRequest("Không thể thực hiện");
+            return Ok("Thực hiện thành công");
         }
     }
 }

@@ -28,7 +28,25 @@ namespace doan.Controllers
             _context = context;
             _config = config;
         }
-
+        [HttpGet]
+        public async Task<IActionResult> getAllSubscription()
+        {
+            return Ok(new
+            {
+                status = 200,
+                value = await _context.Subscriptions.ToListAsync()
+            });
+        }
+                
+        
+        [HttpGet("{id}")]
+        public async Task<IActionResult> getSubscriptionById([FromRoute(Name = "id")] int id)
+        {
+            return Ok( new { 
+                status = 200,
+                value = await _context.Subscriptions.FindAsync(id)
+            });
+        }
         [HttpPost]
         public async Task<IActionResult> createSubscription([FromBody] SubscriptionCreateRequest request )
         {

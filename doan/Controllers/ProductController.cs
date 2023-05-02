@@ -1,4 +1,5 @@
 ﻿using doan.DTO.API;
+using doan.DTO.Duration;
 using doan.DTO.Product;
 using doan.EF;
 using doan.Entities;
@@ -27,9 +28,12 @@ namespace doan.Controllers
         [HttpPost]
         public async Task<ActionResult<Product>> addProduct(ProductCreateRequest product)
         {
-
             var result = await _product.createProduct(product);
-            return result;
+            if (result == 0)
+            {
+                return BadRequest("Không thể thực hiện");
+            }
+            return Ok("Thực hiện thành công");
         }
 
         [HttpPost("imagecaptioning")]
@@ -40,7 +44,7 @@ namespace doan.Controllers
             return Ok(new
             {
                 code = 200,
-                result  = result
+                result = result
             });
         }
         [HttpPost("subscription")]
@@ -98,13 +102,46 @@ namespace doan.Controllers
         //    return result;
         //}
         [HttpDelete("{id}")]
-        public async Task<IActionResult> deletedProduct([FromRoute(Name="id")] int id)
+        public async Task<IActionResult> deletedProduct([FromRoute(Name = "id")] int id)
         {
             var result = await _product.deleteProduct(id);
-            return new JsonResult(result);
-            
-            
+            if (result == 0)
+            {
+                return BadRequest("Không thể thực hiện");
+            }
+            return Ok("Thực hiện thành công");
+
         }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> editProduct([FromRoute(Name = "id")] int id,[FromBody] ProductEditRequest request)
+        {
+            request.productId = id;
+            var result = await _product.editProduct(request);
+            if (result == 0)
+            {
+                return BadRequest("Không thể thực hiện");
+            }
+            return Ok("Thực hiện thành công");
+        }
+        [HttpGet]
+        public async Task<IActionResult> getAllProduct()
+        {
+            return Ok(new
+            {
+                status = 200,
+                value = await _context.Products.ToListAsync()
+            });
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> getProductById([FromRoute(Name = "id")] int id)
+        {
+            return Ok(new
+            {
+                status = 200,
+                value = await _context.Products.FindAsync(id)
+            });
+        }
+
 
     }
 }

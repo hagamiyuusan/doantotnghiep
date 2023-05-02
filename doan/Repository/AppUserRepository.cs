@@ -100,9 +100,9 @@ namespace doan.Repository
 
         }
 
-        public async Task<bool> updateUser(AppUserChangeRequest request)
+        public async Task<bool> updateUser(string username, AppUserChangeRequest request)
         {
-            var user = await _userManager.FindByNameAsync(request.name);
+            var user = await _userManager.FindByNameAsync(username);
             if (user == null)
             {
 

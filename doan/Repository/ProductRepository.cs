@@ -18,7 +18,7 @@ namespace doan.Repository
             _context = context;
         }
 
-        public async Task<Product> createProduct(ProductCreateRequest product)
+        public async Task<int> createProduct(ProductCreateRequest product)
         {
             var typeProduct = await _context.typeProducts.FindAsync(product.typeProductId);
             
@@ -30,30 +30,28 @@ namespace doan.Repository
                 typeProduct = typeProduct
 
             };
-            var result = await _context.Products.AddAsync(desProduct);
-            await _context.SaveChangesAsync();
-            return desProduct;
+            await _context.Products.AddAsync(desProduct);
+            var result = await _context.SaveChangesAsync();
+            return result;
         }
 
-        public async Task<bool> deleteProduct(int id)
+        public async Task<int> deleteProduct(int id)
         {
             var product = await this.getProductsById(id);
-            if (product != null )
-            {
-                _context.Products.Remove(product);
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            return false;
+
+            _context.Products.Remove(product);
+            var result = await _context.SaveChangesAsync();
+            return result;
+
         }
 
-        public async Task<bool> editProduct(ProductEditRequest request)
+        public async Task<int> editProduct(ProductEditRequest request)
         {
             var product = await _context.Products.FindAsync(request.productId);
             product.Name = request.name;
             product.API_URL = request.API_URL;
             var result = await  _context.SaveChangesAsync();
-            return (result == 1 ? true : false);
+            return result;
         }
 
         public async Task<List<Product>> getAllProduct()

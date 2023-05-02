@@ -7,8 +7,8 @@ namespace doan.Interface
     {
         public Task<List<Duration>> getAllDuration();
         public Task<Duration> getDurationById(int id);
-        public Task<bool> deleteDuration(int id);
-        public Task<bool> editDuration(DurationEditRequest request);
-        public Task<Duration> createDuration(DurationCreateRequest duration);
+        public Task<int> deleteDuration(int id);
+        public Task<int> editDuration(DurationEditRequest request);
+        public Task<int> createDuration(DurationCreateRequest duration);
     }
 }

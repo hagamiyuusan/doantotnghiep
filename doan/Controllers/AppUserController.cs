@@ -54,12 +54,12 @@ namespace doan.Controllers
                 value = new JsonResult(result)
             });
         }
-        [HttpPut("{name}")]
-        public async Task<ActionResult<AppUserGet>> updateUser(AppUserChangeRequest request)
+        [HttpPut("{username}")]
+        public async Task<ActionResult<AppUserGet>> updateUser([FromRoute(Name = "name")] string username,AppUserChangeRequest request)
         {
             if (!ModelState.IsValid) return new JsonResult( new { success = false, message = "Item modified failed" });
             
-            await _appuser.updateUser(request);
+            await _appuser.updateUser(username,request);
             var result = new { success = true, message = "Item modified successfully" };
             return new JsonResult(result);
         }

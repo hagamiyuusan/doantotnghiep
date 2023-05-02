@@ -33,19 +33,32 @@ namespace doan.Controllers
         public async Task<IActionResult> createDuration([FromBody] DurationCreateRequest request)
         {
             var result = await _duration.createDuration(request);
-            return Ok(new JsonResult(result));
+            if (result == 0)
+            {
+                return BadRequest("Không thể thực hiện");
+            }
+            return Ok("Thực hiện thành công");
         }
         [HttpPut]
         public async Task<IActionResult> editDuration([FromBody] DurationEditRequest request)
         {
             var result = await _duration.editDuration(request);
-            return Ok(new JsonResult(result));
+            if (result == 0)
+            {
+                return BadRequest("Không thể thực hiện");
+            }
+            return Ok("Thực hiện thành công");
         }
-        [HttpDelete("id")]
-        public async Task<IActionResult> deleteDuration([FromRoute] int id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> deleteDuration([FromRoute(Name = "id")] int id)
         {
             var result = await _duration.deleteDuration(id);
-            return Ok(new JsonResult(result));
+
+            if (result == 0)
+            {
+                return BadRequest("Không thể thực hiện");
+            }
+            return Ok("Thực hiện thành công");
         }
     }
 }
