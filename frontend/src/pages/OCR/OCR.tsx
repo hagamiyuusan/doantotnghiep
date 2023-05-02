@@ -1,19 +1,45 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, ChangeEvent } from 'react'
 import styles from './OCR.module.css'
 import uploadImgIcon from 'src/imgs/add_photo_alternate_outlined.png'
+import axios from 'axios'
 
 export default function OCR() {
   const [imgName, setImage] = useState<string | ArrayBuffer | null | undefined>(null)
   const inputRef = useRef(null)
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files != null) {
-      const reader = new FileReader()
-      reader.readAsDataURL(e.target.files[0])
-      reader.onload = (readerEvent) => {
-        setImage(readerEvent?.target?.result)
-      }
-    }
-  }
+  
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (e.target.files != null) {
+  //     const reader = new FileReader()
+  //     reader.readAsDataURL(e.target.files[0])
+  //     reader.onload = (readerEvent) => {
+  //       setImage(readerEvent?.target?.result)
+  //     }
+  //   }
+  // }
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+   const [caption, setCaption] = useState('');
+   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setSelectedFile(event.target.files ? event.target.files[0] : null);
+    setCaption('null');
+  };
+
+  const onClickHandler = () => {
+    if (!selectedFile) return;
+
+    const data = new FormData();
+    data.append("file", selectedFile);
+
+    axios
+      .post<{ filename: string }>("http://localhost:5000/upload", data, {})
+      .then((res) => {
+        setCaption(res.data.filename);
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   console.log('Imgae Name', imgName)
 
   return (
@@ -49,7 +75,8 @@ export default function OCR() {
               ) : (
                 <img
                   // src={imgName as string}
-                  src={uploadImgIcon}
+                  // @ts-ignore
+                  src={selectedFile && URL.createObjectURL(selectedFile)}
                   alt={imgName as string}
                   className='object-cover w-[100px] h-[100px] object-center'
                 />
@@ -58,7 +85,7 @@ export default function OCR() {
                 <input
                   type='file'
                   className='custom-file-input mt-3 text-black bg-cyan-600 '
-                  onChange={handleChange}
+                  onChange={onChangeHandler}
                   accept='image/jpeg,image/png,image/webp'
                   ref={inputRef}
                   hidden
@@ -66,7 +93,7 @@ export default function OCR() {
               </div>
             </div>
             <div className='text-center flex items-center justify-center mt-3'>
-              <button className='bg-cyan-400 m-0 hover:bg-white w-full'>UPLOAD</button>
+              <button onClick={onClickHandler} className='bg-cyan-400 m-0 hover:bg-white w-full'>UPLOAD</button>
             </div>
           </div>
           <div className='w-[450px] h-[450px]'>
@@ -75,8 +102,10 @@ export default function OCR() {
               <h1 className='text-xl text-cyan-600 uppercase -translate-y-6'>Description</h1>
             </div>
             <div className='pt-3 px-3 text-lg text-white'>
-              <p>There are no recognized results.</p>
-              <p>Please check the selected image or model again.</p>
+              {!caption ? (<><p>There are no recognized results.</p>
+              <p>Please check the selected image or model again.</p></>) : <p>{caption}</p>} 
+              
+              
             </div>
           </div>
         </div>
