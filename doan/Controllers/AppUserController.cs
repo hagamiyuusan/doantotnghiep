@@ -36,7 +36,7 @@ namespace doan.Controllers
         [HttpGet("name")]
         public async Task<ActionResult<AppUserGet>> getUserByName(string name)
         {
-            var user = await _appuser.getUserbyID(name);
+            var user = await _appuser.getUserByName(name);
             if (user == null)
             {
                 return NotFound();
@@ -45,17 +45,20 @@ namespace doan.Controllers
             return new JsonResult(user);
         }
         [HttpGet("role")]
-        public async Task<IList<string>> getRoleByName(string role)
+        public async Task<IActionResult> getRoleByName(string role)
         {
             var result = await _appuser.getUserRole(role);
-            return result;
+            return Ok(new
+            {
+                status = 200,
+                value = new JsonResult(result)
+            });
         }
         [HttpPut("{name}")]
         public async Task<ActionResult<AppUserGet>> updateUser(AppUserChangeRequest request)
         {
-            if (!ModelState.IsValid)
-
-                return new JsonResult( new { success = false, message = "Item modified failed" });
+            if (!ModelState.IsValid) return new JsonResult( new { success = false, message = "Item modified failed" });
+            
             await _appuser.updateUser(request);
             var result = new { success = true, message = "Item modified successfully" };
             return new JsonResult(result);

@@ -1,6 +1,7 @@
 ﻿using doan.DTO.Subscription;
 using doan.EF;
 using doan.Entities;
+using doan.Helpers;
 using doan.Interface;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,8 @@ using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using PayPal.Api;
+using System.Xml.Schema;
 
 namespace doan.Repository
 {
@@ -34,33 +37,64 @@ namespace doan.Repository
                 .Include(b => b.product)
                 .FirstOrDefaultAsync();
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes(_config["Jwt:Key"]);
-
-            var tokenDescriptor = new SecurityTokenDescriptor
+            var checkExistSubscription = await _context.Subscriptions.Where(x => x.AppUser == userId
+                && x.productDuration.product == productDuration.product).FirstOrDefaultAsync();
+            if (checkExistSubscription != null)
             {
-                Subject = new ClaimsIdentity(new Claim[]
+                if (checkExistSubscription.dueDate < DateTime.Now)
                 {
-                    new Claim("type", productDuration.product.Id.ToString()),
-                    new Claim("username", userId.UserName.ToString())
-                }),
-                Expires = DateTime.UtcNow.AddDays(productDuration.duration.day),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
-                SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
+                    checkExistSubscription.dueDate = DateTime.Now.AddDays(productDuration.duration.day);
+                }
+                else
+                {
+                    checkExistSubscription.dueDate = checkExistSubscription.dueDate.AddDays(productDuration.duration.day);
+                }
+                await _context.SaveChangesAsync();
+                return checkExistSubscription;
 
-            var tokenString = tokenHandler.WriteToken(token);
-            Subscription createObject = new Subscription
+            }
+            else
             {
-                AppUser = userId,
-                productDuration = productDuration,
-                createDate = DateTime.Now,
-                token = tokenString
-            };
-            await _context.Subscriptions.AddAsync(createObject);
-            await _context.SaveChangesAsync();
-            return createObject;
+                var token = RandomHelper.RandomString(10);
+                Subscription toCreateObject = new Subscription
+                {
+                    AppUser = userId,
+                    productDuration = productDuration,
+                    dueDate = DateTime.Now.AddDays(productDuration.duration.day),
+                    token = token
+                };
+                await _context.Subscriptions.AddAsync(toCreateObject);
+                await _context.SaveChangesAsync();
+                return toCreateObject;
+
+            }
+            //var tokenHandler = new JwtSecurityTokenHandler();
+            //var key = Encoding.UTF8.GetBytes(_config["Jwt:Key"]);
+
+            //var tokenDescriptor = new SecurityTokenDescriptor
+            //{
+            //    Subject = new ClaimsIdentity(new Claim[]
+            //    {
+            //        new Claim("type", productDuration.product.Id.ToString()),
+            //        new Claim("username", userId.UserName.ToString())
+            //    }),
+            //    Expires = DateTime.UtcNow.AddDays(productDuration.duration.day),
+            //    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
+            //    SecurityAlgorithms.HmacSha256Signature)
+            //};
+            //var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            //var tokenString = tokenHandler.WriteToken(token);
+            //Subscription createObject = new Subscription
+            //{
+            //    AppUser = userId,
+            //    productDuration = productDuration,
+            //    createDate = DateTime.Now,
+            //    token = tokenString
+            //};
+            //await _context.Subscriptions.AddAsync(createObject);
+            //await _context.SaveChangesAsync();
+            //return createObject;
         }
 
         public async Task<bool> deleteSubscription(int id)

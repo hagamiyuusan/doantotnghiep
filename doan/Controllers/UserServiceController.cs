@@ -149,7 +149,7 @@ namespace doan.Controllers
 
         [HttpGet("resetpassword/{email}/{token}")]
         [AllowAnonymous]
-        public async Task<ActionResult> ResetPassword(string email, string token)
+        public async Task<ActionResult> ResetPassword([FromRoute] string email,[FromRoute] string token)
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
@@ -176,7 +176,7 @@ namespace doan.Controllers
 
         [HttpPost("resetpassword/{email}/{token}")]
         [AllowAnonymous]
-        public async Task<ActionResult> ResetPassword(string email, string token, [FromBody] ResetPasswordModel model)
+        public async Task<ActionResult> ResetPassword([FromRoute] string email, [FromRoute] string token, [FromBody] ResetPasswordModel model)
         {
             if (ModelState.IsValid)
             {
@@ -191,7 +191,6 @@ namespace doan.Controllers
             }
             return BadRequest("Không hợp lệ");
         }
-
 
         [HttpPost("changepassword")]
         [AllowAnonymous]

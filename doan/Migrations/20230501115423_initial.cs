@@ -122,6 +122,19 @@ namespace doan.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Categories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Categories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Durations",
                 columns: table => new
                 {
@@ -136,22 +149,7 @@ namespace doan.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Products",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    API_URL = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Products", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ImageForCaptioning",
+                name: " ImageToTextResult",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -162,11 +160,33 @@ namespace doan.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ImageForCaptioning", x => x.Id);
+                    table.PrimaryKey("PK_ ImageToTextResult", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ImageForCaptioning_AppUsers_userId",
+                        name: "FK_ ImageToTextResult_AppUsers_userId",
                         column: x => x.userId,
                         principalTable: "AppUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Products",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    API_URL = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    productTypeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Products_Categories_productTypeId",
+                        column: x => x.productTypeId,
+                        principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -179,7 +199,7 @@ namespace doan.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     durationId = table.Column<int>(type: "int", nullable: false),
                     productId = table.Column<int>(type: "int", nullable: false),
-                    price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    price = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -200,13 +220,43 @@ namespace doan.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Invoices",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    paypalId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Total = table.Column<int>(type: "int", nullable: false),
+                    isPaid = table.Column<bool>(type: "bit", nullable: false),
+                    productDurationId = table.Column<int>(type: "int", nullable: false),
+                    userId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Invoices", x => x.Id);
+                    table.UniqueConstraint("AK_Invoices_paypalId", x => x.paypalId);
+                    table.ForeignKey(
+                        name: "FK_Invoices_AppUsers_userId",
+                        column: x => x.userId,
+                        principalTable: "AppUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Invoices_ProductDurations_productDurationId",
+                        column: x => x.productDurationId,
+                        principalTable: "ProductDurations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "subscriptions",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     productDurationId = table.Column<int>(type: "int", nullable: false),
-                    createDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    dueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     isActivate = table.Column<bool>(type: "bit", nullable: false),
                     token = table.Column<string>(type: "nvarchar(max)", nullable: false)
@@ -231,7 +281,7 @@ namespace doan.Migrations
             migrationBuilder.InsertData(
                 table: "AppRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { new Guid("823b98ec-f77f-4ccc-a5f7-3765156b9950"), "7730abb6-e7a2-447d-9551-0927f3580c14", "admin", "admin" });
+                values: new object[] { new Guid("823b98ec-f77f-4ccc-a5f7-3765156b9950"), "0e6d49ca-a5c1-427e-ab6a-7b06f98b4715", "admin", "admin" });
 
             migrationBuilder.InsertData(
                 table: "AppUserRoles",
@@ -241,7 +291,12 @@ namespace doan.Migrations
             migrationBuilder.InsertData(
                 table: "AppUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("0790f531-8010-4bf4-8b92-0a8b7549c406"), 0, "8762ac46-a6de-435e-8eb3-f6d0b7d705b7", "vinhhuyqna@gmail.com", true, false, null, "vinhhuyqna@gmail.com", "admin", "AQAAAAEAACcQAAAAEC7VES4YF9pZN4284yo8lPrfvJLtp+ob4crxOwl+9gD+9WlWjS/OJHzfWmVzqsbbSw==", null, false, "", false, "admin" });
+                values: new object[] { new Guid("0790f531-8010-4bf4-8b92-0a8b7549c406"), 0, "812b7a88-e348-45b8-aabf-ca76eda95e03", "vinhhuyqna@gmail.com", true, false, null, "vinhhuyqna@gmail.com", "admin", "AQAAAAEAACcQAAAAEBCcG+BfMrBXb8iqOz3ehJ9hO+WNCILTzikyXUMaLlzbcoSAsorW0OWuNHyMkXiI/A==", null, false, "", false, "admin" });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "name" },
+                values: new object[] { 1, "Image To Text" });
 
             migrationBuilder.InsertData(
                 table: "Durations",
@@ -254,27 +309,42 @@ namespace doan.Migrations
 
             migrationBuilder.InsertData(
                 table: "Products",
-                columns: new[] { "Id", "API_URL", "Created", "Name" },
-                values: new object[] { 1, "", new DateTime(2023, 4, 15, 0, 0, 0, 0, DateTimeKind.Local), "API Image Captioning" });
+                columns: new[] { "Id", "API_URL", "Created", "Name", "productTypeId" },
+                values: new object[] { 1, "", new DateTime(2023, 5, 1, 0, 0, 0, 0, DateTimeKind.Local), "API Image Captioning", 1 });
 
             migrationBuilder.InsertData(
                 table: "ProductDurations",
                 columns: new[] { "Id", "durationId", "price", "productId" },
                 values: new object[,]
                 {
-                    { 1, 1, 3000m, 1 },
-                    { 2, 2, 9000m, 1 }
+                    { 1, 1, 3000, 1 },
+                    { 2, 2, 9000, 1 }
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ImageForCaptioning_userId",
-                table: "ImageForCaptioning",
+                name: "IX_ ImageToTextResult_userId",
+                table: " ImageToTextResult",
+                column: "userId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invoices_productDurationId",
+                table: "Invoices",
+                column: "productDurationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invoices_userId",
+                table: "Invoices",
                 column: "userId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductDurations_durationId",
                 table: "ProductDurations",
                 column: "durationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Products_productTypeId",
+                table: "Products",
+                column: "productTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_subscriptions_productDurationId",
@@ -290,6 +360,9 @@ namespace doan.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: " ImageToTextResult");
+
             migrationBuilder.DropTable(
                 name: "AppRoleClaims");
 
@@ -309,7 +382,7 @@ namespace doan.Migrations
                 name: "AppUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ImageForCaptioning");
+                name: "Invoices");
 
             migrationBuilder.DropTable(
                 name: "subscriptions");
@@ -325,6 +398,9 @@ namespace doan.Migrations
 
             migrationBuilder.DropTable(
                 name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "Categories");
         }
     }
 }

@@ -39,9 +39,9 @@ namespace doan.Repository
             return (result == 1 ? true : false);
         }
 
-        public async Task<bool> editDuration(int id, DurationEditRequest request)
+        public async Task<bool> editDuration(DurationEditRequest request)
         {
-            var duration = await _context.Durations.FindAsync(id);
+            var duration = await _context.Durations.FindAsync(request.Id);
             
             if (duration == null)
             {

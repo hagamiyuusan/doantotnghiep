@@ -10,8 +10,6 @@ namespace doan.Config
         {
             builder.ToTable("AppUsers");
             builder.Property(x=>x.UserName).IsRequired(true);
-
-
         }
     }
 }

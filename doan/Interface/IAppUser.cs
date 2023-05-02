@@ -7,7 +7,7 @@ namespace doan.Interface
 {
     public interface IAppUser
     {
-        public Task<AppUserGet> getUserbyID(string id);
+        public Task<AppUserGet> getUserByName(string name);
 
         public Task<(List<AppUserGet>,PaginationFilter, int)> getAllUser(PaginationFilter filter);
 

@@ -12,7 +12,7 @@ using doan.EF;
 namespace doan.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230415075927_initial")]
+    [Migration("20230501115423_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -150,7 +150,7 @@ namespace doan.Migrations
                         new
                         {
                             Id = new Guid("823b98ec-f77f-4ccc-a5f7-3765156b9950"),
-                            ConcurrencyStamp = "7730abb6-e7a2-447d-9551-0927f3580c14",
+                            ConcurrencyStamp = "0e6d49ca-a5c1-427e-ab6a-7b06f98b4715",
                             Name = "admin",
                             NormalizedName = "admin"
                         });
@@ -214,13 +214,13 @@ namespace doan.Migrations
                         {
                             Id = new Guid("0790f531-8010-4bf4-8b92-0a8b7549c406"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8762ac46-a6de-435e-8eb3-f6d0b7d705b7",
+                            ConcurrencyStamp = "812b7a88-e348-45b8-aabf-ca76eda95e03",
                             Email = "vinhhuyqna@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "vinhhuyqna@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEC7VES4YF9pZN4284yo8lPrfvJLtp+ob4crxOwl+9gD+9WlWjS/OJHzfWmVzqsbbSw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBCcG+BfMrBXb8iqOz3ehJ9hO+WNCILTzikyXUMaLlzbcoSAsorW0OWuNHyMkXiI/A==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -263,7 +263,7 @@ namespace doan.Migrations
                         });
                 });
 
-            modelBuilder.Entity("doan.Entities.ImageForCaptioning", b =>
+            modelBuilder.Entity("doan.Entities.ImageToTextResult", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -286,7 +286,42 @@ namespace doan.Migrations
 
                     b.HasIndex("userId");
 
-                    b.ToTable("ImageForCaptioning", (string)null);
+                    b.ToTable(" ImageToTextResult", (string)null);
+                });
+
+            modelBuilder.Entity("doan.Entities.Invoice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Total")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("isPaid")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("paypalId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("productDurationId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("userId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasAlternateKey("paypalId");
+
+                    b.HasIndex("productDurationId");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("Invoices", (string)null);
                 });
 
             modelBuilder.Entity("doan.Entities.Product", b =>
@@ -309,7 +344,12 @@ namespace doan.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("productTypeId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("productTypeId");
 
                     b.ToTable("Products", (string)null);
 
@@ -318,8 +358,9 @@ namespace doan.Migrations
                         {
                             Id = 1,
                             API_URL = "",
-                            Created = new DateTime(2023, 4, 15, 0, 0, 0, 0, DateTimeKind.Local),
-                            Name = "API Image Captioning"
+                            Created = new DateTime(2023, 5, 1, 0, 0, 0, 0, DateTimeKind.Local),
+                            Name = "API Image Captioning",
+                            productTypeId = 1
                         });
                 });
 
@@ -334,8 +375,8 @@ namespace doan.Migrations
                     b.Property<int>("durationId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("price")
+                        .HasColumnType("int");
 
                     b.Property<int>("productId")
                         .HasColumnType("int");
@@ -353,14 +394,14 @@ namespace doan.Migrations
                         {
                             Id = 1,
                             durationId = 1,
-                            price = 3000m,
+                            price = 3000,
                             productId = 1
                         },
                         new
                         {
                             Id = 2,
                             durationId = 2,
-                            price = 9000m,
+                            price = 9000,
                             productId = 1
                         });
                 });
@@ -376,7 +417,7 @@ namespace doan.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("createDate")
+                    b.Property<DateTime>("dueDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("isActivate")
@@ -398,7 +439,31 @@ namespace doan.Migrations
                     b.ToTable("subscriptions", (string)null);
                 });
 
-            modelBuilder.Entity("doan.Entities.ImageForCaptioning", b =>
+            modelBuilder.Entity("doan.Entities.TypeProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            name = "Image To Text"
+                        });
+                });
+
+            modelBuilder.Entity("doan.Entities.ImageToTextResult", b =>
                 {
                     b.HasOne("doan.Entities.AppUser", "user")
                         .WithMany("imageForCaptionings")
@@ -406,6 +471,36 @@ namespace doan.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("user");
+                });
+
+            modelBuilder.Entity("doan.Entities.Invoice", b =>
+                {
+                    b.HasOne("doan.Entities.ProductDuration", "productDuration")
+                        .WithMany("invoices")
+                        .HasForeignKey("productDurationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("doan.Entities.AppUser", "appUser")
+                        .WithMany("invoices")
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("appUser");
+
+                    b.Navigation("productDuration");
+                });
+
+            modelBuilder.Entity("doan.Entities.Product", b =>
+                {
+                    b.HasOne("doan.Entities.TypeProduct", "typeProduct")
+                        .WithMany("products")
+                        .HasForeignKey("productTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("typeProduct");
                 });
 
             modelBuilder.Entity("doan.Entities.ProductDuration", b =>
@@ -451,6 +546,8 @@ namespace doan.Migrations
                     b.Navigation("Subscriptions");
 
                     b.Navigation("imageForCaptionings");
+
+                    b.Navigation("invoices");
                 });
 
             modelBuilder.Entity("doan.Entities.Duration", b =>
@@ -465,7 +562,14 @@ namespace doan.Migrations
 
             modelBuilder.Entity("doan.Entities.ProductDuration", b =>
                 {
+                    b.Navigation("invoices");
+
                     b.Navigation("subscriptions");
+                });
+
+            modelBuilder.Entity("doan.Entities.TypeProduct", b =>
+                {
+                    b.Navigation("products");
                 });
 #pragma warning restore 612, 618
         }

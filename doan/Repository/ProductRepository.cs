@@ -20,10 +20,15 @@ namespace doan.Repository
 
         public async Task<Product> createProduct(ProductCreateRequest product)
         {
+            var typeProduct = await _context.typeProducts.FindAsync(product.typeProductId);
+            
             var desProduct = new Product
             {
                 Name = product.Name,
-                Created = product.Created
+                Created = product.Created,
+                API_URL = product.API_URL,
+                typeProduct = typeProduct
+
             };
             var result = await _context.Products.AddAsync(desProduct);
             await _context.SaveChangesAsync();

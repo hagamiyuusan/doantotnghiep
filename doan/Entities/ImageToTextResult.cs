@@ -1,6 +1,6 @@
 ﻿namespace doan.Entities
 {
-    public class ImageForCaptioning
+    public class ImageToTextResult
     {
         public int Id { set; get; }
         public Guid? userId { set; get; }

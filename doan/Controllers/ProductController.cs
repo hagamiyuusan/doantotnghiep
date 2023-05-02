@@ -3,6 +3,7 @@ using doan.DTO.Product;
 using doan.EF;
 using doan.Entities;
 using doan.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,16 +11,16 @@ namespace doan.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController
+    public class ProductController : ControllerBase
     {
         private readonly IProduct _product;
-        private readonly IUseProductImageCaptioning _useProductImageCaptioning;
+        private readonly IuseImageToText _userImageToText;
         private readonly ApplicationDbContext _context;
 
-        public ProductController(IProduct product, IUseProductImageCaptioning useProductImageCaptioning, ApplicationDbContext context)
+        public ProductController(IProduct product, IuseImageToText userImageToText, ApplicationDbContext context)
         {
             _product = product;
-            _useProductImageCaptioning = useProductImageCaptioning;
+            _userImageToText = userImageToText;
             _context = context;
         }
 
@@ -30,15 +31,65 @@ namespace doan.Controllers
             var result = await _product.createProduct(product);
             return result;
         }
-        [HttpPost("{id}")]
-        public async Task<String> useProduct([FromRoute]int id, [FromForm] UploadImageRequest request)
+
+        [HttpPost("imagecaptioning")]
+        public async Task<IActionResult> useImageCaptioning([FromForm] UploadImageToText request)
         {
-            var product = await _context.Products.Where(x => x.Id == id).FirstOrDefaultAsync();
 
-            var API_URL = product.API_URL;
+            var result = await _userImageToText.useProduct(request);
+            return Ok(new
+            {
+                code = 200,
+                result  = result
+            });
+        }
+        [HttpPost("subscription")]
+        public async Task<IActionResult> useImageCaptiongWithSubscription([FromForm] UploadImageToText request)
+        {
+            if (String.IsNullOrEmpty(request.token))
+            {
+                return BadRequest(new
+                {
+                    code = 400,
+                    message = "Có lỗi xảy ra, vui lòng kiểm tra lại"
+                });
+            }
+            var product = await _context.Products.Where(x => x.Id == request.idProduct).FirstAsync();
+            if (product == null)
+            {
+                return BadRequest(new
+                {
+                    code = 404,
+                    message = "Có lỗi xảy ra, vui lòng kiểm tra lại"
+                });
+            }
+            var subscription = await _context.Subscriptions.Where(x => x.token == request.token)
+                .Include(a => a.productDuration)
+                .ThenInclude(b => b.product)
+                .FirstAsync();
+            if (subscription == null)
+            {
+                return BadRequest(new
+                {
+                    code = 404,
+                    message = "Có lỗi xảy ra, vui lòng kiểm tra lại"
+                });
+            }
+            if (subscription.dueDate < DateTime.Now)
+            {
+                return BadRequest(new
+                {
+                    code = 401,
+                    message = "Có lỗi xảy ra, vui lòng kiểm tra lại"
+                });
+            }
 
-            var result = await _useProductImageCaptioning.useProduct(request,API_URL);
-            return result;
+            var result = await _userImageToText.useProduct(request);
+            return Ok(new
+            {
+                code = 200,
+                result = result
+            });
         }
         //[HttpPost("images")]
         //public async Task<string> uploadImage([FromForm] UploadImageRequest request)
