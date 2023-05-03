@@ -26,6 +26,8 @@ namespace doan.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
+
         public async Task<ActionResult<Product>> addProduct(ProductCreateRequest product)
         {
             var result = await _product.createProduct(product);
@@ -35,7 +37,7 @@ namespace doan.Controllers
             }
             return Ok("Thực hiện thành công");
         }
-
+        [Authorize]
         [HttpPost("imagecaptioning")]
         public async Task<IActionResult> useImageCaptioning([FromForm] UploadImageToText request)
         {
@@ -102,6 +104,8 @@ namespace doan.Controllers
         //    return result;
         //}
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
+
         public async Task<IActionResult> deletedProduct([FromRoute(Name = "id")] int id)
         {
             var result = await _product.deleteProduct(id);
@@ -113,6 +117,8 @@ namespace doan.Controllers
 
         }
         [HttpPut("{id}")]
+        [Authorize(Roles = "admin")]
+
         public async Task<IActionResult> editProduct([FromRoute(Name = "id")] int id,[FromBody] ProductEditRequest request)
         {
             request.productId = id;

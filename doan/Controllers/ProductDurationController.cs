@@ -1,7 +1,9 @@
 ﻿using doan.DTO.ProductDuration;
 using doan.EF;
 using doan.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace doan.Controllers
 {
@@ -30,6 +32,8 @@ namespace doan.Controllers
             return Ok(new JsonResult(result));
         }
         [HttpPost]
+        [Authorize(Roles = "admin")]
+
         public async Task<IActionResult> createProductDuration([FromBody] ProductDurationCreateRequest request)
         {
             var result = await _productDuration.createProductDuration(request);
@@ -37,6 +41,8 @@ namespace doan.Controllers
             return Ok("Thực hiện thành công");
         }
         [HttpPut("{id}")]
+        [Authorize(Roles = "admin")]
+
         public async Task<IActionResult> editProductDuration([FromRoute(Name = "id")] int id,[FromBody] ProducDurationEditRequest request)
         {
             var result = await _productDuration.editProductDuration(id, request);
@@ -44,6 +50,8 @@ namespace doan.Controllers
             return Ok("Thực hiện thành công");
         }
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
+
         public async Task<IActionResult> deleteProductDuration([FromRoute(Name = "id")] int id)
         {
             var result = await _productDuration.deleteProductDuration(id);

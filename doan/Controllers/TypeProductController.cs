@@ -4,9 +4,11 @@ using doan.EF;
 using doan.Entities;
 using doan.Helpers;
 using doan.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace doan.Controllers
 {
@@ -34,6 +36,8 @@ namespace doan.Controllers
             return Ok(new JsonResult(result));
         }
         [HttpPost]
+        [Authorize(Roles = "admin")]
+
         public async Task<IActionResult> createTypeProduct([FromBody] TypeProductCreateRequest request)
         {
             var result = await _typeProduct.createTypeProduct(request);
@@ -41,6 +45,8 @@ namespace doan.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
+
         public async Task<IActionResult> deleteTypeProduct([FromRoute(Name = "id")] int id)
         {
             var result = await _typeProduct.deleteTypeProduct(id);

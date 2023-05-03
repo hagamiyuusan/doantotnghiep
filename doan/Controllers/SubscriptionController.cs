@@ -47,19 +47,17 @@ namespace doan.Controllers
                 value = await _context.Subscriptions.FindAsync(id)
             });
         }
-        [HttpPost]
-        public async Task<IActionResult> createSubscription([FromBody] SubscriptionCreateRequest request )
-        {
-            var user = await _userManager.FindByNameAsync(request.username);
-            var productDuration = await _context.ProductDurations.Where(x => x.Id == request.productDurationId)
-                .Include(b => b.product)
-                .Include(c => c.duration)
-                .FirstOrDefaultAsync();
-
-            
-            var result = await _subscription.createSubscription(request);
-            return Ok(result);
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> createSubscription([FromBody] SubscriptionCreateRequest request )
+        //{
+        //    var user = await _userManager.FindByNameAsync(request.username);
+        //    var productDuration = await _context.ProductDurations.Where(x => x.Id == request.productDurationId)
+        //        .Include(b => b.product)
+        //        .Include(c => c.duration)
+        //        .FirstOrDefaultAsync();
+        //    var result = await _subscription.createSubscription(request);
+        //    return Ok(result);
+        //}
         [HttpGet("user/{username}")]
         public async Task<IActionResult> getSubscriptionByUsername([FromRoute(Name = "username")]string username)
         {

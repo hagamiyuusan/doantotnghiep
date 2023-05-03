@@ -5,6 +5,7 @@ using doan.Helpers;
 using doan.Interface;
 using doan.Services;
 using doan.Wrapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace doan.Controllers
@@ -21,7 +22,6 @@ namespace doan.Controllers
             _appuser = appuser;
             _IUriService = iUriService;
         }
-
         [HttpGet]
         public async Task<ActionResult> GetAllUser([FromQuery] PaginationFilter filter)
         {

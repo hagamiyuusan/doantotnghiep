@@ -1,6 +1,7 @@
 ﻿using doan.DTO.Duration;
 using doan.EF;
 using doan.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace doan.Controllers
@@ -30,6 +31,7 @@ namespace doan.Controllers
             return Ok(new JsonResult(result));
         }
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> createDuration([FromBody] DurationCreateRequest request)
         {
             var result = await _duration.createDuration(request);
@@ -39,6 +41,7 @@ namespace doan.Controllers
             }
             return Ok("Thực hiện thành công");
         }
+        [Authorize(Roles = "admin")]
         [HttpPut]
         public async Task<IActionResult> editDuration([FromBody] DurationEditRequest request)
         {
@@ -49,6 +52,7 @@ namespace doan.Controllers
             }
             return Ok("Thực hiện thành công");
         }
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> deleteDuration([FromRoute(Name = "id")] int id)
         {
