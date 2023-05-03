@@ -50,7 +50,7 @@ namespace doan.Controllers
         [HttpPost]
         public async Task<IActionResult> createSubscription([FromBody] SubscriptionCreateRequest request )
         {
-            var user = await _userManager.FindByIdAsync(request.userId.ToString());
+            var user = await _userManager.FindByNameAsync(request.username);
             var productDuration = await _context.ProductDurations.Where(x => x.Id == request.productDurationId)
                 .Include(b => b.product)
                 .Include(c => c.duration)
@@ -60,7 +60,16 @@ namespace doan.Controllers
             var result = await _subscription.createSubscription(request);
             return Ok(result);
         }
-
+        [HttpGet("user/{username}")]
+        public async Task<IActionResult> getSubscriptionByUsername([FromRoute(Name = "username")]string username)
+        {
+            var result = await _subscription.getSubscriptionByUsername(username);
+            return Ok(new
+            {
+                status = 200,
+                value = result
+            });
+        }
         [HttpPost("createpayment")]
         public async Task<Payment> createPayment(SubscriptionCreateRequest request)
         {
@@ -79,7 +88,7 @@ namespace doan.Controllers
             {
                 {"mode",mode }
             };
-            var userId = await _userManager.FindByIdAsync(request.userId.ToString());
+            var userId = await _userManager.FindByNameAsync(request.username);
 
 
             var productDuration = await _context.ProductDurations.Where(b => b.Id == request.productDurationId)
@@ -88,7 +97,6 @@ namespace doan.Controllers
                 .FirstOrDefaultAsync();
             var paypalOrderId = RandomHelper.RandomString(10);
 
-            var user = await _userManager.FindByIdAsync(request.userId.ToString());
 
             var hostname = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
 
@@ -148,7 +156,7 @@ namespace doan.Controllers
             {
                 paypalId = paypalOrderId,
                 Total = productDuration.price,
-                appUser = user,
+                appUser = userId,
                 productDuration = productDuration
             };
             await _context.Invoices.AddAsync(createdInvoice);
@@ -186,7 +194,7 @@ namespace doan.Controllers
                     var SubscriptionCreateRequest = new SubscriptionCreateRequest
                     {
                         productDurationId = payment.productDurationId,
-                        userId = payment.userId
+                        username = payment.appUser.UserName
                     };
                     var result = await _subscription.createSubscription(SubscriptionCreateRequest);
                     return Ok(new

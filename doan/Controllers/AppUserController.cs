@@ -55,7 +55,7 @@ namespace doan.Controllers
             });
         }
         [HttpPut("{username}")]
-        public async Task<ActionResult<AppUserGet>> updateUser([FromRoute(Name = "name")] string username,AppUserChangeRequest request)
+        public async Task<ActionResult<AppUserGet>> updateUser([FromRoute(Name = "username")] string username,AppUserChangeRequest request)
         {
             if (!ModelState.IsValid) return new JsonResult( new { success = false, message = "Item modified failed" });
             

@@ -54,11 +54,11 @@ namespace doan.Controllers
 
         }
 
-        [HttpGet]
+        [HttpGet("confirmregister")]
         [AllowAnonymous]
-        public async Task<bool> confirmEmail(string code, string userId)
+        public async Task<bool> confirmEmail(string code, string username)
         {
-            return await _userService.confirmEmail(code, userId);
+            return await _userService.confirmEmail(code, username);
         }
 
         [HttpPost("register")]
@@ -97,7 +97,7 @@ namespace doan.Controllers
                      new
                      {
                          code = token,
-                         userId = user.Id.ToString(),
+                         username = user.UserName,
 
                      },
                  protocol: Request.Scheme);
@@ -126,13 +126,14 @@ namespace doan.Controllers
             }
             var token = await _userService.generateForgotPasswordToken(user.UserName);
             token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+            var newtoken = HttpUtility.UrlEncode(token); // token mới
             var callbackUrl = Url.ActionLink(
                  action: nameof(ResetPassword),
                  values:
             new
             {
-                email = request.email,
-                token = token
+                username = user.UserName,
+                token = newtoken
 
             },
                  protocol: Request.Scheme);
@@ -147,17 +148,17 @@ namespace doan.Controllers
 
         }
 
-        [HttpGet("resetpassword/{email}/{token}")]
+        [HttpGet("resetpassword/{username}/{token}")]
         [AllowAnonymous]
-        public async Task<ActionResult> ResetPassword([FromRoute(Name = "email")] string email,[FromRoute(Name = "token")] string token)
+        public async Task<ActionResult> ResetPassword([FromRoute(Name = "username")] string username,[FromRoute(Name = "token")] string token)
         {
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await _userManager.FindByNameAsync(username);
             if (user == null)
             {
                 return BadRequest(new
                 {
                     status = 404,
-                    value = "Email không hợp lệ"
+                    value = "Username không hợp lệ"
                 }
                 );;
             }
@@ -184,14 +185,14 @@ namespace doan.Controllers
 
 
 
-        [HttpPost("resetpassword/{email}/{token}")]
+        [HttpPost("resetpassword/{username}/{token}")]
         [AllowAnonymous]
-        public async Task<ActionResult> ResetPassword([FromRoute(Name = "email")] string email, [FromRoute(Name = "token")] string token, [FromBody] ResetPasswordModel model)
+        public async Task<ActionResult> ResetPassword([FromRoute(Name = "username")] string username, [FromRoute(Name = "token")] string token, [FromBody] ResetPasswordModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(email);
-                var newToken = HttpUtility.HtmlDecode(token);
+                var user = await _userManager.FindByNameAsync(username);
+                var newToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
 
                 var resetResponse = await _userManager.ResetPasswordAsync(user, newToken, model.newPassword);
                 if (resetResponse.Succeeded)
@@ -201,8 +202,17 @@ namespace doan.Controllers
                         status = 200,
                         value = "Đổi mật khẩu thành công"
                     }
-               ); ;
+                ); ;
                 }
+                else
+                {
+                    return BadRequest(new
+                    {
+                        status = 400,
+                        value = resetResponse.Errors.ToList()
+                    });
+                }
+               
             }
             return BadRequest(new
             {

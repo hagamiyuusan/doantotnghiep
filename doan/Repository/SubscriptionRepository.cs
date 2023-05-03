@@ -12,6 +12,7 @@ using System.Security.Claims;
 using System.Text;
 using PayPal.Api;
 using System.Xml.Schema;
+using System.Net.WebSockets;
 
 namespace doan.Repository
 {
@@ -30,7 +31,7 @@ namespace doan.Repository
 
         public async Task<int> createSubscription(SubscriptionCreateRequest request)
         {
-            var userId = await _userManager.FindByIdAsync(request.userId.ToString());
+            var userId = await _userManager.FindByNameAsync(request.username);
             //var productDuration = await _context.ProductDurations.Include.FindAsync(request.productDurationId);
             var productDuration = await _context.ProductDurations.Where(b => b.Id == request.productDurationId)
                 .Include(b => b.duration)
@@ -113,6 +114,13 @@ namespace doan.Repository
         public async Task<List<Subscription>> getAllSubscription()
         {
             return await _context.Subscriptions.ToListAsync();
+        }
+
+        public async Task<List<Subscription>> getSubscriptionByUsername(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            var listSubscription = await _context.Subscriptions.Where(x => x.AppUser == user).ToListAsync();
+            return listSubscription;
         }
 
         public async Task<Subscription> getSubscriptionsById(int id)

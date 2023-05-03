@@ -10,6 +10,7 @@ namespace doan.Config
         {
             builder.ToTable("AppUsers");
             builder.Property(x=>x.UserName).IsRequired(true);
+            builder.HasKey(x => x.UserName);
         }
     }
 }

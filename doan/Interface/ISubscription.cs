@@ -11,5 +11,6 @@ namespace doan.Interface
         public Task<int> deleteSubscription(int id);
         public Task<int> editSubscription(int id);
         public Task<int> createSubscription(SubscriptionCreateRequest request);
+        public Task<List<Subscription>> getSubscriptionByUsername(string username);
     }
 }

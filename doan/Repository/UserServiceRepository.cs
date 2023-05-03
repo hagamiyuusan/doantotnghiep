@@ -76,12 +76,24 @@ namespace doan.Repository
             return result;
         }
 
-        public async Task<bool> confirmEmail(string code, string userId)
+        public async Task<bool> confirmEmail(string code, string username)
         {
-            var user = await _userManager.FindByIdAsync(userId.ToString());
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null)
+            {
+                return false;
+            }
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
-            var result = await _userManager.ConfirmEmailAsync(user, code);
-            return (result.Succeeded ? true : false);
+            try
+            {
+                var result = await _userManager.ConfirmEmailAsync(user, code);
+                if (result.Succeeded) return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+            return false;
         }
 
         public async Task<string> generateForgotPasswordToken(string username)
@@ -95,6 +107,7 @@ namespace doan.Repository
         {
             var user = new AppUser()
             {
+                Id = Guid.NewGuid(),
                 UserName = request.UserName,
                 Email = request.Email
 

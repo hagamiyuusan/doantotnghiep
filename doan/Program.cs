@@ -31,6 +31,7 @@ builder.Services.AddIdentity<AppUser, AppRole>(
     config =>
     {
         config.SignIn.RequireConfirmedEmail = true;
+        config.User.RequireUniqueEmail = true;
     })
     .AddErrorDescriber<IdentityErrorDescriber>()
     .AddEntityFrameworkStores<ApplicationDbContext>()

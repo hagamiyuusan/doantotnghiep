@@ -86,8 +86,8 @@ namespace doan.Migrations
                 name: "AppUsers",
                 columns: table => new
                 {
+                    UserName = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NormalizedEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -104,7 +104,7 @@ namespace doan.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AppUsers", x => x.Id);
+                    table.PrimaryKey("PK_AppUsers", x => x.UserName);
                 });
 
             migrationBuilder.CreateTable(
@@ -154,7 +154,7 @@ namespace doan.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    userId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    username = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     path = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     caption = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -162,10 +162,10 @@ namespace doan.Migrations
                 {
                     table.PrimaryKey("PK_ ImageToTextResult", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ ImageToTextResult_AppUsers_userId",
-                        column: x => x.userId,
+                        name: "FK_ ImageToTextResult_AppUsers_username",
+                        column: x => x.username,
                         principalTable: "AppUsers",
-                        principalColumn: "Id",
+                        principalColumn: "UserName",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -229,17 +229,17 @@ namespace doan.Migrations
                     Total = table.Column<int>(type: "int", nullable: false),
                     isPaid = table.Column<bool>(type: "bit", nullable: false),
                     productDurationId = table.Column<int>(type: "int", nullable: false),
-                    userId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    username = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Invoices", x => x.Id);
                     table.UniqueConstraint("AK_Invoices_paypalId", x => x.paypalId);
                     table.ForeignKey(
-                        name: "FK_Invoices_AppUsers_userId",
-                        column: x => x.userId,
+                        name: "FK_Invoices_AppUsers_username",
+                        column: x => x.username,
                         principalTable: "AppUsers",
-                        principalColumn: "Id",
+                        principalColumn: "UserName",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Invoices_ProductDurations_productDurationId",
@@ -257,7 +257,7 @@ namespace doan.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     productDurationId = table.Column<int>(type: "int", nullable: false),
                     dueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    username = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     isActivate = table.Column<bool>(type: "bit", nullable: false),
                     token = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -265,10 +265,10 @@ namespace doan.Migrations
                 {
                     table.PrimaryKey("PK_subscriptions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_subscriptions_AppUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_subscriptions_AppUsers_username",
+                        column: x => x.username,
                         principalTable: "AppUsers",
-                        principalColumn: "Id",
+                        principalColumn: "UserName",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_subscriptions_ProductDurations_productDurationId",
@@ -281,7 +281,7 @@ namespace doan.Migrations
             migrationBuilder.InsertData(
                 table: "AppRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { new Guid("823b98ec-f77f-4ccc-a5f7-3765156b9950"), "90c651b2-887f-48a7-b137-cbc90b0830fc", "admin", "admin" });
+                values: new object[] { new Guid("823b98ec-f77f-4ccc-a5f7-3765156b9950"), "e7c1d2b6-2d32-408d-87e3-f05b87473d7f", "admin", "admin" });
 
             migrationBuilder.InsertData(
                 table: "AppUserRoles",
@@ -290,8 +290,8 @@ namespace doan.Migrations
 
             migrationBuilder.InsertData(
                 table: "AppUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { new Guid("0790f531-8010-4bf4-8b92-0a8b7549c406"), 0, "3db3152f-779a-4a29-92f6-7538f13ae92d", "vinhhuyqna@gmail.com", true, false, null, "vinhhuyqna@gmail.com", "admin", "AQAAAAEAACcQAAAAEM0nnPoXxx4O3hhYV3GsMEVazDIfPtiDcHrymzH1AQsG+L5pTozNW2M612uf1Vmqzw==", null, false, "", false, "admin" });
+                columns: new[] { "UserName", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "Id", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled" },
+                values: new object[] { "admin", 0, "7d9463e7-2a87-431c-9412-87c57d33bf9c", "vinhhuyqna@gmail.com", true, new Guid("0790f531-8010-4bf4-8b92-0a8b7549c406"), false, null, "vinhhuyqna@gmail.com", "admin", "AQAAAAEAACcQAAAAEBfWR0zzEc9CargXp1XxtMQ3vJ/Uwd7QQ2MqGmq943ESG9GMjMp1fwLWkExoXuYRXQ==", null, false, "", false });
 
             migrationBuilder.InsertData(
                 table: "Categories",
@@ -311,7 +311,7 @@ namespace doan.Migrations
             migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "Id", "API_URL", "Created", "Name", "productTypeId" },
-                values: new object[] { 1, "", new DateTime(2023, 5, 2, 0, 0, 0, 0, DateTimeKind.Local), "API Image Captioning", 1 });
+                values: new object[] { 1, "", new DateTime(2023, 5, 3, 0, 0, 0, 0, DateTimeKind.Local), "API Image Captioning", 1 });
 
             migrationBuilder.InsertData(
                 table: "ProductDurations",
@@ -323,9 +323,9 @@ namespace doan.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ ImageToTextResult_userId",
+                name: "IX_ ImageToTextResult_username",
                 table: " ImageToTextResult",
-                column: "userId");
+                column: "username");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Invoices_productDurationId",
@@ -333,9 +333,9 @@ namespace doan.Migrations
                 column: "productDurationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Invoices_userId",
+                name: "IX_Invoices_username",
                 table: "Invoices",
-                column: "userId");
+                column: "username");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductDurations_durationId",
@@ -353,9 +353,9 @@ namespace doan.Migrations
                 column: "productDurationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_subscriptions_UserId",
+                name: "IX_subscriptions_username",
                 table: "subscriptions",
-                column: "UserId");
+                column: "username");
         }
 
         /// <inheritdoc />
