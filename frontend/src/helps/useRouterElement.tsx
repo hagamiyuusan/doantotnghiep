@@ -4,6 +4,7 @@ import LandingPage from '../pages/LandingPage'
 import UserProfile from '../pages/UserProfile'
 import { useContext } from 'react'
 import { AppContext } from 'src/Context/context'
+import ChangePassword from 'src/pages/ChangePassword'
 
 export default function useRouterElement() {
   const { isAuthenticated } = useContext(AppContext)
@@ -23,14 +24,17 @@ export default function useRouterElement() {
         </MainLayout>
       )
     },
-    // {
-    //   path: '/profile',
-    //   element: (
-    //     <MainLayout>
-    //       <UserProfile />
-    //     </MainLayout>
-    //   )
-    // },
+    {
+      path: '/sendMailChangePassword',
+      element: (
+        <ChangePassword />
+      )
+    }, {
+      path: '/changePassword',
+      element: (
+        <ChangePassword />
+      )
+    },
     {
       path: '',
       element: <ProtectedRoute />,

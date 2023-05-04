@@ -10,7 +10,7 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     // "module": "ESNext",
-    "module": "commonjs",
+    "module": "es2020",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,

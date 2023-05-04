@@ -6,6 +6,7 @@ import { ErrorMessage } from '../ErrorMessage'
 import axios from 'axios'
 import jwt_decode from 'jwt-decode'
 import { AppContext } from '../../Context/context'
+import { Link } from 'react-router-dom'
 // create modal login
 
 interface IProps {
@@ -171,9 +172,9 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
                 />
                 <p className='text-center mt-4'>
                   Forget password?
-                  <a target='_blank' href='http://gmail.com' className='text-blue-700'>
+                  <Link target='_blank' to='/sendMailChangePassword' className='text-blue-700'>
                     Click Here!!
-                  </a>
+                  </Link>
                 </p>
                 <ErrorMessage errorMessage={errorMessage} />
                 <div className='flex justify-center items-center '>
