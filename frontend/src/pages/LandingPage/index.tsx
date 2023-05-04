@@ -1,3 +1,4 @@
+
 import OCR from '../OCR'
 import img_section1 from '../../imgs/anhnen.png'
 import { ReviewProduct } from '../../components/ReviewProduct'
@@ -5,7 +6,7 @@ import Products from 'src/components/Products/index'
 export default function LandingPage() {
   return (
     <div className='container mx-auto'>
-      <section className='pt-8 h-[800px] bg-zinc-900 px-8 rounded-sm mt-16'>
+      <section className='pt-8 h-[800px] bg-zinc-900 px-8 rounded-sm mt-28 rounded-sm'>
         <div className='flex justify-center items-center gap-7'>
           <div className='w-full mx-auto mt-9 text-center'>
             <h1

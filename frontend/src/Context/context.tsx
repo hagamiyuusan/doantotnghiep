@@ -1,5 +1,5 @@
 import jwtDecode from 'jwt-decode'
-import { createContext, useState } from 'react'
+import { MutableRefObject, createContext, useRef, useState } from 'react'
 
 import { IUser } from 'src/types/user.type'
 export interface AppContextInterface {
@@ -8,7 +8,7 @@ export interface AppContextInterface {
   profile: IUser | null
   setProfile: React.Dispatch<React.SetStateAction<IUser | null>>
   reset: () => void
-
+  ocrRef: MutableRefObject<null | HTMLElement>
 }
 const getAccessTokenFromLS = () => localStorage.getItem('access_token') || ''
 const getProfileFromLS = () => {
@@ -23,9 +23,11 @@ export const getInitialAppContext: () => AppContextInterface = () => ({
   setIsAuthenticated: () => null,
   profile: getProfileFromLS(),
   setProfile: () => null,
-  reset: () => null
+  reset: () => null,
+  ocrRef: { current: null }
 })
 const initialAppContext = getInitialAppContext()
+console.log("🚀 ~ file: context.tsx:28 ~ initialAppContext:", initialAppContext)
 
 export const AppContext = createContext<AppContextInterface>(initialAppContext)
 
@@ -38,6 +40,7 @@ export default function AppProvider({
 }) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(defaultValue.isAuthenticated)
   const [profile, setProfile] = useState<IUser | null>(defaultValue.profile)
+  const ocrRef = useRef(null)
   // const ocrElementRef = useRef(null)
   const reset = () => {
     setIsAuthenticated(false)
@@ -52,6 +55,7 @@ export default function AppProvider({
         profile,
         setProfile,
         reset,
+        ocrRef
       }}
     >
       {children}

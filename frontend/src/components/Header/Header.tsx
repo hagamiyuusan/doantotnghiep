@@ -1,7 +1,7 @@
-import { useRef, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import useClickOutSide from '../../helps/clickOutSide'
 import styles from './Header.module.css'
-import { AppContextInterface } from '~/Context/context'
+import { AppContext, AppContextInterface } from 'src/Context/context'
 import { Link } from 'react-router-dom'
 interface IProps {
   user: AppContextInterface
@@ -11,6 +11,7 @@ interface IProps {
 const Header = ({ setShowModalLogin, user }: IProps) => {
   const [openDropdownMenu, setOpenDropdownMenu] = useState<boolean>(false)
   const [openDropdownUser, setOpenDropdownUser] = useState<boolean>(false)
+  const { ocrRef } = useContext(AppContext)
   const handleClick = () => {
     setOpenDropdownMenu((prev) => !prev)
   }
@@ -19,7 +20,12 @@ const Header = ({ setShowModalLogin, user }: IProps) => {
     setOpenDropdownMenu(false)
     setOpenDropdownUser(false)
   })
-
+  const scrollToOCR = () => {
+    if (ocrRef.current) {
+      // Perform the desired action using ocrRef.current
+      ocrRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
   return (
     <header className={`${styles.header} mb-16`}>
       <div className={styles.navbar}>
@@ -45,7 +51,7 @@ const Header = ({ setShowModalLogin, user }: IProps) => {
             <a
               href='#!'
               className={`${styles.action_btn} border text-yellow-500 border-yellow-300 hover:border-yellow-300  hover:text-zinc-50 `}
-              onClick={() => setShowModalLogin(true)}
+              onClick={scrollToOCR}
             >
 
               Try It Now!
@@ -62,7 +68,7 @@ const Header = ({ setShowModalLogin, user }: IProps) => {
             <div className=''>
               <button
                 className={`${styles.action_btn} border text-yellow-500 border-yellow-300 hover:border-yellow-300  hover:text-zinc-50 `}
-                onClick={() => setShowModalLogin(true)}
+                onClick={scrollToOCR}
               >
 
                 Try It Now!
