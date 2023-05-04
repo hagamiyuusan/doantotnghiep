@@ -11,11 +11,12 @@ namespace doan.Config
             builder.ToTable("subscriptions");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).UseIdentityColumn();
-
+            builder.Property(x => x.dueDate).IsRequired(true);
+            builder.Property(x => x.isActivate).IsRequired(true);
             builder.HasOne(x => x.productDuration).WithMany(x => x.subscriptions)
                 .HasForeignKey(x => x.productDurationId).OnDelete(DeleteBehavior.Cascade);
             builder.HasOne(x => x.AppUser).WithMany(x => x.Subscriptions)
-                .HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(x => x.username).OnDelete(DeleteBehavior.Cascade);
         }
 
     }

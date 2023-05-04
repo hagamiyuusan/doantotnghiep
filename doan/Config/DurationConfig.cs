@@ -14,9 +14,9 @@ namespace doan.Config
             builder.Property(x => x.day).IsRequired(true);
             builder.Property(x => x.name).IsRequired(true).IsUnicode(true);
 
-            builder.HasMany(e=>e.productDurations)
-                .WithOne(e=>e.duration)
-                .HasForeignKey(e=>e.durationId)
+            builder.HasMany(e => e.productDurations)
+                .WithOne(e => e.duration)
+                .HasForeignKey(e => e.durationId)
                 .OnDelete(DeleteBehavior.Cascade);
 
         }

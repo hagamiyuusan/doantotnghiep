@@ -24,9 +24,27 @@ namespace doan.Controllers
             var resultToken = await _userService.Authencate(request);
             if(string.IsNullOrEmpty(resultToken))
             {
-                return BadRequest("Username or Password is incorrect");
+                var resultToken = await _userService.Authencate(request);
+                if (string.IsNullOrEmpty(resultToken))
+                {
+                    return BadRequest("Username or Password is incorrect");
+                }
+                return Ok(new { token = resultToken });
+
             }
-            return Ok(new { token = resultToken });
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            return BadRequest();
+
+        }
+
+        [HttpGet("confirmregister")]
+        [AllowAnonymous]
+        public async Task<bool> confirmEmail(string code, string username)
+        {
+            return await _userService.confirmEmail(code, username);
         }
 
         [HttpPost("register")]
@@ -38,12 +56,166 @@ namespace doan.Controllers
                 return BadRequest(ModelState);
             }
             var result = await _userService.Register(request);
-           if (!result.Succeeded)
+            if (!result.Succeeded)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                              .Select(e => e.ErrorMessage);
+                return BadRequest(new { errors });
+            }
+            var user = await _userManager.FindByNameAsync(request.UserName);
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+            var callbackUrl = Url.ActionLink(
+                 action: nameof(confirmEmail),
+                 values:
+                     new
+                     {
+                         code = token,
+                         username = user.UserName,
+
+                     },
+                 protocol: Request.Scheme);
+            await _emailSender.SendEmailAsync(request.Email,
+            "Xác nhận địa chỉ email",
+            @$"Bạn đã đăng ký tài khoản trên Image Captioning, 
+                                               hãy <a href='{(callbackUrl)}'>bấm vào đây</a> 
+                                               để kích hoạt tài khoản.");
+            return Ok();
+        }
+
+        [HttpPost("password/reset")]
+        [AllowAnonymous]
+        public async Task<IActionResult> forgotPassword([FromBody] ForgotPasswordRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                      .Select(e => e.ErrorMessage);
+                return BadRequest(new { errors });
+            }
+            var user = await _userManager.FindByEmailAsync(request.email);
+            if (user == null)
+            {
+                return BadRequest("Không tồn tại username");
+            }
+            var token = await _userService.generateForgotPasswordToken(user.UserName);
+            token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+            var newtoken = HttpUtility.UrlEncode(token); // token mới
+            var callbackUrl = Url.ActionLink(
+                 action: nameof(ResetPassword),
+                 values:
+            new
+            {
+                username = user.UserName,
+                token = newtoken
+
+            },
+                 protocol: Request.Scheme);
+
+            await _emailSender.SendEmailAsync(request.email,
+            "Xác nhận địa chỉ email",
+            @$"Bạn đã yêu cầu lấy lại mật khẩu, 
+                                               <a href='{(callbackUrl)}'>bấm vào đây</a> 
+                                               để lấy lại mật khẩu.");
+
+            return Ok();
+
+        }
+
+        [HttpGet("resetpassword/{username}/{token}")]
+        [AllowAnonymous]
+        public async Task<ActionResult> ResetPassword([FromRoute(Name = "username")] string username,[FromRoute(Name = "token")] string token)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null)
+            {
+                return BadRequest(new
+                {
+                    status = 404,
+                    value = "Username không hợp lệ"
+                }
+                );;
+            }
+            var newToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
+
+            var checkToken = await _userManager.VerifyUserTokenAsync(user, this._userManager.Options.Tokens.PasswordResetTokenProvider,
+                "ResetPassword", newToken);
+            if (!checkToken)
+            {
+                return BadRequest(new
+                {
+                    status = 404,
+                    value = "Hết hạn thực hiện"
+                }
+                ); ;
+            }
+            return Ok(new
+            {
+                user.UserName,
+                token
+            });
+
+        }
+
+
+
+        [HttpPost("resetpassword/{username}/{token}")]
+        [AllowAnonymous]
+        public async Task<ActionResult> ResetPassword([FromRoute(Name = "username")] string username, [FromRoute(Name = "token")] string token, [FromBody] ResetPasswordModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByNameAsync(username);
+                var newToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
+
+                var resetResponse = await _userManager.ResetPasswordAsync(user, newToken, model.newPassword);
+                if (resetResponse.Succeeded)
+                {
+                    return Ok(new
+                    {
+                        status = 200,
+                        value = "Đổi mật khẩu thành công"
+                    }
+                ); ;
+                }
+                else
+                {
+                    return BadRequest(new
+                    {
+                        status = 400,
+                        value = resetResponse.Errors.ToList()
+                    });
+                }
+               
+            }
+            return BadRequest(new
+            {
+                status = 404,
+                value = "Không hợp lệ"
+            });
+        }
+
+        [HttpPost("changepassword")]
+        [AllowAnonymous]
+
+        public async Task<IActionResult> ChangePassword([FromBody] AppUserChangePassword request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = await _userService.ChangePassword(request);
+            if (!result.Succeeded)
             {
                 var errors = result.Errors.SelectMany(e => e.Code).ToList();
                 return BadRequest(new { errors });
             }
-            return Ok();
+            return Ok(new
+            {
+                status = 200,
+                value = "Đổi mật khẩu thành công"
+            }); ;
         }
     }
 }

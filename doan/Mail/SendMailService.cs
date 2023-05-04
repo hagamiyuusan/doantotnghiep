@@ -50,6 +50,8 @@ namespace doan.Mail
                 smtp.Connect(mailSettings.Host, mailSettings.Port, SecureSocketOptions.StartTls);
                 smtp.Authenticate(mailSettings.Mail, mailSettings.Password);
                 await smtp.SendAsync(message);
+                var emailsavefile = string.Format(@"mailssave/{0}.eml", Guid.NewGuid());
+                await message.WriteToAsync(emailsavefile); ;
             }
             catch (Exception ex)
             {

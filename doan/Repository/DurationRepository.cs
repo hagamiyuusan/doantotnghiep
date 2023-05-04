@@ -20,37 +20,42 @@ namespace doan.Repository
             _context = context;
         }
 
-        public async Task<Duration> createDuration(DurationCreateRequest duration)
+        public async Task<int> createDuration(DurationCreateRequest duration)
         {
             var durationEntity = new Duration()
             {
                 day = duration.day,
                 name = duration.name
             };
-            var result = await _context.Durations.AddAsync(durationEntity);
-            return durationEntity;
+            await _context.Durations.AddAsync(durationEntity);
+            var result =  await _context.SaveChangesAsync();
+            return result;
         }
 
-        public async Task<bool> deleteDuration(int id)
-        {
-            var duration = await _context.Durations.Where(x => x.Id == id).FirstOrDefaultAsync();
-            _context.Durations.Remove(duration);
-            var result = await _context.SaveChangesAsync();
-            return (result == 1 ? true : false);
-        }
-
-        public async Task<bool> editDuration(int id, DurationEditRequest request)
+        public async Task<int> deleteDuration(int id)
         {
             var duration = await _context.Durations.FindAsync(id);
+            if (duration == null)
+            {
+                return 0;
+            }
+            _context.Durations.Remove(duration);
+            var result = await _context.SaveChangesAsync();
+            return result;
+        }
+
+        public async Task<int> editDuration(DurationEditRequest request)
+        {
+            var duration = await _context.Durations.FindAsync(request.Id);
             
             if (duration == null)
             {
-                return false;
+                return 0;
             }
             duration.name = request.name;
             duration.day = request.day;
-            await _context.SaveChangesAsync();
-            return true;
+            var result = await _context.SaveChangesAsync();
+            return result;
 
         }
 

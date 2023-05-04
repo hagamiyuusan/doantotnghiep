@@ -75,9 +75,9 @@ namespace doan.Repository
 
         }
 
-        public async Task<AppUserGet> getUserbyID(string id)
+        public async Task<AppUserGet> getUserByName(string name)
         {
-            var user = await _userManager.FindByNameAsync(id);
+            var user = await _userManager.FindByNameAsync(name);
             if (user == null)
             {
                 return null;
@@ -100,9 +100,9 @@ namespace doan.Repository
 
         }
 
-        public async Task<bool> updateUser(AppUserChangeRequest request)
+        public async Task<bool> updateUser(string username, AppUserChangeRequest request)
         {
-            var user = await _userManager.FindByNameAsync(request.name);
+            var user = await _userManager.FindByNameAsync(username);
             if (user == null)
             {
 
@@ -110,10 +110,7 @@ namespace doan.Repository
             }
             user.Email = request.email;
             await _userManager.UpdateAsync(user);
-            var result = await getUserbyID(request.email);
             return true;
-
-
         }
 
 
