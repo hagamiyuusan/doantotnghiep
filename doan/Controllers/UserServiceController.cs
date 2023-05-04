@@ -1,8 +1,19 @@
 using doan.DTO;
+using doan.DTO.AppUser;
+using doan.Entities;
 using doan.Interface;
+using doan.Mail;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Newtonsoft.Json.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Web;
+using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace doan.Controllers
 {
@@ -10,19 +21,22 @@ namespace doan.Controllers
     [ApiController]
     public class UserServiceController : ControllerBase
     {
+        private readonly IEmailSender _emailSender;
         private readonly IUserService _userService;
-        public UserServiceController(IUserService userService)
-        {
-            _userService = userService;
-        }
+        private readonly UserManager<AppUser> _userManager;
 
+        public UserServiceController(IEmailSender emailSender, IUserService userService, UserManager<AppUser> userManager)
+        {
+            _emailSender = emailSender;
+            _userService = userService;
+            _userManager = userManager;
+        }
 
         [HttpPost("authenticate")]
         [AllowAnonymous]
-        public async Task<IActionResult> Authenticate([FromBody] AppUserLogin request )
+        public async Task<IActionResult> Authenticate([FromBody] AppUserLogin request)
         {
-            var resultToken = await _userService.Authencate(request);
-            if(string.IsNullOrEmpty(resultToken))
+            try
             {
                 var resultToken = await _userService.Authencate(request);
                 if (string.IsNullOrEmpty(resultToken))
@@ -51,9 +65,20 @@ namespace doan.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] AppUserRegistration request)
         {
+
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+
+
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                      .Select(e => e.ErrorMessage);
+                return BadRequest(new { errors });
+            }
+
+            var checkUser = await _userManager.FindByNameAsync(request.UserName);
+            if (checkUser != null)
+            {
+                return BadRequest("Username đã tồn tại");
             }
             var result = await _userService.Register(request);
             if (!result.Succeeded)
@@ -217,5 +242,7 @@ namespace doan.Controllers
                 value = "Đổi mật khẩu thành công"
             }); ;
         }
+
+
     }
 }
