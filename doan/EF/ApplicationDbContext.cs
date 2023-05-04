@@ -20,7 +20,9 @@ namespace doan.EF
             builder.ApplyConfiguration(new SubscriptionConfig());
             builder.ApplyConfiguration(new AppUserConfig());
             builder.ApplyConfiguration(new AppRoleConfig());
-            builder.ApplyConfiguration(new ImageForCaptioningConfig());
+            builder.ApplyConfiguration(new ImageToTextResultConfig());
+            builder.ApplyConfiguration(new InvoiceConfig());
+            builder.ApplyConfiguration(new TypeProductConfig());
 
             builder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims");
             builder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles")
@@ -45,10 +47,11 @@ namespace doan.EF
         }
         public DbSet<Product> Products { set; get; }
         public DbSet<Duration> Durations { set; get; }
-        public DbSet <ProductDuration> ProductDurations { set; get; }
+        public DbSet<ProductDuration> ProductDurations { set; get; }
         public DbSet<Subscription> Subscriptions { set; get; }
-
-        public DbSet<ImageForCaptioning> ImageForCaptionings { set; get; }
+        public DbSet<ImageToTextResult> ImageForCaptionings { set; get; }
+        public DbSet<Invoice> Invoices { set; get; }
+        public DbSet<TypeProduct> typeProducts { set; get; }
 
 
 

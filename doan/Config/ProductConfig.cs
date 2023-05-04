@@ -19,6 +19,9 @@ namespace doan.Config
                 .WithOne(e=>e.product)
                 .HasForeignKey(e=>e.productId)
                 .OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(x => x.typeProduct).WithMany(x => x.products)
+                .HasForeignKey(x => x.productTypeId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             
 
