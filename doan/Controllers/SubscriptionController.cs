@@ -166,7 +166,7 @@ namespace doan.Controllers
         {
             var request = Request.RouteValues.ToList();
 
-            var payment = await _context.Invoices.Where(x=> x.paypalId == IdOrder).FirstOrDefaultAsync();
+            var payment = await _context.Invoices.Where(x=> x.paypalId == IdOrder).Include(x => x.appUser).FirstOrDefaultAsync();
             if (payment == null)
             {
                 return BadRequest( new
