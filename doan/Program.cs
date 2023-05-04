@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using doan.DTO.AppUser;
 using doan.EF;
 using doan.Entities;
@@ -30,6 +31,7 @@ builder.Services.AddIdentity<AppUser, AppRole>(
     config =>
     {
         config.SignIn.RequireConfirmedEmail = true;
+        config.User.RequireUniqueEmail = true;
     })
     .AddErrorDescriber<IdentityErrorDescriber>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -51,7 +53,7 @@ builder.Services.AddAuthentication(options =>
         ValidateLifetime = true,
         ValidAudience = configuration["JWT:ValidAudience"],
         ValidIssuer = configuration["JWT:ValidIssuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Key"]))
     };
 });
 
@@ -65,10 +67,15 @@ builder.Services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
 builder.Services.AddScoped<IUserService, UserServiceRepository>();
 builder.Services.AddScoped<IAppUser, AppUserRepository>();
 builder.Services.AddScoped<IProduct, ProductRepository>();
+builder.Services.AddScoped<IDuration, DurationRepository>();
+builder.Services.AddScoped<IProductDuration, ProductDurationRepository>();
 builder.Services.AddScoped<ISubscription,SubscriptionRepository>();
-builder.Services.AddScoped<IUseProductImageCaptioning, UseProductImageCaptioningRepository>();
+builder.Services.AddScoped<IuseImageToText, UseImageToTextRepository>();
 builder.Services.AddTransient<IEmailSender, SendMailService>();
 builder.Services.AddTransient<IValidator<AppUserChangePassword>,AppUserChangePasswordValidate>();
+builder.Services.AddScoped<ITypeProduct,TypeProductRepository>();
+builder.Services.AddScoped<IProductDuration,ProductDurationRepository>();
+
 
 builder.Services.AddSingleton<IUriService>(o =>
 {
@@ -76,6 +83,25 @@ builder.Services.AddSingleton<IUriService>(o =>
     var request = accessor.HttpContext.Request;
     var uri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent());
     return new UriService(uri);
+});
+
+builder.Services.AddMemoryCache();
+builder.Services.Configure<IpRateLimitOptions>(options =>
+{
+    options.EnableEndpointRateLimiting = true;
+    options.StackBlockedRequests = false;
+    options.HttpStatusCode = 429;
+    options.RealIpHeader = "X-Real-IP";
+    options.ClientIdHeader = "X-ClientId";
+    options.GeneralRules = new List<RateLimitRule>
+        {
+            new RateLimitRule
+            {
+                Endpoint = "POST:/api/Product/imagecaptioning",
+                Period = "10s",
+                Limit = 2,
+            }
+        };
 });
 
 builder.Services.AddOptions();

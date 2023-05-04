@@ -2,7 +2,7 @@
 {
     public class SubscriptionCreateRequest
     {
-        public Guid userId { set; get; }
+        public string username { set; get; }
         public int productDurationId { set; get; }
    
     }

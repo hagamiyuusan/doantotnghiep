@@ -1,6 +1,7 @@
 ﻿using doan.DTO.Subscription;
 using doan.EF;
 using doan.Entities;
+using doan.Helpers;
 using doan.Interface;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,9 @@ using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using PayPal.Api;
+using System.Xml.Schema;
+using System.Net.WebSockets;
 
 namespace doan.Repository
 {
@@ -25,53 +29,84 @@ namespace doan.Repository
             _config = config;
         }
 
-        public async Task<Subscription> createSubscription(SubscriptionCreateRequest request)
+        public async Task<int> createSubscription(SubscriptionCreateRequest request)
         {
-            var userId = await _userManager.FindByIdAsync(request.userId.ToString());
+            var userId = await _userManager.FindByNameAsync(request.username);
             //var productDuration = await _context.ProductDurations.Include.FindAsync(request.productDurationId);
             var productDuration = await _context.ProductDurations.Where(b => b.Id == request.productDurationId)
                 .Include(b => b.duration)
                 .Include(b => b.product)
                 .FirstOrDefaultAsync();
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes(_config["Jwt:Key"]);
-
-            var tokenDescriptor = new SecurityTokenDescriptor
+            var checkExistSubscription = await _context.Subscriptions.Where(x => x.AppUser == userId
+                && x.productDuration.product == productDuration.product).FirstOrDefaultAsync();
+            if (checkExistSubscription != null)
             {
-                Subject = new ClaimsIdentity(new Claim[]
+                if (checkExistSubscription.dueDate < DateTime.Now)
                 {
-                    new Claim("type", productDuration.product.Id.ToString()),
-                    new Claim("username", userId.UserName.ToString())
-                }),
-                Expires = DateTime.UtcNow.AddDays(productDuration.duration.day),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
-                SecurityAlgorithms.HmacSha256Signature)
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
+                    checkExistSubscription.dueDate = DateTime.Now.AddDays(productDuration.duration.day);
+                }
+                else
+                {
+                    checkExistSubscription.dueDate = checkExistSubscription.dueDate.AddDays(productDuration.duration.day);
+                }
+                var result = await _context.SaveChangesAsync();
+                return result;
 
-            var tokenString = tokenHandler.WriteToken(token);
-            Subscription createObject = new Subscription
+            }
+            else
             {
-                AppUser = userId,
-                productDuration = productDuration,
-                createDate = DateTime.Now,
-                token = tokenString
-            };
-            await _context.Subscriptions.AddAsync(createObject);
-            await _context.SaveChangesAsync();
-            return createObject;
+                var token = RandomHelper.RandomString(10);
+                Subscription toCreateObject = new Subscription
+                {
+                    AppUser = userId,
+                    productDuration = productDuration,
+                    dueDate = DateTime.Now.AddDays(productDuration.duration.day),
+                    token = token
+                };
+                await _context.Subscriptions.AddAsync(toCreateObject);
+                var result = await _context.SaveChangesAsync();
+                return result;
+
+            }
+            //var tokenHandler = new JwtSecurityTokenHandler();
+            //var key = Encoding.UTF8.GetBytes(_config["Jwt:Key"]);
+
+            //var tokenDescriptor = new SecurityTokenDescriptor
+            //{
+            //    Subject = new ClaimsIdentity(new Claim[]
+            //    {
+            //        new Claim("type", productDuration.product.Id.ToString()),
+            //        new Claim("username", userId.UserName.ToString())
+            //    }),
+            //    Expires = DateTime.UtcNow.AddDays(productDuration.duration.day),
+            //    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
+            //    SecurityAlgorithms.HmacSha256Signature)
+            //};
+            //var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            //var tokenString = tokenHandler.WriteToken(token);
+            //Subscription createObject = new Subscription
+            //{
+            //    AppUser = userId,
+            //    productDuration = productDuration,
+            //    createDate = DateTime.Now,
+            //    token = tokenString
+            //};
+            //await _context.Subscriptions.AddAsync(createObject);
+            //await _context.SaveChangesAsync();
+            //return createObject;
         }
 
-        public async Task<bool> deleteSubscription(int id)
+        public async Task<int> deleteSubscription(int id)
         {
             var subscription = await _context.Subscriptions.FindAsync(id);
             _context.Subscriptions.Remove(subscription);
             var result = await _context.SaveChangesAsync();
-            return (result == 1 ? true : false);
+            return result;
         }
 
-        public Task<bool> editSubscription(int id)
+        public Task<int> editSubscription(int id)
         {
             throw new NotImplementedException();
         }
@@ -79,6 +114,13 @@ namespace doan.Repository
         public async Task<List<Subscription>> getAllSubscription()
         {
             return await _context.Subscriptions.ToListAsync();
+        }
+
+        public async Task<List<Subscription>> getSubscriptionByUsername(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            var listSubscription = await _context.Subscriptions.Where(x => x.AppUser == user).ToListAsync();
+            return listSubscription;
         }
 
         public async Task<Subscription> getSubscriptionsById(int id)
@@ -94,5 +136,7 @@ namespace doan.Repository
             List<Subscription> listSubscription = await _context.Subscriptions.Where(x => x.AppUser == user).ToListAsync();
             return listSubscription;
         }
+
+
     }
 }

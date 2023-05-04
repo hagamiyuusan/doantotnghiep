@@ -10,6 +10,9 @@ namespace doan.Entities
 
         public ICollection<ProductDuration> productDurations { set; get; }
 
+        public int productTypeId { set; get; }
+        public TypeProduct typeProduct { set; get; }
+
 
     }
 }

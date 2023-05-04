@@ -3,18 +3,19 @@ using doan.EF;
 using doan.Entities;
 using doan.Interface;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using System.Net.Http.Headers;
 
 namespace doan.Repository
 {
-    public class UseProductImageCaptioningRepository : IUseProductImageCaptioning
+    public class UseImageToTextRepository : IuseImageToText
     {
         private readonly HttpClient _httpClient;
         private readonly ApplicationDbContext _context;
         private readonly IConfiguration _config;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public UseProductImageCaptioningRepository(HttpClient httpClient, ApplicationDbContext context, IConfiguration config, IWebHostEnvironment webHostEnvironment)
+        public UseImageToTextRepository(HttpClient httpClient, ApplicationDbContext context, IConfiguration config, IWebHostEnvironment webHostEnvironment)
         {
             _httpClient = httpClient;
             _context = context;
@@ -22,10 +23,10 @@ namespace doan.Repository
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public async Task<string> uploadFile(UploadImageRequest input)
+        public async Task<string> uploadFile(UploadImageToText input)
         {
             string uniqueFileName = UploadedFile(input);
-            ImageForCaptioning file = new ImageForCaptioning
+            ImageToTextResult file = new ImageToTextResult
             {
                 caption = "",
                 path = uniqueFileName,
@@ -35,7 +36,7 @@ namespace doan.Repository
             return uniqueFileName;
 
         }
-        private string UploadedFile(UploadImageRequest model)
+        private string UploadedFile(UploadImageToText model)
         {
             string uniqueFileName = null;
 
@@ -51,14 +52,15 @@ namespace doan.Repository
             }
             return uniqueFileName;
         }
-        public async Task<string> useProduct(UploadImageRequest input, string API_URL)
+        public async Task<string> useProduct(UploadImageToText input)
         {
+            var API_URL = await _context.Products.Where(x => x.Id == input.idProduct).FirstAsync();
 
             using (var content = new MultipartFormDataContent())
             {
                 var fileContent = new StreamContent(input.image.OpenReadStream());
                 content.Add(fileContent, "file", input.image.FileName);
-                var response = await _httpClient.PostAsync(API_URL, content);
+                var response = await _httpClient.PostAsync(API_URL.API_URL, content);
                 response.EnsureSuccessStatusCode();
                 var result = await response.Content.ReadAsStringAsync();
                 return result;
