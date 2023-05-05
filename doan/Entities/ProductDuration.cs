@@ -10,7 +10,8 @@ namespace doan.Entities
         public int productId { set; get; }
 
         public int price { set; get; }
-        public ICollection<Subscription> subscriptions { set; get; }
+        //public ICollection<Subscription> subscriptions { set; get; }
+
         public ICollection<Invoice> invoices { set; get; }
 
     }

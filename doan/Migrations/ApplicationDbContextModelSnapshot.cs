@@ -147,7 +147,7 @@ namespace doan.Migrations
                         new
                         {
                             Id = new Guid("823b98ec-f77f-4ccc-a5f7-3765156b9950"),
-                            ConcurrencyStamp = "e7c1d2b6-2d32-408d-87e3-f05b87473d7f",
+                            ConcurrencyStamp = "1628a170-b603-4073-8f23-a87629fcb73a",
                             Name = "admin",
                             NormalizedName = "admin"
                         });
@@ -209,14 +209,14 @@ namespace doan.Migrations
                         {
                             UserName = "admin",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7d9463e7-2a87-431c-9412-87c57d33bf9c",
+                            ConcurrencyStamp = "a24ebb58-e2df-413a-8b50-1a3265baeb3e",
                             Email = "vinhhuyqna@gmail.com",
                             EmailConfirmed = true,
                             Id = new Guid("0790f531-8010-4bf4-8b92-0a8b7549c406"),
                             LockoutEnabled = false,
                             NormalizedEmail = "vinhhuyqna@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBfWR0zzEc9CargXp1XxtMQ3vJ/Uwd7QQ2MqGmq943ESG9GMjMp1fwLWkExoXuYRXQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECC0VBGwv1H2HhtCus6nTN1PH22LKghBfUIXep8cTcjIH7h4/7zdyJrCvJ/n0wdetA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false
@@ -326,7 +326,6 @@ namespace doan.Migrations
                     b.ToTable("Invoices", (string)null);
                 });
 
-
             modelBuilder.Entity("doan.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -338,7 +337,6 @@ namespace doan.Migrations
                     b.Property<string>("API_URL")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
@@ -362,7 +360,7 @@ namespace doan.Migrations
                         {
                             Id = 1,
                             API_URL = "",
-                            Created = new DateTime(2023, 5, 3, 0, 0, 0, 0, DateTimeKind.Local),
+                            Created = new DateTime(2023, 5, 5, 0, 0, 0, 0, DateTimeKind.Local),
                             Name = "API Image Captioning",
                             productTypeId = 1
                         });
@@ -424,7 +422,7 @@ namespace doan.Migrations
                     b.Property<bool>("isActivate")
                         .HasColumnType("bit");
 
-                    b.Property<int>("productDurationId")
+                    b.Property<int>("productId")
                         .HasColumnType("int");
 
                     b.Property<string>("token")
@@ -437,7 +435,7 @@ namespace doan.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("productDurationId");
+                    b.HasIndex("productId");
 
                     b.HasIndex("username");
 
@@ -529,9 +527,9 @@ namespace doan.Migrations
 
             modelBuilder.Entity("doan.Entities.Subscription", b =>
                 {
-                    b.HasOne("doan.Entities.ProductDuration", "productDuration")
+                    b.HasOne("doan.Entities.Product", "product")
                         .WithMany("subscriptions")
-                        .HasForeignKey("productDurationId")
+                        .HasForeignKey("productId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -543,14 +541,16 @@ namespace doan.Migrations
 
                     b.Navigation("AppUser");
 
-                    b.Navigation("productDuration");
+                    b.Navigation("product");
                 });
 
             modelBuilder.Entity("doan.Entities.AppUser", b =>
                 {
                     b.Navigation("Subscriptions");
 
-                    b.Navigation("imageForCaptionings");
+                    b.Navigation("imageToTexts");
+
+                    b.Navigation("invoices");
                 });
 
             modelBuilder.Entity("doan.Entities.Duration", b =>
@@ -561,13 +561,13 @@ namespace doan.Migrations
             modelBuilder.Entity("doan.Entities.Product", b =>
                 {
                     b.Navigation("productDurations");
+
+                    b.Navigation("subscriptions");
                 });
 
             modelBuilder.Entity("doan.Entities.ProductDuration", b =>
                 {
                     b.Navigation("invoices");
-
-                    b.Navigation("subscriptions");
                 });
 
             modelBuilder.Entity("doan.Entities.TypeProduct", b =>

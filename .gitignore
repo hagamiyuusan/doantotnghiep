@@ -367,3 +367,5 @@ frontend/.vite/deps_temp_4702d006/package.json
 frontend/yarn.lock
 frontend/package-lock.json
 FodyWeavers.xsd
+.vscode/launch.json
+.vscode/tasks.json
