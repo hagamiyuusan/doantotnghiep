@@ -41,12 +41,12 @@ export default function AdminPage() {
                 </div>
               </th>
               <th scope='col' className='px-6 py-3'>
-                Product name
+                ID
               </th>
-              <th scope='col' className='px-6 py-3'>
-                Color
+              <th scope='col' className='px-6 py-3' >
+                UserName
               </th>
-              <th scope='col' className='px-6 py-3'>
+              {/* <th scope='col' className='px-6 py-3'>
                 Category
               </th>
               <th scope='col' className='px-6 py-3'>
@@ -54,7 +54,7 @@ export default function AdminPage() {
               </th>
               <th scope='col' className='px-6 py-3'>
                 Action
-              </th>
+              </th> */}
             </tr>
           </thead>
           <tbody>

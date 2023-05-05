@@ -281,7 +281,7 @@ namespace doan.Migrations
             migrationBuilder.InsertData(
                 table: "AppRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { new Guid("823b98ec-f77f-4ccc-a5f7-3765156b9950"), "1628a170-b603-4073-8f23-a87629fcb73a", "admin", "admin" });
+                values: new object[] { new Guid("823b98ec-f77f-4ccc-a5f7-3765156b9950"), "5f3d6506-df00-441f-b3cc-e91d25ecafaf", "admin", "admin" });
 
             migrationBuilder.InsertData(
                 table: "AppUserRoles",
@@ -291,7 +291,7 @@ namespace doan.Migrations
             migrationBuilder.InsertData(
                 table: "AppUsers",
                 columns: new[] { "UserName", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "Id", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled" },
-                values: new object[] { "admin", 0, "a24ebb58-e2df-413a-8b50-1a3265baeb3e", "vinhhuyqna@gmail.com", true, new Guid("0790f531-8010-4bf4-8b92-0a8b7549c406"), false, null, "vinhhuyqna@gmail.com", "admin", "AQAAAAEAACcQAAAAECC0VBGwv1H2HhtCus6nTN1PH22LKghBfUIXep8cTcjIH7h4/7zdyJrCvJ/n0wdetA==", null, false, "", false });
+                values: new object[] { "admin", 0, "fe80c574-3b07-4d2f-99ad-9c120ee4eff1", "vinhhuyqna@gmail.com", true, new Guid("0790f531-8010-4bf4-8b92-0a8b7549c406"), false, null, "vinhhuyqna@gmail.com", "admin", "AQAAAAEAACcQAAAAEJhbBn6WJSFj68DzVei2IEwb5cLfCeq5/tsCxwkZZ/DSOabVcpSq2MaM4kE3J4RE5g==", null, false, "", false });
 
             migrationBuilder.InsertData(
                 table: "Categories",
