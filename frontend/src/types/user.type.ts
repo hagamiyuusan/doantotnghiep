@@ -3,7 +3,7 @@ type Role = 'User' | 'Admin'
 export interface IUser {
   userName: string
   email?: string
-  role?: Role[]
+  role?: string
   avatar?: string
   address?: string
   phone?: string

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 interface IFormData {
   email?: string
@@ -20,13 +20,12 @@ enum TYPEFORM {
 }
 export default function ChangePassword() {
   const [formData, setFormData] = useState<IFormData>(initFormData)
-  const [loading, setLoading] = useState<boolean>(true)
+  const [loading, setLoading] = useState<boolean>(false)
   const baseUSRL = import.meta.env.VITE_BASE_URL
   const location = useLocation()
   const currentPath = location.pathname
-  console.log('🚀 ~ file: ChangePassword.tsx:22 ~ ChangePassword ~ currentPath:', currentPath)
-
-  console.log('Form Data', formData)
+  const { username, token } = useParams()
+  console.log('🚀 ~ file: ChangePassword.tsx:28 ~ ChangePassword ~ username, token:', username, token)
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
@@ -44,6 +43,7 @@ export default function ChangePassword() {
         if (res.status === 200) {
           console.log()
           navigate('/changePassword')
+          setLoading(false)
         }
       } catch (error) {
         console.log('error:', error)
@@ -59,20 +59,19 @@ export default function ChangePassword() {
         </h1>
         <form className='flex justify-center items-center flex-col' onSubmit={hanldeSubmit(TYPESUBMIT.SENDMAIL)}>
           <div className='flex justify-center items-center'>
-            {/* <label htmlFor='email' className='m-0 text-lg mr-5'>
-              Email:
-            </label> */}
             <input
               type='email'
               name='email'
-              placeholder='Enter your email to reset password...'
+              placeholder={
+                currentPath === TYPEFORM.SENDMAIL ? 'Enter your email to reset password...' : 'Enter new password....'
+              }
               className=' pl-3 h-9 w-72'
               onChange={handleChange}
             />
           </div>
           <button className='w-72 bg-blue-800 text-white flex items-center justify-center gap-3 mx-auto mt-9 '>
             {currentPath === TYPEFORM.SENDMAIL ? 'Send Mail' : 'Reset Your Password'}
-            {loading && (
+            {!loading && (
               <div role='status'>
                 <svg
                   aria-hidden='true'

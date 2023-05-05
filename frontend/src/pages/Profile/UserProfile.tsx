@@ -1,8 +1,9 @@
-import './style.css'
+import React from 'react'
 import img from 'src/imgs/default_avatar.svg'
+
 export default function UserProfile() {
   return (
-    <div className='container'>
+    <div>
       <div className=' mt-32 grid grid-flow-col grid-cols-3 h-[600px]'>
         <div className=' col-span-1 text-cyan-300 pt-6'>
           <div className='USEr_INFO flex justify-center gap-3'>

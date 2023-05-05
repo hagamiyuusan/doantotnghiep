@@ -1,7 +1,7 @@
 import { Navigate, Outlet, useRoutes } from 'react-router-dom'
 import MainLayout from '../MainLayout'
 import LandingPage from '../pages/LandingPage'
-import UserProfile from '../pages/UserProfile'
+import UserProfile from '../pages/Profile'
 import { useContext } from 'react'
 import { AppContext } from 'src/Context/context'
 import ChangePassword from 'src/pages/ChangePassword'
@@ -13,7 +13,6 @@ export default function useRouterElement() {
   }
   function RejectRoute() {
     return !isAuthenticated ? <Outlet /> : <Navigate to='/' />
-
   }
   const elementRouters = useRoutes([
     {
@@ -25,15 +24,12 @@ export default function useRouterElement() {
       )
     },
     {
-      path: '/sendMailChangePassword',
-      element: (
-        <ChangePassword />
-      )
-    }, {
-      path: '/changePassword',
-      element: (
-        <ChangePassword />
-      )
+      path: 'sendMailChangePassword',
+      element: <ChangePassword />
+    },
+    {
+      path: 'changePassword/:username/:token',
+      element: <ChangePassword />
     },
     {
       path: '',
