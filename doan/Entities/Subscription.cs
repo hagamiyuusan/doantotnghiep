@@ -3,8 +3,8 @@ namespace doan.Entities
     public class Subscription
     {
         public int Id { set; get; }
-        public int productDurationId { set; get; }
-        public ProductDuration productDuration { set; get; }
+        public int productId { set; get; }
+        public Product product { set; get; }
         public DateTime dueDate { set; get; }
         public string username { set; get; }
         public AppUser AppUser { set; get; }

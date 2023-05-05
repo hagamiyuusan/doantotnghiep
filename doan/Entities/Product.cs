@@ -12,6 +12,7 @@ namespace doan.Entities
 
         public int productTypeId { set; get; }
         public TypeProduct typeProduct { set; get; }
+        public ICollection<Subscription> subscriptions { set; get; }
 
 
     }

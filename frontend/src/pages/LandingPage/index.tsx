@@ -2,6 +2,8 @@
 import OCR from '../OCR'
 import img_section1 from '../../imgs/anhnen.png'
 import { ReviewProduct } from '../../components/ReviewProduct'
+import Footer from 'src/components/Footer'
+
 import Products from 'src/components/Products/index'
 export default function LandingPage() {
   return (
@@ -37,6 +39,8 @@ export default function LandingPage() {
       <ReviewProduct />
       <Products />
       <OCR />
+      <Footer/>
+
     </div>
   )
 }
