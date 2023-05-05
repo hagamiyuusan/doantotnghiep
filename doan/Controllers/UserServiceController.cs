@@ -160,7 +160,7 @@ namespace doan.Controllers
                     status = 404,
                     value = "Username không hợp lệ"
                 }
-                );;
+                );
             }
             var newToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
 

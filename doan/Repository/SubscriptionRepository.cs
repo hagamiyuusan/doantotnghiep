@@ -39,7 +39,7 @@ namespace doan.Repository
                 .FirstOrDefaultAsync();
 
             var checkExistSubscription = await _context.Subscriptions.Where(x => x.AppUser == userId
-                && x.productDuration.product == productDuration.product).FirstOrDefaultAsync();
+                && x.product == productDuration.product).FirstOrDefaultAsync();
             if (checkExistSubscription != null)
             {
                 if (checkExistSubscription.dueDate < DateTime.Now)
@@ -60,7 +60,7 @@ namespace doan.Repository
                 Subscription toCreateObject = new Subscription
                 {
                     AppUser = userId,
-                    productDuration = productDuration,
+                    product = productDuration.product,
                     dueDate = DateTime.Now.AddDays(productDuration.duration.day),
                     token = token
                 };

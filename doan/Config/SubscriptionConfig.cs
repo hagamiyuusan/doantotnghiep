@@ -13,8 +13,8 @@ namespace doan.Config
             builder.Property(x => x.Id).UseIdentityColumn();
             builder.Property(x => x.dueDate).IsRequired(true);
             builder.Property(x => x.isActivate).IsRequired(true);
-            builder.HasOne(x => x.productDuration).WithMany(x => x.subscriptions)
-                .HasForeignKey(x => x.productDurationId).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(x => x.product).WithMany(x => x.subscriptions)
+                .HasForeignKey(x => x.productId).OnDelete(DeleteBehavior.Cascade);
             builder.HasOne(x => x.AppUser).WithMany(x => x.Subscriptions)
                 .HasForeignKey(x => x.username).OnDelete(DeleteBehavior.Cascade);
         }

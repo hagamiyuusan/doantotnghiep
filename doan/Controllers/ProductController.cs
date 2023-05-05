@@ -70,8 +70,7 @@ namespace doan.Controllers
                 });
             }
             var subscription = await _context.Subscriptions.Where(x => x.token == request.token)
-                .Include(a => a.productDuration)
-                .ThenInclude(b => b.product)
+                .Include(a => a.product)
                 .FirstAsync();
             if (subscription == null)
             {
