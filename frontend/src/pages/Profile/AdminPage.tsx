@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-
+import './style.css'
 export default function AdminPage() {
   const [users, setUsers] = useState<{ id: string; username: string }[]>([])
 
@@ -60,7 +60,7 @@ export default function AdminPage() {
           <tbody>
             {users.map((user, index) => (
               <>
-                <tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
+                <tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600' >
                   <td className='w-4 p-4'>
                     <div className='flex items-center'>
                       <input
@@ -73,14 +73,12 @@ export default function AdminPage() {
                       </label>
                     </div>
                   </td>
-                  <th scope='row' className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
-                    {user.id}
-                  </th>
+                  <td className='px-6 py-4'>{user.id}</td>
                   <td className='px-6 py-4'>{user.username}</td>
                 </tr>
               </>
             ))}
-          </tbody>
+          </tbody >
         </table>
         <nav className='flex items-center justify-between pt-4' aria-label='Table navigation'>
           <span className='text-sm font-normal text-gray-500 dark:text-gray-400'>

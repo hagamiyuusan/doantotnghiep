@@ -5,6 +5,7 @@ import axios from 'axios'
 import { AppContext } from 'src/Context/context'
 
 export default function OCR() {
+  const pRef = useRef<HTMLParagraphElement>(null);
   const inputRef = useRef(null)
   const [loading, setLoading] = useState(false)
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
@@ -12,9 +13,22 @@ export default function OCR() {
   const { ocrRef } = useContext(AppContext)
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     setSelectedFile(event.target.files ? event.target.files[0] : null)
-    setCaption('null')
+    setCaption('')
   }
+  const handleCopy =() => {
+    if (pRef.current) {
+      const range = document.createRange();
+      range.selectNodeContents(pRef.current);
 
+      const selection = window.getSelection();
+      if (selection) {
+        selection.removeAllRanges();
+        selection.addRange(range);
+      }
+
+      document.execCommand('copy');
+    }
+  }
   const onClickHandler = () => {
     if (!selectedFile) return
     setLoading(true)
@@ -52,7 +66,7 @@ export default function OCR() {
           <p className='text-3xl text-white'>Try It Now!</p>
         </div>
 
-        <div className='flex justify-center items-center gap-5 '>
+        <div className='flex justify-center gap-5 items-stretch'>
           <div className=''>
             <div
               onClick={() => {
@@ -120,21 +134,30 @@ export default function OCR() {
               </button>
             </div>
           </div>
-          <div className='w-[450px] h-[450px]'>
+          <div className='w-[450px] h-[450px] place-items-stretch'>
             {/* ÷ <TabPanel /> */}
+            {/* <button   style={{color:'red',float:'right'}}>Copy</button> */}
+            {/* <button onClick={handleCopy} style={{color:'red',float:'right'}} className="flex ml-auto gap-2"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" className="h-4 w-4" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>Copy</button>
             <div className='title  text-center  border-b border-white'>
               <h1 className='text-xl text-cyan-600 uppercase -translate-y-6'>Description</h1>
-            </div>
-            <div className='pt-3 px-3 text-lg text-white'>
-              {caption ? (
+            </div> */}
+            <div className="flex items-center relative text-gray-200 bg-gray-800 px-4 py-2 text-xs font-sans justify-between rounded-t-md " ><span>Description</span><button onClick={handleCopy} className="flex ml-auto gap-2"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" className="h-4 w-4" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>Copy text</button></div>  
+
+            {/* <div className='pt-3 px-3 text-lg text-white' > */}
+            <div className="p-4 overflow-y-auto bg-gray-500 h-full ">
+              {!caption ? (
                 <>
-                  <p>There are no recognized results.</p>
-                  <p>Please check the selected image or model again.</p>
+                  <p className='  text-gray-200'>There are no recognized results.</p>
+                  <p className='  text-gray-200'>Please check the selected image or model again.</p>
                 </>
               ) : (
-                <p>{caption}</p>
+                <>
+                <p  className='  text-gray-200'ref={pRef}>{caption}</p>
+                
+                </>
               )}
             </div>
+            
           </div>
         </div>
       </div>
