@@ -1,26 +1,47 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import './style.css'
+
+interface IInfPage {
+  data: []
+  errors: null
+  firstPage: number
+  key: string
+  lastPage: number
+  message: string
+  nextPage: string
+  pageNumber: number
+  pageSize: number
+  previousPage: number
+  succeeded: number
+  totalPages: number
+  totalRecords: number
+}
 export default function AdminPage() {
   const [users, setUsers] = useState<{ id: string; username: string }[]>([])
-
+  const [infPage, setInfPage] = useState<IInfPage>()
+  const [currentPage, setCurrentPage] = useState(1)
   const getAllUser = async () => {
     try {
-      const res = await axios.get('https://localhost:7749/api/AppUser')
-      console.log(res.data)
+      const res = await axios.get('https://localhost:7749/api/AppUser', {
+        params: {
+          pageNumber: currentPage
+        }
+      })
       if (res.data) {
+        setInfPage(res.data)
         setUsers(res.data.data)
-
       }
     } catch (error) {
       console.log(error)
     }
   }
+  // const arr = Array(5).fill(0).map((e, index) => console.log(e + index))
+
   useEffect(() => {
     getAllUser()
-  }, [])
-  // getAllUser()
-  // console.log(users);
+  }, [currentPage])
+  console.log('infPage,', infPage)
 
   return (
     <div className='mt-52 '>
@@ -43,24 +64,15 @@ export default function AdminPage() {
               <th scope='col' className='px-6 py-3'>
                 ID
               </th>
-              <th scope='col' className='px-6 py-3' >
+              <th scope='col' className='px-6 py-3'>
                 UserName
               </th>
-              {/* <th scope='col' className='px-6 py-3'>
-                Category
-              </th>
-              <th scope='col' className='px-6 py-3'>
-                Price
-              </th>
-              <th scope='col' className='px-6 py-3'>
-                Action
-              </th> */}
             </tr>
           </thead>
           <tbody>
             {users.map((user, index) => (
               <>
-                <tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600' >
+                <tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
                   <td className='w-4 p-4'>
                     <div className='flex items-center'>
                       <input
@@ -78,18 +90,25 @@ export default function AdminPage() {
                 </tr>
               </>
             ))}
-          </tbody >
+          </tbody>
         </table>
         <nav className='flex items-center justify-between pt-4' aria-label='Table navigation'>
           <span className='text-sm font-normal text-gray-500 dark:text-gray-400'>
-            Showing <span className='font-semibold text-gray-900 dark:text-white'>1-10</span> of{' '}
-            <span className='font-semibold text-gray-900 dark:text-white'>1000</span>
+            Showing <span className='font-semibold text-gray-900 dark:text-white'>{currentPage}-10</span> of{' '}
+            <span className='font-semibold text-gray-900 dark:text-white'>{infPage?.totalRecords}</span>
           </span>
           <ul className='inline-flex items-center -space-x-px'>
             <li>
-              <a
-                href='#!'
-                className='block px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
+              <span
+                role='button'
+                tabIndex={0}
+                className='block px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
+                onClick={() => setCurrentPage(currentPage - 1)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter') {
+                    setCurrentPage(currentPage - 1)
+                  }
+                }}
               >
                 <span className='sr-only'>Previous</span>
                 <svg
@@ -105,53 +124,37 @@ export default function AdminPage() {
                     clipRule='evenodd'
                   />
                 </svg>
-              </a>
+              </span>
             </li>
+
+            {Array(infPage?.totalPages)
+              .fill(0)
+              .map((e, index) => (
+                <li key={index}>
+                  <a
+                    href='#!'
+                    className={`px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ${currentPage === index + 1
+                      ? 'z-10 px-3 py-2 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white'
+                      : ''
+                      }`}
+                  >
+                    {index + 1}
+                  </a>
+                </li>
+              ))}
+
+
             <li>
-              <a
-                href='#!'
-                className='px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-              >
-                1
-              </a>
-            </li>
-            <li>
-              <a
-                href='#!'
-                className='px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-              >
-                2
-              </a>
-            </li>
-            <li>
-              <a
-                href='#!'
-                aria-current='page'
-                className='z-10 px-3 py-2 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white'
-              >
-                3
-              </a>
-            </li>
-            <li>
-              <a
-                href='#!'
-                className='px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-              >
-                ...
-              </a>
-            </li>
-            <li>
-              <a
-                href='#!'
-                className='px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-              >
-                100
-              </a>
-            </li>
-            <li>
-              <a
-                href='#!'
+              <span
+                role='button'
+                tabIndex={0}
                 className='block px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
+                onClick={() => setCurrentPage(currentPage + 1)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter') {
+                    setCurrentPage(currentPage + 1)
+                  }
+                }}
               >
                 <span className='sr-only'>Next</span>
                 <svg
@@ -167,7 +170,7 @@ export default function AdminPage() {
                     clipRule='evenodd'
                   />
                 </svg>
-              </a>
+              </span>
             </li>
           </ul>
         </nav>

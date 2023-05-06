@@ -17,7 +17,7 @@ export default function MainLayout({ children }: IProps) {
       <Header user={user} showModalLogin={showModalLogin} setShowModalLogin={setShowModalLogin} />
       {children}
       <LoginModal showModalLogin={showModalLogin} setShowModalLogin={setShowModalLogin} />
-      <Footer />
+      {/* <Footer /> */}
 
     </div>
   )
