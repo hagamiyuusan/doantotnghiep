@@ -39,7 +39,6 @@ export default function LandingPage() {
       <ReviewProduct />
       <Products />
       <OCR />
-      <Footer/>
 
     </div>
   )

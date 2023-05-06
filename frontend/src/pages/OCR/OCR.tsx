@@ -48,8 +48,6 @@ export default function OCR() {
       })
   }
 
-  // console.log('Imgae Name', imgName)
-
   return (
     <div
       className={`container mx-auto bg-zinc-900 ${styles.ocr} pb-40`}

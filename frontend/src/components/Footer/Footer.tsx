@@ -1,12 +1,12 @@
 import { useContext, useRef, useState } from 'react'
 const Footer = () => {
   return (
-    <footer className='relative z-10 bg-white pt-20 pb-10 lg:pt-[120px] lg:pb-20'>
+    <footer className='relative z-10 bg-white pt-20 pb-10 lg:pt-[80px] lg:pb-[80px]'>
       <div className='container mx-auto'>
         <div className='-mx-4 flex flex-wrap'>
           <div className='w-full px-4 sm:w-2/3 lg:w-3/12'>
             <div className='mb-10 w-full'>
-              <a href='javascript:void(0)' className='mb-6 inline-block max-w-[160px]'>
+              <a href='#!' className='mb-6 inline-block max-w-[160px]'>
                 <img
                   src='https://cdn.tailgrids.com/2.0/image/assets/images/logo/logo.svg'
                   alt='logo'
@@ -33,34 +33,22 @@ const Footer = () => {
               <h4 className='text-dark mb-9 text-lg font-semibold'>Resources</h4>
               <ul>
                 <li>
-                  <a
-                    href='javascript:void(0)'
-                    className='text-body-color hover:text-primary mb-2 inline-block text-base leading-loose'
-                  >
+                  <a href='#!' className='text-body-color hover:text-primary mb-2 inline-block text-base leading-loose'>
                     SaaS Development
                   </a>
                 </li>
                 <li>
-                  <a
-                    href='javascript:void(0)'
-                    className='text-body-color hover:text-primary mb-2 inline-block text-base leading-loose'
-                  >
+                  <a href='#!' className='text-body-color hover:text-primary mb-2 inline-block text-base leading-loose'>
                     Our Products
                   </a>
                 </li>
                 <li>
-                  <a
-                    href='javascript:void(0)'
-                    className='text-body-color hover:text-primary mb-2 inline-block text-base leading-loose'
-                  >
+                  <a href='#!' className='text-body-color hover:text-primary mb-2 inline-block text-base leading-loose'>
                     User Flow
                   </a>
                 </li>
                 <li>
-                  <a
-                    href='javascript:void(0)'
-                    className='text-body-color hover:text-primary mb-2 inline-block text-base leading-loose'
-                  >
+                  <a href='#!' className='text-body-color hover:text-primary mb-2 inline-block text-base leading-loose'>
                     User Strategy
                   </a>
                 </li>
@@ -72,34 +60,22 @@ const Footer = () => {
               <h4 className='text-dark mb-9 text-lg font-semibold'>Company</h4>
               <ul>
                 <li>
-                  <a
-                    href='javascript:void(0)'
-                    className='text-body-color hover:text-primary mb-2 inline-block text-base leading-loose'
-                  >
+                  <a href='#!' className='text-body-color hover:text-primary mb-2 inline-block text-base leading-loose'>
                     About TailGrids
                   </a>
                 </li>
                 <li>
-                  <a
-                    href='javascript:void(0)'
-                    className='text-body-color hover:text-primary mb-2 inline-block text-base leading-loose'
-                  >
+                  <a href='#!' className='text-body-color hover:text-primary mb-2 inline-block text-base leading-loose'>
                     Contact & Support
                   </a>
                 </li>
                 <li>
-                  <a
-                    href='javascript:void(0)'
-                    className='text-body-color hover:text-primary mb-2 inline-block text-base leading-loose'
-                  >
+                  <a href='#!' className='text-body-color hover:text-primary mb-2 inline-block text-base leading-loose'>
                     Success History
                   </a>
                 </li>
                 <li>
-                  <a
-                    href='javascript:void(0)'
-                    className='text-body-color hover:text-primary mb-2 inline-block text-base leading-loose'
-                  >
+                  <a href='#!' className='text-body-color hover:text-primary mb-2 inline-block text-base leading-loose'>
                     Setting & Privacy
                   </a>
                 </li>
@@ -111,34 +87,22 @@ const Footer = () => {
               <h4 className='text-dark mb-9 text-lg font-semibold'>Quick Links</h4>
               <ul>
                 <li>
-                  <a
-                    href='javascript:void(0)'
-                    className='text-body-color hover:text-primary mb-2 inline-block text-base leading-loose'
-                  >
+                  <a href='#!' className='text-body-color hover:text-primary mb-2 inline-block text-base leading-loose'>
                     Premium Support
                   </a>
                 </li>
                 <li>
-                  <a
-                    href='javascript:void(0)'
-                    className='text-body-color hover:text-primary mb-2 inline-block text-base leading-loose'
-                  >
+                  <a href='#!' className='text-body-color hover:text-primary mb-2 inline-block text-base leading-loose'>
                     Our Services
                   </a>
                 </li>
                 <li>
-                  <a
-                    href='javascript:void(0)'
-                    className='text-body-color hover:text-primary mb-2 inline-block text-base leading-loose'
-                  >
+                  <a href='#!' className='text-body-color hover:text-primary mb-2 inline-block text-base leading-loose'>
                     Know Our Team
                   </a>
                 </li>
                 <li>
-                  <a
-                    href='javascript:void(0)'
-                    className='text-body-color hover:text-primary mb-2 inline-block text-base leading-loose'
-                  >
+                  <a href='#!' className='text-body-color hover:text-primary mb-2 inline-block text-base leading-loose'>
                     Download App
                   </a>
                 </li>
@@ -150,7 +114,7 @@ const Footer = () => {
               <h4 className='text-dark mb-9 text-lg font-semibold'>Follow Us On</h4>
               <div className='mb-6 flex items-center'>
                 <a
-                  href='javascript:void(0)'
+                  href='#!'
                   className='text-dark hover:bg-primary hover:border-primary mr-3 flex h-8 w-8 items-center justify-center rounded-full border border-[#E5E5E5] hover:text-white sm:mr-4 lg:mr-3 xl:mr-4'
                 >
                   <svg width='8' height='16' viewBox='0 0 8 16' className='fill-current'>
@@ -158,7 +122,7 @@ const Footer = () => {
                   </svg>
                 </a>
                 <a
-                  href='javascript:void(0)'
+                  href='#!'
                   className='text-dark hover:bg-primary hover:border-primary mr-3 flex h-8 w-8 items-center justify-center rounded-full border border-[#E5E5E5] hover:text-white sm:mr-4 lg:mr-3 xl:mr-4'
                 >
                   <svg width='16' height='12' viewBox='0 0 16 12' className='fill-current'>
@@ -166,7 +130,7 @@ const Footer = () => {
                   </svg>
                 </a>
                 <a
-                  href='javascript:void(0)'
+                  href='#!'
                   className='text-dark hover:bg-primary hover:border-primary mr-3 flex h-8 w-8 items-center justify-center rounded-full border border-[#E5E5E5] hover:text-white sm:mr-4 lg:mr-3 xl:mr-4'
                 >
                   <svg width='16' height='12' viewBox='0 0 16 12' className='fill-current'>
@@ -174,7 +138,7 @@ const Footer = () => {
                   </svg>
                 </a>
                 <a
-                  href='javascript:void(0)'
+                  href='#!'
                   className='text-dark hover:bg-primary hover:border-primary mr-3 flex h-8 w-8 items-center justify-center rounded-full border border-[#E5E5E5] hover:text-white sm:mr-4 lg:mr-3 xl:mr-4'
                 >
                   <svg width='14' height='14' viewBox='0 0 14 14' className='fill-current'>
@@ -203,8 +167,8 @@ const Footer = () => {
                 y2='1.22829e-05'
                 gradientUnits='userSpaceOnUse'
               >
-                <stop stop-color='#3056D3' stop-opacity='0.08' />
-                <stop offset='1' stop-color='#C4C4C4' stop-opacity='0' />
+                <stop stopColor='#3056D3' stopOpacity='0.08' />
+                <stop offset='1' stopColor='#C4C4C4' stopOpacity='0' />
               </linearGradient>
             </defs>
           </svg>
@@ -224,8 +188,8 @@ const Footer = () => {
                 y2='37.5'
                 gradientUnits='userSpaceOnUse'
               >
-                <stop stop-color='#13C296' stop-opacity='0.31' />
-                <stop offset='1' stop-color='#C4C4C4' stop-opacity='0' />
+                <stop stopColor='#13C296' stopOpacity='0.31' />
+                <stop offset='1' stopColor='#C4C4C4' stopOpacity='0' />
               </linearGradient>
             </defs>
           </svg>
@@ -234,4 +198,4 @@ const Footer = () => {
     </footer>
   )
 }
-export default Footer;
+export default Footer
