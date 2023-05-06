@@ -152,37 +152,41 @@ namespace doan.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> ResetPassword([FromRoute(Name = "username")] string username,[FromRoute(Name = "token")] string token)
         {
+            //var user = await _userManager.FindByNameAsync(username);
+            //var newToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
+
+            //var checkToken = await _userManager.VerifyUserTokenAsync(user, this._userManager.Options.Tokens.PasswordResetTokenProvider,
+            //    "ResetPassword", newToken);
+            //if (!checkToken)
+            //{
+            //    return BadRequest(new
+            //    {
+            //        status = 404,
+            //        value = "Hết hạn thực hiện"
+            //    }
+            //    ); ;
+            //}
+            var hostname = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.Host}";
+            return Redirect(hostname + $":3000/sendMailChangePassword/{username}/{token}");
+
+        }
+        private async Task<bool> validateForResetPassword(string username, string token)
+        {
             var user = await _userManager.FindByNameAsync(username);
             if (user == null)
             {
-                return BadRequest(new
-                {
-                    status = 404,
-                    value = "Username không hợp lệ"
-                }
-                );
+                return false;
             }
             var newToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
 
             var checkToken = await _userManager.VerifyUserTokenAsync(user, this._userManager.Options.Tokens.PasswordResetTokenProvider,
-                "ResetPassword", newToken);
+                    "ResetPassword", newToken);
             if (!checkToken)
             {
-                return BadRequest(new
-                {
-                    status = 404,
-                    value = "Hết hạn thực hiện"
-                }
-                ); ;
+                return false;
             }
-            return Ok(new
-            {
-                user.UserName,
-                token
-            });
-
+            return true;
         }
-
 
 
         [HttpPost("resetpassword/{username}/{token}")]
@@ -191,6 +195,16 @@ namespace doan.Controllers
         {
             if (ModelState.IsValid)
             {
+                var validate = await this.validateForResetPassword(username, token);
+                if (validate == false)
+                {
+                    return BadRequest(new
+                    {
+                        status = 404,
+                        value = "Có lỗi xảy ra"
+                    }
+                    );
+                }
                 var user = await _userManager.FindByNameAsync(username);
                 var newToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
 

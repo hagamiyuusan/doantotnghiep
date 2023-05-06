@@ -37,7 +37,6 @@ namespace doan.Controllers
             }
             return Ok("Thực hiện thành công");
         }
-        [Authorize]
         [HttpPost("imagecaptioning")]
         public async Task<IActionResult> useImageCaptioning([FromForm] UploadImageToText request)
         {
