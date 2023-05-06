@@ -4,6 +4,7 @@ using doan.Entities;
 using doan.Interface;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Net.Http.Headers;
 
 namespace doan.Repository
@@ -61,9 +62,31 @@ namespace doan.Repository
                 var fileContent = new StreamContent(input.image.OpenReadStream());
                 content.Add(fileContent, "file", input.image.FileName);
                 var response = await _httpClient.PostAsync(API_URL.API_URL, content);
-                response.EnsureSuccessStatusCode();
-                var result = await response.Content.ReadAsStringAsync();
-                return result;
+                var validate = response.EnsureSuccessStatusCode();
+                if (validate.IsSuccessStatusCode)
+                {
+                    string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images");
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + input.image.FileName;
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        input.image.CopyTo(fileStream);
+                    }
+
+                    var result = await response.Content.ReadAsStringAsync();
+
+                    Dictionary<string, object> resultToDictionary = JsonConvert.DeserializeObject<Dictionary<string, object>>(result);
+
+                    var newResultObject = new ImageToTextResult()
+                    {
+                        caption = resultToDictionary["filename"].ToString(),
+                        path = filePath
+                    };
+                    await _context.ImageForCaptionings.AddAsync(newResultObject);
+                    await _context.SaveChangesAsync();
+                    return resultToDictionary["filename"].ToString();
+                }
+                return null;
             }
 
 

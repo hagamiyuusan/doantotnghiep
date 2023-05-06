@@ -75,6 +75,11 @@ builder.Services.AddTransient<IEmailSender, SendMailService>();
 builder.Services.AddTransient<IValidator<AppUserChangePassword>,AppUserChangePasswordValidate>();
 builder.Services.AddScoped<ITypeProduct,TypeProductRepository>();
 builder.Services.AddScoped<IProductDuration,ProductDurationRepository>();
+builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
+builder.Services.AddInMemoryRateLimiting();
 
 
 builder.Services.AddSingleton<IUriService>(o =>
@@ -98,7 +103,7 @@ builder.Services.Configure<IpRateLimitOptions>(options =>
             new RateLimitRule
             {
                 Endpoint = "POST:/api/Product/imagecaptioning",
-                Period = "10s",
+                Period = "30d",
                 Limit = 2,
             }
         };
@@ -145,7 +150,7 @@ app.UseRouting();
 
 app.UseAuthorization();
 app.UseAuthorization();
-
+app.UseIpRateLimiting();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
