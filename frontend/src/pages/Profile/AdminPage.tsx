@@ -36,17 +36,16 @@ export default function AdminPage() {
       console.log(error)
     }
   }
-  // const arr = Array(5).fill(0).map((e, index) => console.log(e + index))
 
   useEffect(() => {
     getAllUser()
   }, [currentPage])
-  console.log('infPage,', infPage)
 
   return (
     <div className='mt-52 '>
-      <div className='relative overflow-x-auto shadow-md sm:rounded-lg'>
-        <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
+      <div className='relative overflow-x-auto shadow-md sm:rounded-lg '>
+        <h1 className='text-lg text-white text-center '>User Manager</h1>
+        <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400 min-h-[300px]'>
           <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
             <tr>
               <th scope='col' className='p-4'>
@@ -70,7 +69,7 @@ export default function AdminPage() {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => (
+            {users.map((user) => (
               <>
                 <tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'>
                   <td className='w-4 p-4'>
@@ -99,16 +98,10 @@ export default function AdminPage() {
           </span>
           <ul className='inline-flex items-center -space-x-px'>
             <li>
-              <span
-                role='button'
-                tabIndex={0}
+              <button
+
                 className='block px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
                 onClick={() => setCurrentPage(currentPage - 1)}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter') {
-                    setCurrentPage(currentPage - 1)
-                  }
-                }}
               >
                 <span className='sr-only'>Previous</span>
                 <svg
@@ -124,39 +117,33 @@ export default function AdminPage() {
                     clipRule='evenodd'
                   />
                 </svg>
-              </span>
+              </button>
             </li>
 
             {Array(infPage?.totalPages)
               .fill(0)
               .map((e, index) => (
-                <li key={index}>
-                  <a
-                    href='#!'
+                <li key={index} >
+                  <button
                     className={`px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white ${currentPage === index + 1
                       ? 'z-10 px-3 py-2 leading-tight text-blue-600 border border-blue-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white'
                       : ''
                       }`}
+                    onClick={() => setCurrentPage(index + 1)}
                   >
                     {index + 1}
-                  </a>
+                  </button>
                 </li>
               ))}
 
 
             <li>
-              <span
-                role='button'
-                tabIndex={0}
+              <button
                 className='block px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
                 onClick={() => setCurrentPage(currentPage + 1)}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter') {
-                    setCurrentPage(currentPage + 1)
-                  }
-                }}
+
               >
-                <span className='sr-only'>Next</span>
+                <button className='sr-only'>Next</button>
                 <svg
                   className='w-5 h-5'
                   aria-hidden='true'
@@ -170,7 +157,7 @@ export default function AdminPage() {
                     clipRule='evenodd'
                   />
                 </svg>
-              </span>
+              </button>
             </li>
           </ul>
         </nav>
