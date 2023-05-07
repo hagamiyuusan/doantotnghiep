@@ -35,7 +35,6 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
   const [errorMessage, setErrorMessage] = useState('')
   const appContext = useContext(AppContext)
 
-
   useClickOutSide(loginModalRef, () => {
     setShowModalLogin(false)
   })
@@ -65,9 +64,11 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
         if (res.status === 200) {
           appContext.setProfile(res.data)
           console.log(res)
+          setShowModalLogin(false)
         }
       } catch (error: any) {
-        setErrorMessage(error.message)
+        setErrorMessage(error.response.data)
+        // console.log("🚀 ~ file: index.tsx:72 ~ handleSubmitForm ~ error.response?.data):", error.response.data.errors.Password[0])
       }
     } else {
       // handle Login
@@ -81,13 +82,11 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
           appContext.setIsAuthenticated(true)
           console.log(jwt_decode(res.data?.token))
           localStorage.setItem('access_token', res.data?.token)
-          // localStorage.setItem('profile', JSON.stringify)
           setShowModalLogin(false)
         }
       } catch (error: any) {
         setErrorMessage(error.response.data)
       }
-
     }
   }
   return (
