@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 interface IFormData {
   email?: string
@@ -24,8 +24,7 @@ export default function ChangePassword() {
   const baseUSRL = import.meta.env.VITE_BASE_URL
   const location = useLocation()
   const currentPath = location.pathname
-  const { username, token } = useParams()
-  console.log('🚀 ~ file: ChangePassword.tsx:28 ~ ChangePassword ~ username, token:', username, token)
+  // const { username, token } = useParams()
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
