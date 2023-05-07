@@ -80,7 +80,7 @@ namespace doan.Repository
                     var newResultObject = new ImageToTextResult()
                     {
                         caption = resultToDictionary["filename"].ToString(),
-                        path = filePath
+                        path = uniqueFileName
                     };
                     await _context.ImageForCaptionings.AddAsync(newResultObject);
                     await _context.SaveChangesAsync();
