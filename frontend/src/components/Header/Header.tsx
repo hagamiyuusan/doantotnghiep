@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { useContext, useRef, useState } from 'react'
 import useClickOutSide from '../../helps/clickOutSide'
 import styles from './Header.module.css'
@@ -30,20 +31,20 @@ const Header = ({ setShowModalLogin, user }: IProps) => {
     <header className={`${styles.header} mb-16`}>
       <div className={styles.navbar}>
         <div className={styles.logo}>
-          <a href='!#'>LoGO</a>
+          <a href='#'>LoGO</a>
         </div>
         <ul className={styles.nav_links}>
           <li>
-            <a href='!#'>Home</a>
+            <a href='#'>Home</a>
           </li>
           <li>
-            <a href='!#'>About</a>
+            <a href='#'>About</a>
           </li>
           <li>
-            <a href='!#'>Services</a>
+            <a href='#'>Services</a>
           </li>
           <li>
-            <a href='!#'>Contact</a>
+            <a href='#'>Contact</a>
           </li>
         </ul>
         {!user.isAuthenticated ? (
@@ -72,7 +73,8 @@ const Header = ({ setShowModalLogin, user }: IProps) => {
                 Try It Now!
               </button>
               <a
-                href='#!'
+                href='#'
+                // role="button"
                 // className={`${styles.action_btn} border border-white  text-white hover:text`}
                 className='ml-2'
                 onClick={() => setOpenDropdownUser(true)}
@@ -91,16 +93,16 @@ const Header = ({ setShowModalLogin, user }: IProps) => {
       {/* Dropdown Menu when reponsive*/}
       <ul className={`${styles.dropdown_menu} ${openDropdownMenu ? styles.open : ''} `} ref={DropdownMenuRef}>
         <li>
-          <a href='!#'>Home</a>
+          <a href='#'>Home</a>
         </li>
         <li>
-          <a href='!#'>About</a>
+          <a href='#'>About</a>
         </li>
         <li>
-          <a href='!#'>Services</a>
+          <a href='#'>Services</a>
         </li>
         <li>
-          <a href='!#'>Contact</a>
+          <a href='#'>Contact</a>
         </li>
         <li>
           {!user.isAuthenticated ? (
