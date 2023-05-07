@@ -108,7 +108,7 @@
 }
 
 .dropdown_menu.open {
-  height: 240px;
+  /* height: 240px; */
   display: block;
 }
 

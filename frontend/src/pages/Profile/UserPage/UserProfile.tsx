@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import img from 'src/imgs/default_avatar.svg'
+import { AppContext } from 'src/Context/context'
 
 export default function UserProfile() {
+  const { profile } = useContext(AppContext)
   return (
     <div>
       <div className=' mt-32 grid grid-flow-col grid-cols-3 h-[600px]'>
@@ -10,7 +12,7 @@ export default function UserProfile() {
             <div className='  w-16 h-16 '>
               <img src={img} alt='' className=' rounded-full w-full h-full' />
             </div>
-            <div className=' text-gray-50 pt-3 text-xs '>USERNAME</div>
+            <div className=' text-gray-50 pt-3 text-xs '>{profile?.userName}</div>
           </div>
         </div>
         <div className=' col-span-2 text-white bg-slate-900 px-7 pt-7 rounded'>
@@ -25,27 +27,27 @@ export default function UserProfile() {
                   UserName
                 </label>
                 <span id='username' className='text-sm p-y-3'>
-                  USERNAME
+                  {profile?.userName}
                 </span>
               </div>
               <div className='flex items-center gap-6 mb-7'>
                 <label className='text-sm m-0 w-24' htmlFor='name'>
                   Name
                 </label>
-                <input id='name' type='text' className='p-3 bg-white text-black' value='username' />
+                <input id='name' type='text' className='p-3 bg-white text-black' value={profile?.userName} />
               </div>
               <div className='flex items-center gap-6 mb-7'>
                 <label className='text-sm m-0 w-24' htmlFor='name'>
                   Address
                 </label>
-                <input id='name' type='text' className='p-3 bg-white text-black' value='username' />
+                <input id='name' type='text' className='p-3 bg-white text-black' value={profile?.address} />
               </div>
               <div className='flex items-center gap-6 mb-7'>
                 <label className='text-sm m-0 w-24' htmlFor='email'>
                   Email
                 </label>
                 <span id='email' className='text-sm'>
-                  Email
+                  {profile?.email}
                 </span>
               </div>
             </form>

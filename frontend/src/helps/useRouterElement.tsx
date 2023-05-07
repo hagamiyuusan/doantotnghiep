@@ -42,6 +42,14 @@ export default function useRouterElement() {
               <UserProfile />
             </MainLayout>
           )
+        },
+        {
+          path: '/manageruser',
+          element: (
+            <MainLayout>
+              <UserProfile />
+            </MainLayout>
+          )
         }
       ]
     }

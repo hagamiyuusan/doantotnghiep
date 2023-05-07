@@ -11,7 +11,7 @@ interface IProps {
 const Header = ({ setShowModalLogin, user }: IProps) => {
   const [openDropdownMenu, setOpenDropdownMenu] = useState<boolean>(false)
   const [openDropdownUser, setOpenDropdownUser] = useState<boolean>(false)
-  const { ocrRef } = useContext(AppContext)
+  const { ocrRef, profile } = useContext(AppContext)
   const handleClick = () => {
     setOpenDropdownMenu((prev) => !prev)
   }
@@ -23,9 +23,9 @@ const Header = ({ setShowModalLogin, user }: IProps) => {
   const scrollToOCR = () => {
     if (ocrRef.current) {
       // Perform the desired action using ocrRef.current
-      ocrRef.current.scrollIntoView({ behavior: "smooth" });
+      ocrRef.current.scrollIntoView({ behavior: 'smooth' })
     }
-  };
+  }
   return (
     <header className={`${styles.header} mb-16`}>
       <div className={styles.navbar}>
@@ -53,7 +53,6 @@ const Header = ({ setShowModalLogin, user }: IProps) => {
               className={`${styles.action_btn} border text-yellow-500 border-yellow-300 hover:border-yellow-300  hover:text-zinc-50 `}
               onClick={scrollToOCR}
             >
-
               Try It Now!
             </a>
             <button
@@ -70,7 +69,6 @@ const Header = ({ setShowModalLogin, user }: IProps) => {
                 className={`${styles.action_btn} border text-yellow-500 border-yellow-300 hover:border-yellow-300  hover:text-zinc-50 `}
                 onClick={scrollToOCR}
               >
-
                 Try It Now!
               </button>
               <a
@@ -79,7 +77,7 @@ const Header = ({ setShowModalLogin, user }: IProps) => {
                 className='ml-2'
                 onClick={() => setOpenDropdownUser(true)}
               >
-                Hi!{user.profile?.userName}
+                Hi! {user.profile?.userName}
               </a>
             </div>
             <div className={styles.toggle_btn} onClick={handleClick} role='presentation'>
@@ -117,22 +115,52 @@ const Header = ({ setShowModalLogin, user }: IProps) => {
         </li>
       </ul>
       {/* Dropdown User When Login */}
-      <ul className={`${styles.dropdown_menu} ${openDropdownUser ? styles.open : ''} `} ref={DropdownMenuRef}>
-        <li>
-          <Link to='/profile'>Go To Profile</Link>
-        </li>
-        <li>
-          {!user.isAuthenticated ? (
-            <button className={styles.action_btn} onClick={() => setShowModalLogin(true)}>
-              Login
-            </button>
-          ) : (
-            <button className={styles.action_btn} onClick={() => user.reset()}>
-              Logout
-            </button>
-          )}
-        </li>
-      </ul>
+
+      {/* Dropdown Admin */}
+      {profile?.role === 'admin' ? (
+        <ul className={`${styles.dropdown_menu} ${openDropdownUser ? styles.open : ''} `} ref={DropdownMenuRef}>
+          <li>
+            <Link to='/manageruser'>User Manager</Link>
+          </li>
+          <li>
+            <Link to='/managerproduct'>Manager User</Link>
+          </li>
+          <li>
+            {!user.isAuthenticated ? (
+              <button className={styles.action_btn} onClick={() => setShowModalLogin(true)}>
+                Login
+              </button>
+            ) : (
+              <button
+                className={styles.action_btn}
+                onClick={() => {
+                  user.reset(), setOpenDropdownUser(false), console.log(openDropdownMenu)
+
+                }}
+              >
+                Logout
+              </button>
+            )}
+          </li>
+        </ul>
+      ) : (
+        <ul className={`${styles.dropdown_menu} ${openDropdownUser ? styles.open : ''} `} ref={DropdownMenuRef}>
+          <li>
+            <Link to='/profile'>Go To Profile</Link>
+          </li>
+          <li>
+            {!user.isAuthenticated ? (
+              <button className={styles.action_btn} onClick={() => setShowModalLogin(true)}>
+                Login
+              </button>
+            ) : (
+              <button className={styles.action_btn} onClick={() => { user.reset(), setOpenDropdownUser(false) }}>
+                Logout
+              </button>
+            )}
+          </li>
+        </ul>
+      )}
     </header>
   )
 }
