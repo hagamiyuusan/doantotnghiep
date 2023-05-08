@@ -5,11 +5,20 @@ import UserProfile from '../pages/Profile'
 import { useContext } from 'react'
 import { AppContext } from 'src/Context/context'
 import ChangePassword from 'src/pages/ChangePassword'
+import ProductManager from 'src/pages/Profile/AdminPage/ProductManager'
 
 export default function useRouterElement() {
-  const { isAuthenticated } = useContext(AppContext)
+  const { isAuthenticated, profile } = useContext(AppContext)
+  const isAdmin = Boolean(profile?.role)
   function ProtectedRoute() {
     return isAuthenticated ? <Outlet /> : <Navigate to='/' />
+  }
+  function ProtectedAdminRoute() {
+    if (isAuthenticated && isAdmin) {
+      return <Outlet />
+    } else {
+      return <Navigate to='/' />
+    }
   }
   function RejectRoute() {
     return !isAuthenticated ? <Outlet /> : <Navigate to='/' />
@@ -28,7 +37,7 @@ export default function useRouterElement() {
       element: <ChangePassword />
     },
     {
-      path: 'changePassword/:username/:token',
+      path: 'sendMailChangePassword/:username/:token',
       element: <ChangePassword />
     },
     {
@@ -42,12 +51,26 @@ export default function useRouterElement() {
               <UserProfile />
             </MainLayout>
           )
-        },
+        }
+      ]
+    },
+    {
+      path: '',
+      element: <ProtectedAdminRoute />,
+      children: [
         {
-          path: '/manageruser',
+          path: '/admin/usermanager',
           element: (
             <MainLayout>
               <UserProfile />
+            </MainLayout>
+          )
+        },
+        {
+          path: '/admin/productmanager',
+          element: (
+            <MainLayout>
+              <ProductManager />
             </MainLayout>
           )
         }
