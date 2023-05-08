@@ -57,7 +57,7 @@ namespace doan.Repository
             var claims = new[]
             {
                 new Claim("userName", user.UserName),
-
+                new Claim("role",String.Join(";",roles)),
                 new Claim("email",user.Email),
                 new Claim(ClaimTypes.Role,String.Join(";",roles))
             };
