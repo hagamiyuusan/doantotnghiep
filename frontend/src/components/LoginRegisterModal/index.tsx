@@ -67,7 +67,7 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
           setShowModalLogin(false)
         }
       } catch (error: any) {
-        setErrorMessage(error.response.data)
+        // setErrorMessage(error.response.data)
         // console.log("🚀 ~ file: index.tsx:72 ~ handleSubmitForm ~ error.response?.data):", error.response.data.errors.Password[0])
       }
     } else {
@@ -85,7 +85,7 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
           setShowModalLogin(false)
         }
       } catch (error: any) {
-        setErrorMessage(error.response.data)
+        // setErrorMessage(error.response.data)
       }
     }
   }
