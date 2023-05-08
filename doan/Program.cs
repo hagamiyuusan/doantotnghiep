@@ -35,15 +35,16 @@ builder.Services.AddIdentity<AppUser, AppRole>(
     })
     .AddErrorDescriber<IdentityErrorDescriber>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
+    .AddDefaultTokenProviders()
+    .AddRoles<AppRole>();
 
 builder.Services.AddAuthentication(options =>
-{
+    {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(options =>
-{
+    }).AddJwtBearer(options =>
+    {
     options.SaveToken = true;
     options.RequireHttpsMetadata = false;
     options.TokenValidationParameters = new TokenValidationParameters()
@@ -149,7 +150,8 @@ app.UseSwaggerUI(c => {
 });
 app.UseRouting();
 
-app.UseAuthorization();
+app.UseAuthentication();
+
 app.UseAuthorization();
 app.UseIpRateLimiting();
 app.MapControllerRoute(

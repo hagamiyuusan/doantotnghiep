@@ -50,7 +50,6 @@ namespace doan.Controllers
             {
                 return BadRequest(ex.Message);
             }
-            return BadRequest();
 
         }
 

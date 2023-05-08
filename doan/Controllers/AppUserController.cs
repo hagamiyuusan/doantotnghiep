@@ -22,6 +22,7 @@ namespace doan.Controllers
             _appuser = appuser;
             _IUriService = iUriService;
         }
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public async Task<ActionResult> GetAllUser([FromQuery] PaginationFilter filter)
         {

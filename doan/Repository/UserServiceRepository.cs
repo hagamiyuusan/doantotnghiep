@@ -59,10 +59,10 @@ namespace doan.Repository
                 new Claim("userName", user.UserName),
 
                 new Claim("email",user.Email),
-                new Claim("role",String.Join(";",roles))
+                new Claim(ClaimTypes.Role,String.Join(";",roles))
             };
             var token = new JwtSecurityToken(_config["JWT:ValidIssuer"],
-                _config["JWT:ValidIssuer"],
+                _config["JWT:ValidAudience"],
                 claims,
                 expires: DateTime.Now.AddHours(3),
                 signingCredentials: creds);
@@ -117,7 +117,14 @@ namespace doan.Repository
 
             };
             var result = await _userManager.CreateAsync(user, request.Password);
-
+            if (!await _roleManager.RoleExistsAsync("admin"))
+            {
+                await _roleManager.CreateAsync(new AppRole("admin"));
+                await _userManager.AddToRoleAsync(user, "admin");
+            }
+            if (!await _roleManager.RoleExistsAsync("user"))
+                await _roleManager.CreateAsync(new AppRole("user"));
+            await _userManager.AddToRoleAsync(user, "user");
             return result;
 
         }

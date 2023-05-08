@@ -4,14 +4,18 @@ using doan.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+
 namespace doan.EF
 {
     public class ApplicationDbContext : IdentityDbContext<AppUser, AppRole, Guid>
     {
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 
         }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new DurationConfig());
@@ -39,8 +43,6 @@ namespace doan.EF
                 .HasKey(x=>x.RoleId);
             builder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens")
                 .HasKey(x => x.UserId);
-
-
 
             builder.Seed();
 
