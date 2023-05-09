@@ -1,5 +1,4 @@
 using doan.DTO.API;
-using doan.DTO.Duration;
 using doan.DTO.Product;
 using doan.EF;
 using doan.Entities;
@@ -7,7 +6,10 @@ using doan.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
+using doan.Wrapper;
+using doan.Helpers;
+using doan.Services;
+using doan.DTO;
 namespace doan.Controllers
 {
     [Route("api/[controller]")]
@@ -17,12 +19,14 @@ namespace doan.Controllers
         private readonly IProduct _product;
         private readonly IuseImageToText _userImageToText;
         private readonly ApplicationDbContext _context;
+        private readonly IUriService _IUriService;
 
-        public ProductController(IProduct product, IuseImageToText userImageToText, ApplicationDbContext context)
+        public ProductController(IProduct product, IuseImageToText userImageToText, ApplicationDbContext context, IUriService iUriService)
         {
             _product = product;
             _userImageToText = userImageToText;
             _context = context;
+            _IUriService = iUriService;
         }
 
         [HttpPost]
@@ -128,13 +132,16 @@ namespace doan.Controllers
             return Ok("Thực hiện thành công");
         }
         [HttpGet]
-        public async Task<IActionResult> getAllProduct()
+        public async Task<IActionResult> getAllProduct([FromQuery] PaginationFilter filter)
         {
-            return Ok(new
-            {
-                status = 200,
-                value = await _context.Products.ToListAsync()
-            });
+
+             var route = Request.Path.Value;
+
+            var result = await _product.getAllProduct(filter);
+
+            var pagedReponse = PaginationHelper.CreatePagedReponse<ProductGet>(result.Item1, result.Item2, result.Item3, _IUriService, route);
+
+            return new JsonResult(pagedReponse);
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> getProductById([FromRoute(Name = "id")] int id)

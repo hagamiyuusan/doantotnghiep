@@ -4,8 +4,11 @@ using doan.Entities;
 using doan.Interface;
 using Microsoft.EntityFrameworkCore;
 using System.Net.WebSockets;
-
+using doan.Wrapper;
+using Microsoft.AspNetCore.Identity;
+using doan.DTO;
 namespace doan.Repository
+
 {
     public class ProductRepository : IProduct
     {
@@ -54,10 +57,56 @@ namespace doan.Repository
             return result;
         }
 
-        public async Task<List<Product>> getAllProduct()
+        public async Task<(List<ProductGet>,PaginationFilter,int)> getAllProduct(PaginationFilter filter)
         {
-            var listProduct = await _context.Products.ToListAsync();
-            return listProduct;
+             List<ProductGet> result = new List<ProductGet>();
+
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize, filter.key);
+
+            if (!String.IsNullOrEmpty(filter.key))
+            {   
+                var productFilter=await _context.Products.Where(x =>x.Id.ToString() == filter.key)
+                                                  .Skip((filter.PageNumber - 1) * validFilter.PageSize)
+                                                  .Take(validFilter.PageSize)
+                                                  .ToListAsync();
+                // var productFilter = await _productManager.Users.Where(x =>x.Id.ToString() == filter.key)
+                //     .Skip((filter.PageNumber - 1) * validFilter.PageSize)
+                //     .Take(validFilter.PageSize)
+                //     .ToListAsync();
+
+                var countFilter = await _context.Products.Where(x => x.Id.ToString() == filter.key).CountAsync();
+
+
+                foreach (var product in productFilter)
+                {
+                    var tempProduct = new ProductGet
+                    {
+                        Id = product.Id,
+                        Name = product.Name
+                    };
+                    result.Add(tempProduct);
+                }
+
+                return (result, validFilter, countFilter);
+            }
+            var listProduct=await _context.Products.Skip((filter.PageNumber - 1) * validFilter.PageSize)
+                                                    .Take(validFilter.PageSize)
+                                                    .ToListAsync();
+            // var listProduct = await _productManager.Users
+            //         .Skip((filter.PageNumber - 1) * validFilter.PageSize)
+            //         .Take(validFilter.PageSize)
+            //         .ToListAsync();
+            foreach (var product in listProduct)
+            {
+                var tempProduct = new ProductGet
+                {
+                    Id = product.Id,
+                    Name = product.Name
+                };
+                result.Add(tempProduct);
+            }
+            var count = await _context.Products.CountAsync();
+            return (result, validFilter, count);
         }
 
         public async Task<Product> getProductsById(int id)

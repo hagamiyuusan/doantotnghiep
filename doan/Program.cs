@@ -26,7 +26,6 @@ var connectionString = configuration.GetConnectionString("KPTDB");
 builder.Services.AddDbContext<ApplicationDbContext>(
     options =>
     options.UseSqlServer(connectionString));
-
 builder.Services.AddIdentity<AppUser, AppRole>(
     config =>
     {
