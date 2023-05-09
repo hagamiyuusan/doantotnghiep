@@ -8,11 +8,18 @@ export interface IDuration {
   name: string
   day: number
 }
+const initDuration = {
+  id: '',
+  name: '',
+  day: 0
+}
 export default function ProductManager() {
   const [durations, setDurations] = useState<IDuration[]>([])
-  const [duration, setDuration] = useState<IDuration>()
+  const [duration, setDuration] = useState<IDuration>(initDuration)
   const [showPopupEdit, setShowPopupEdit] = useState(false)
   const [showConfirmPopup, setShowConfirmPopup] = useState(false)
+  const token = localStorage.getItem('access_token') || ''
+
   const getAllDuration = async () => {
     try {
       const res = await axios.get('https://localhost:7749/api/Duration',)
@@ -29,16 +36,45 @@ export default function ProductManager() {
     setShowPopupEdit(true)
     setDuration(duration)
   }
-  const handleDelete = (duration: IDuration) => {
+  const handleClickDelete = async (duration: IDuration) => {
     // handle Delete
-    console.log('Delete duration id: ', duration.id);
+    setDuration(duration)
+    setShowConfirmPopup(true)
+    console.log('click again');
+
+  }
+  const handleOkeDelete = async () => {
+    try {
+      const res = await axios.delete(`https://localhost:7749/api/Duration/${duration.id}`, {
+        // data: { id: duration.id },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      if (res.status === 200) {
+        console.log('Respone:', res.data)
+        setDuration(initDuration)
+        setShowConfirmPopup(false)
+        // setShowPopupEdit(false)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const handleAddNewDuration = () => {
+    setDuration(initDuration)
+    setShowPopupEdit(true)
   }
   useEffect(() => {
     getAllDuration()
-  }, [])
+  }, [duration])
   return (
     <div className=' container'>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-52">
+        <div className="flex justify-center items-center mb-6">
+          <button className='bg-blue-700 text-white px-3 py-4 h-auto hover:bg-gray-600' onClick={handleAddNewDuration}>Create New Duration</button>
+        </div>
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <caption className="p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">
             Our products
@@ -74,7 +110,7 @@ export default function ProductManager() {
                 </td>
                 <td className="px-6 py-4 text-right flex gap-6">
                   <button className="font-medium text-blue-600 dark:text-blue-500 hover:underline" onClick={() => handleEdit(duration)}>Edit</button>
-                  <button className="font-medium text-blue-600 dark:text-blue-500 hover:underline" onClick={() => handleDelete(duration)}> Delete</button>
+                  <button className="font-medium text-blue-600 dark:text-blue-500 hover:underline" onClick={() => handleClickDelete(duration)}> Delete</button>
                 </td>
               </tr>
 
@@ -83,8 +119,8 @@ export default function ProductManager() {
           </tbody>
         </table>
       </div>
-      {showPopupEdit && <PopupEdit setShowPopupEdit={setShowPopupEdit} duration={duration} />}
-      {/* {showConfirmPopup && <ConfirmPopUp message='Do you want delete?' onOke={handleDelete} />} */}
+      {showPopupEdit && <PopupEdit setShowPopupEdit={setShowPopupEdit} duration={duration} setDuration={setDuration} />}
+      {showConfirmPopup && <ConfirmPopUp message='Do you want delete?' onOke={handleOkeDelete} value={duration} onCancel={() => setShowConfirmPopup(false)} />}
     </div >
   )
 }

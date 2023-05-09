@@ -49,9 +49,19 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
   }
   const handleSubmitForm = (typeSubmit: string) => async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$/
+
     if (typeSubmit === TypeSubmit.REGISTER) {
+      if (formData.username.length <= 8) {
+        setErrorMessage('Uername must be more than 8 characters')
+        return
+      }
+      if (!regex.test(formData.password)) {
+        setErrorMessage('Password must contain at least 1 uppercase letter, 1 number and 1 special character ')
+        return
+      }
       if (formData.password !== formData.confirm_password) {
-        setErrorMessage('Enter again!')
+        setErrorMessage('Confirm password not match!')
         return
       }
       // handle Register
@@ -63,8 +73,8 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
         })
         if (res.status === 200) {
           appContext.setProfile(res.data)
-          console.log(res)
-          setShowModalLogin(false)
+          setErrorMessage(`Check your email to verify account`)
+          // setShowModalLogin(false)
         }
       } catch (error: any) {
         // setErrorMessage(error.response.data)

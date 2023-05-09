@@ -6,17 +6,23 @@ import axios from 'axios'
 interface IProps {
   setShowPopupEdit: React.Dispatch<React.SetStateAction<boolean>>
   duration?: IDuration
+  setDuration: React.Dispatch<React.SetStateAction<IDuration>>
 }
-const initFormEdit = {
-  id: '',
-  name: '',
-  day: 0
+// const initFormEdit = {
+//   id: '',
+//   name: '',
+//   day: 0
+// }
+enum TYPESUBMIT {
+  ADD = 'ADD',
+  EDIT = 'EDIT'
 }
-const PopupEdit: React.FC<IProps> = ({ setShowPopupEdit, duration }) => {
+const PopupEdit: React.FC<IProps> = ({ setShowPopupEdit, duration, setDuration }) => {
   const [formEdit, setFormEdit] = useState<IDuration>(duration as IDuration)
   const [showConfirmPopup, setShowConfirmPopup] = useState(false)
   const token = localStorage.getItem('access_token') || ''
-  console.log(token)
+  const typeSubmit = formEdit.id ? TYPESUBMIT.EDIT : TYPESUBMIT.ADD
+  console.log('typeSubmit', typeSubmit)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormEdit((prev) => {
@@ -24,56 +30,84 @@ const PopupEdit: React.FC<IProps> = ({ setShowPopupEdit, duration }) => {
     })
   }
   const handleEdit = () => {
-    // Do something with the input values
     setShowConfirmPopup(true)
   }
   const handleOke = async () => {
-    try {
-      const res = await axios.put(
-        `https://localhost:7749/api/Duration`,
-        {
+    const formSubmit =
+      typeSubmit === TYPESUBMIT.EDIT
+        ? {
           id: formEdit?.id,
           name: formEdit?.name,
           day: formEdit?.day
-        },
-        {
+        }
+        : {
+          name: formEdit?.name,
+          day: formEdit?.day
+        }
+    if (typeSubmit === TYPESUBMIT.EDIT) {
+      try {
+        const res = await axios.put(`https://localhost:7749/api/Duration`, formSubmit, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json'
           }
+        })
+        if (res.status === 200) {
+          console.log('Respone:', res.data)
+          setDuration(formEdit)
+          setShowConfirmPopup(false)
+          setShowPopupEdit(false)
         }
-      )
-      console.log(res)
-    } catch (error) {
-      console.log(error)
+      } catch (error) {
+        console.log(error)
+      }
+    } else {
+      try {
+        const res = await axios.post(`https://localhost:7749/api/Duration`, formSubmit, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        })
+        if (res.status === 200) {
+          console.log('Respone:', res.data)
+          setDuration(formEdit)
+          setShowConfirmPopup(false)
+          setShowPopupEdit(false)
+        }
+      } catch (error) {
+        console.log(error)
+      }
     }
-
-    console.log('okeeee')
   }
   const handleCancel = () => {
     setShowConfirmPopup(false)
   }
-  console.log('duration', duration)
+  console.log('FormEdit', formEdit)
 
   return (
     <div className='fixed z-10 inset-0 overflow-y-auto'>
       <div className='flex items-center justify-center min-h-screen'>
         <div className='bg-white rounded-lg shadow-lg p-6 w-96'>
-          <h2 className='text-4xl mb-8 text-center'>Edit Item</h2>
+          <h2 className='text-4xl mb-8 text-center'>{formEdit.id ? 'Edit Item' : 'Add New Duration'}</h2>
           <form>
-            <div className='mb-10 flex justify-center items-center gap-4 '>
-              <label htmlFor='id' className='block  m-0 text-black text-base w-10'>
-                Id:
-              </label>
-              <input
-                id='id'
-                type='text'
-                className='border-gray-400 p-4  w-9/12'
-                value={formEdit.id}
-                disabled
-                onChange={handleChange}
-              />
-            </div>
+            {typeSubmit === TYPESUBMIT.EDIT ? (
+              <div className='mb-10 flex justify-center items-center gap-4 '>
+                <label htmlFor='id' className='block  m-0 text-black text-base w-10'>
+                  Id:
+                </label>
+                <input
+                  id='id'
+                  type='text'
+                  className='border-gray-400 p-4  w-9/12'
+                  value={formEdit.id}
+                  disabled
+                  onChange={handleChange}
+                />
+              </div>
+            ) : (
+              <></>
+            )}
             <div className='mb-10 flex  justify-center items-center gap-4'>
               <label htmlFor='name' className='block  m-0 text-black text-base w-10'>
                 Name:
@@ -84,6 +118,7 @@ const PopupEdit: React.FC<IProps> = ({ setShowPopupEdit, duration }) => {
                 type='text'
                 className='border-gray-400 p-4 w-9/12 '
                 value={formEdit.name}
+                required
                 onChange={handleChange}
               />
             </div>
@@ -94,15 +129,16 @@ const PopupEdit: React.FC<IProps> = ({ setShowPopupEdit, duration }) => {
               <input
                 id='day'
                 name='day'
-                type='text'
+                type='number'
                 className='border-gray-400 p-4 w-9/12'
                 value={formEdit.day}
+                required
                 onChange={handleChange}
               />
             </div>
             <div className='flex justify-end mt-8'>
               <button type='button' className='bg-blue-500 text-white px-6 py-2 mr-2 rounded' onClick={handleEdit}>
-                Edit
+                {typeSubmit === TYPESUBMIT.EDIT ? ' Edit' : 'Add'}
               </button>
               <button
                 type='button'
