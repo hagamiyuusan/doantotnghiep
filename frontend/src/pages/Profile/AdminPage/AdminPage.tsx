@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import './style.css'
-import ManagerUser from './ManagerUser'
+import UserManager from './UserManager'
 
 interface IInfPage {
   data: []
@@ -22,11 +22,17 @@ export default function AdminPage() {
   const [users, setUsers] = useState<{ id: string; username: string }[]>([])
   const [infPage, setInfPage] = useState<IInfPage>()
   const [currentPage, setCurrentPage] = useState(1)
+  const token = localStorage.getItem('access_token') || ''
+
   const getAllUser = async () => {
     try {
       const res = await axios.get('https://localhost:7749/api/AppUser', {
         params: {
           pageNumber: currentPage
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
         }
       })
       if (res.data) {
@@ -43,7 +49,7 @@ export default function AdminPage() {
   }, [currentPage])
 
   return (
-    <ManagerUser
+    <UserManager
       currentPage={currentPage}
       totalPages={infPage?.totalPages}
       setCurrentPage={setCurrentPage}

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 interface IFormData {
   email?: string
@@ -24,7 +24,9 @@ export default function ChangePassword() {
   const baseUSRL = import.meta.env.VITE_BASE_URL
   const location = useLocation()
   const currentPath = location.pathname
-  // const { username, token } = useParams()
+  // const params = useParams()
+  const { username, token } = useParams()
+  console.log("🚀 ~ file: ChangePassword.tsx:29 ~ ChangePassword ~ username, token:", username, token)
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
@@ -32,16 +34,14 @@ export default function ChangePassword() {
   const hanldeSubmit = (typeSubmit: string) => async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (typeSubmit === TYPESUBMIT.SENDMAIL) {
-      console.log('LCick MEee')
-      console.log('process', baseUSRL)
       setLoading(true)
       try {
-        const res = await axios.post(`${baseUSRL}/password/reset`, {
+        const res = await axios.post(`https://localhost:7749/api/UserService/password/reset`, {
           email: formData.email
         })
         if (res.status === 200) {
           console.log()
-          navigate('/changePassword')
+          // navigate('/changePassword')
           setLoading(false)
         }
       } catch (error) {
