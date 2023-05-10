@@ -72,15 +72,18 @@ const Header = ({ setShowModalLogin, user }: IProps) => {
               >
                 Try It Now!
               </button>
-              <a
-                href='#'
-                // role="button"
+              <span
+                role='button'
                 // className={`${styles.action_btn} border border-white  text-white hover:text`}
-                className='ml-2'
+                className='ml-2 text-white'
                 onClick={() => setOpenDropdownUser(true)}
+                onKeyDown={() => {
+                  console.log()
+                }}
+                tabIndex={0}
               >
                 Hi! {user.profile?.userName}
-              </a>
+              </span>
             </div>
             <div className={styles.toggle_btn} onClick={handleClick} role='presentation'>
               <i className='fa-solid fa-bars text-stone-950	'></i>
