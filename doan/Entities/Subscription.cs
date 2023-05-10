@@ -6,7 +6,7 @@ namespace doan.Entities
         public int productId { set; get; }
         public Product product { set; get; }
         public DateTime dueDate { set; get; }
-        public string username { set; get; }
+        public Guid userId { set; get; }
         public AppUser AppUser { set; get; }
 
         public bool isActivate { set; get; }

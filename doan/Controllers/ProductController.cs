@@ -133,8 +133,8 @@ namespace doan.Controllers
             return Ok(new
             {
                 status = 200,
-                value = await _context.Products.ToListAsync()
-            });
+                value = await _product.getAllProduct()
+            }) ;
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> getProductById([FromRoute(Name = "id")] int id)

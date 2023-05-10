@@ -16,7 +16,7 @@ namespace doan.Config
             builder.HasOne(x => x.product).WithMany(x => x.subscriptions)
                 .HasForeignKey(x => x.productId).OnDelete(DeleteBehavior.Cascade);
             builder.HasOne(x => x.AppUser).WithMany(x => x.Subscriptions)
-                .HasForeignKey(x => x.username).OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(x => x.userId).OnDelete(DeleteBehavior.Cascade);
         }
 
     }

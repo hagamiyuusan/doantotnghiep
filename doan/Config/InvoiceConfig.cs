@@ -14,7 +14,7 @@ namespace doan.Config
             builder.Property(x => x.Id).UseIdentityColumn();
             builder.Property(x => x.isPaid).IsRequired(true);
             builder.HasOne(x => x.appUser).WithMany(x => x.invoices)
-                .HasForeignKey(x => x.username).OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(x => x.userId).OnDelete(DeleteBehavior.Cascade);
             builder.HasOne(x => x.productDuration).WithMany(x => x.invoices)
                 .HasForeignKey(x => x.productDurationId).OnDelete(DeleteBehavior.Cascade);
 

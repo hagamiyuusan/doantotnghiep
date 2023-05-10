@@ -11,8 +11,7 @@ namespace doan.Config
             builder.ToTable(" ImageToTextResult");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.path).IsRequired(true);
-            builder.HasOne(x => x.user).WithMany(x => x.imageToTexts).OnDelete(DeleteBehavior.Cascade).HasForeignKey(x => x.username)
-                .IsRequired(false);
+
         }
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using System.Reflection.Emit;
 
 namespace doan.EF
 {
@@ -27,14 +28,18 @@ namespace doan.EF
             builder.ApplyConfiguration(new ImageToTextResultConfig());
             builder.ApplyConfiguration(new InvoiceConfig());
             builder.ApplyConfiguration(new TypeProductConfig());
+            builder.ApplyConfiguration(new AppUserRoleConfig());
+            builder.ApplyConfiguration(new AppUserTokenConfig());
 
-            builder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims");
-            builder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles")
-                .HasKey(x => new
-                {
-                    x.UserId,
-                    x.RoleId
-                });
+            builder.Entity<IdentityUserRole<Guid>>()
+                .ToTable("AppUserRoles")
+                .HasKey(ur => new { ur.UserId, ur.RoleId });
+
+
+            builder.Entity<IdentityUserClaim<Guid>>()
+                
+                .ToTable("AppUserClaims");
+                
             builder.Entity<IdentityUserLogin<Guid>>().ToTable("AppUserLogins")
                 .HasKey(x=>x.UserId);
 

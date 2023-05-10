@@ -8,7 +8,9 @@
         public bool isPaid { set; get; }
         public int productDurationId { set; get; }
         public ProductDuration productDuration { set; get; }
-        public string username { set; get; }
+        public Guid userId { set; get; }
         public AppUser appUser { set; get; }
+        public string Token { set; get; }
+        public string paypalIdCore { set; get; }
     }
 }
