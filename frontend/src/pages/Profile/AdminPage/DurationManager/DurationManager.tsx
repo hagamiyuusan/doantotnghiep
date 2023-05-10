@@ -13,7 +13,7 @@ const initDuration = {
   name: '',
   day: 0
 }
-export default function ProductManager() {
+export default function DuarationManager() {
   const [durations, setDurations] = useState<IDuration[]>([])
   const [duration, setDuration] = useState<IDuration>(initDuration)
   const [showPopupEdit, setShowPopupEdit] = useState(false)

@@ -184,7 +184,7 @@ namespace doan.Migrations
                         new
                         {
                             Id = new Guid("823b98ec-f77f-4ccc-a5f7-3765156b9950"),
-                            ConcurrencyStamp = "e9a3eeed-79f3-41bc-b29d-daf86d1a96f0",
+                            ConcurrencyStamp = "a568f267-ef94-4549-9e66-716625eb5363",
                             Name = "admin",
                             NormalizedName = "admin"
                         });
@@ -250,13 +250,13 @@ namespace doan.Migrations
                         {
                             Id = new Guid("0790f531-8010-4bf4-8b92-0a8b7549c406"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5a6a7ea3-53d2-41a3-950d-9b0f2931d728",
+                            ConcurrencyStamp = "0182c8c5-460b-4fa0-b841-18c5eaae7f97",
                             Email = "vinhhuyqna@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "vinhhuyqna@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFKV/JHf01E7TlRLUvDNkMS/jY6RMESNDMuXljwhrf0kSstzHqjgphYxjuoceOrkng==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOTMaAAjFbqHkgSYbhdb7PXBBoOzl1YNArJP2vT6RvoC8ZWVEIaTg7qJpgZdUPa9lA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,

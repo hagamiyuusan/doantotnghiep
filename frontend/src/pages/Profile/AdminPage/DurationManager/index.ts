@@ -1,3 +1,3 @@
-import ProductManager from './ProductManager'
+import DurationManager from './DurationManager'
 
-export default ProductManager
+export default DurationManager
