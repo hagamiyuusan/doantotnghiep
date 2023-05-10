@@ -63,7 +63,8 @@ namespace doan.Repository
 
         public async Task<Product> getProductsById(int id)
         {
-            return await _context.Products.FindAsync(id);
+            return await _context.Products.Include(x => x.productDurations)
+                .ThenInclude(b => b.duration).Where(x=>x.Id==id).FirstAsync();
         }
 
 
