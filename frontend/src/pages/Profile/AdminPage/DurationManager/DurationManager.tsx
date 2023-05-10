@@ -46,7 +46,6 @@ export default function DuarationManager() {
   const handleOkeDelete = async () => {
     try {
       const res = await axios.delete(`https://localhost:7749/api/Duration/${duration.id}`, {
-        // data: { id: duration.id },
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -56,7 +55,6 @@ export default function DuarationManager() {
         console.log('Respone:', res.data)
         setDuration(initDuration)
         setShowConfirmPopup(false)
-        // setShowPopupEdit(false)
       }
     } catch (error) {
       console.log(error)
