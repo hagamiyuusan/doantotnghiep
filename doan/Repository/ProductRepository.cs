@@ -56,7 +56,8 @@ namespace doan.Repository
 
         public async Task<List<Product>> getAllProduct()
         {
-            var listProduct = await _context.Products.Include(x=>x.productDurations).ToListAsync();
+            var listProduct = await _context.Products.Include(x=>x.productDurations)
+                .ThenInclude(b=>b.duration.day).ToListAsync();
             return listProduct;
         }
 
