@@ -1,5 +1,5 @@
 import React from 'react'
-import { ProductDuration } from '~/pages/Profile/AdminPage/ProductManager/ProductDurationManager'
+import { ProductDuration } from '~/pages/Profile/AdminPage/ProductManager/ProductManager'
 
 interface IProps {
   title: string
@@ -9,6 +9,7 @@ interface IProps {
 }
 
 export default function Table({ title, columnNames, data, desc }: IProps) {
+  console.log("🚀 ~ file: Table.tsx:12 ~ Table ~ data:", data)
   return (
     <div className=' container'>
       <div className='relative overflow-x-auto shadow-md sm:rounded-lg mt-52'>
@@ -29,29 +30,33 @@ export default function Table({ title, columnNames, data, desc }: IProps) {
                   {column}
                 </th>
               ))}
+              <th scope='col' className='px-6 py-3' >
+
+              </th>
             </tr>
           </thead>
           <tbody>
             {data.map((element, index) => (
               <tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700' key={element.durationId}>
                 <th scope='row' className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
-                  {element.productId}
+                  {element.id}
                 </th>
+                <td className='px-6 py-4'>{element.name}</td>
                 <td className='px-6 py-4'>{element.price}</td>
                 <td className='px-6 py-4 text-right flex gap-6'>
                   <button
                     className='font-medium text-blue-600 dark:text-blue-500 hover:underline'
                   // onClick={() => handleEdit(element)}
                   >
-                    Edit
+                    Details
                   </button>
-                  <button
+                  {/* <button
                     className='font-medium text-blue-600 dark:text-blue-500 hover:underline'
                   // onClick={() => handleClickDelete(duration)}
                   >
                     {' '}
                     Delete
-                  </button>
+                  </button> */}
                 </td>
               </tr>
             ))}
