@@ -82,6 +82,14 @@ export default function useRouterElement() {
               <ProductManager />
             </MainLayout>
           )
+        },
+        {
+          path: '/admin/productdurationmanager',
+          element: (
+            <MainLayout>
+              <DurationManager />
+            </MainLayout>
+          )
         }
       ]
     }
