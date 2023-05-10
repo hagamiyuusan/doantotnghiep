@@ -5,8 +5,8 @@ namespace doan.Interface
 {
     public interface IProduct
     {
-        public Task<List<Product>> getAllProduct();
-        public Task<Product> getProductsById(int id);
+        public Task<List<ProductView>> getAllProduct();
+        public Task<ProductView> getProductsById(int id);
         public Task<int> deleteProduct(int id);
         public Task<int> editProduct(ProductEditRequest request );
         public Task<int> createProduct(ProductCreateRequest product);

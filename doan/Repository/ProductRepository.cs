@@ -1,4 +1,5 @@
-﻿using doan.DTO.Product;
+﻿using doan.DTO.Duration;
+using doan.DTO.Product;
 using doan.EF;
 using doan.Entities;
 using doan.Interface;
@@ -37,7 +38,7 @@ namespace doan.Repository
 
         public async Task<int> deleteProduct(int id)
         {
-            var product = await this.getProductsById(id);
+            var product = await _context.Products.FindAsync(id);
 
             _context.Products.Remove(product);
             var result = await _context.SaveChangesAsync();
@@ -54,17 +55,39 @@ namespace doan.Repository
             return result;
         }
 
-        public async Task<List<Product>> getAllProduct()
+        public async Task<List<ProductView>> getAllProduct()
         {
-            var listProduct = await _context.Products.Include(x=>x.productDurations)
-                .ThenInclude(b=>b.duration).ToListAsync();
-            return listProduct;
+
+            var listProductView = await _context.Products.Include(x => x.productDurations)
+                                  .ThenInclude(b => b.duration).Select(product => new ProductView
+                                  {
+                                      Name = product.Name,
+                                      durations = product.productDurations.Select(
+                                          pd => new DurationView
+                                          {
+                                              Day = pd.duration.day,
+                                              Price = pd.price
+                                          }).ToList()
+                                  }).ToListAsync();
+            return listProductView;
         }
 
-        public async Task<Product> getProductsById(int id)
+        public async Task<ProductView> getProductsById(int id)
         {
             return await _context.Products.Include(x => x.productDurations)
-                .ThenInclude(b => b.duration).Where(x=>x.Id==id).FirstAsync();
+                .ThenInclude(b => b.duration).Where(x=>x.Id==id).Select(
+                product => new ProductView
+                {
+                    Name = product.Name,
+                    durations = product.productDurations.Select(
+                                          pd => new DurationView
+                                          {
+                                              Day = pd.duration.day,
+                                              Price = pd.price
+                                          }).ToList()
+                }
+                )
+                .FirstAsync();
         }
 
 

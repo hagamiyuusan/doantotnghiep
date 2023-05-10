@@ -1,9 +1,10 @@
-﻿namespace doan.DTO.Product
+﻿using doan.DTO.Duration;
+
+namespace doan.DTO.Product
 {
     public class ProductView
     {
         public string Name { set; get; }
-        public int price { set; get; }
-        public int day { set; get; }
+        public List<DurationView> durations { set; get; }
     }
 }
