@@ -5,7 +5,7 @@ import UserProfile from '../pages/Profile'
 import { useContext } from 'react'
 import { AppContext } from 'src/Context/context'
 import ChangePassword from 'src/pages/ChangePassword'
-import ProductManager from 'src/pages/Profile/AdminPage/ProductManager'
+import ProductManager from 'src/pages/Profile/AdminPage/DurationManager'
 
 export default function useRouterElement() {
   const { isAuthenticated, profile } = useContext(AppContext)
