@@ -25,7 +25,6 @@ namespace doan.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<Guid>("RoleId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ClaimType")
@@ -34,12 +33,20 @@ namespace doan.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
                     b.HasKey("RoleId");
 
                     b.ToTable("AppRoleClaims", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityRoleClaim<Guid>");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
@@ -56,19 +63,30 @@ namespace doan.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.ToTable("AppUserClaims", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUserClaim<Guid>");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
                     b.Property<Guid>("UserId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(max)");
@@ -82,6 +100,10 @@ namespace doan.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("AppUserLogins", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUserLogin<Guid>");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
@@ -92,9 +114,17 @@ namespace doan.Migrations
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("UserId", "RoleId");
 
                     b.ToTable("AppUserRoles", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUserRole<Guid>");
+
+                    b.UseTphMappingStrategy();
 
                     b.HasData(
                         new
@@ -107,8 +137,11 @@ namespace doan.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
                     b.Property<Guid>("UserId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(max)");
@@ -122,6 +155,10 @@ namespace doan.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("AppUserTokens", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUserToken<Guid>");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("doan.Entities.AppRole", b =>
@@ -147,7 +184,7 @@ namespace doan.Migrations
                         new
                         {
                             Id = new Guid("823b98ec-f77f-4ccc-a5f7-3765156b9950"),
-                            ConcurrencyStamp = "5f3d6506-df00-441f-b3cc-e91d25ecafaf",
+                            ConcurrencyStamp = "e9a3eeed-79f3-41bc-b29d-daf86d1a96f0",
                             Name = "admin",
                             NormalizedName = "admin"
                         });
@@ -155,8 +192,9 @@ namespace doan.Migrations
 
             modelBuilder.Entity("doan.Entities.AppUser", b =>
                 {
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
@@ -169,9 +207,6 @@ namespace doan.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -200,26 +235,32 @@ namespace doan.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
-                    b.HasKey("UserName");
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasAlternateKey("UserName");
 
                     b.ToTable("AppUsers", (string)null);
 
                     b.HasData(
                         new
                         {
-                            UserName = "admin",
+                            Id = new Guid("0790f531-8010-4bf4-8b92-0a8b7549c406"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fe80c574-3b07-4d2f-99ad-9c120ee4eff1",
+                            ConcurrencyStamp = "5a6a7ea3-53d2-41a3-950d-9b0f2931d728",
                             Email = "vinhhuyqna@gmail.com",
                             EmailConfirmed = true,
-                            Id = new Guid("0790f531-8010-4bf4-8b92-0a8b7549c406"),
                             LockoutEnabled = false,
                             NormalizedEmail = "vinhhuyqna@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJhbBn6WJSFj68DzVei2IEwb5cLfCeq5/tsCxwkZZ/DSOabVcpSq2MaM4kE3J4RE5g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFKV/JHf01E7TlRLUvDNkMS/jY6RMESNDMuXljwhrf0kSstzHqjgphYxjuoceOrkng==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
-                            TwoFactorEnabled = false
+                            TwoFactorEnabled = false,
+                            UserName = "admin"
                         });
                 });
 
@@ -272,6 +313,9 @@ namespace doan.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<Guid?>("AppUserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("caption")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -280,12 +324,9 @@ namespace doan.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("username")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("username");
+                    b.HasIndex("AppUserId");
 
                     b.ToTable(" ImageToTextResult", (string)null);
                 });
@@ -298,6 +339,10 @@ namespace doan.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Total")
                         .HasColumnType("int");
 
@@ -308,12 +353,15 @@ namespace doan.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("paypalIdCore")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("productDurationId")
                         .HasColumnType("int");
 
-                    b.Property<string>("username")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("userId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -321,7 +369,7 @@ namespace doan.Migrations
 
                     b.HasIndex("productDurationId");
 
-                    b.HasIndex("username");
+                    b.HasIndex("userId");
 
                     b.ToTable("Invoices", (string)null);
                 });
@@ -360,7 +408,7 @@ namespace doan.Migrations
                         {
                             Id = 1,
                             API_URL = "",
-                            Created = new DateTime(2023, 5, 5, 0, 0, 0, 0, DateTimeKind.Local),
+                            Created = new DateTime(2023, 5, 10, 0, 0, 0, 0, DateTimeKind.Local),
                             Name = "API Image Captioning",
                             productTypeId = 1
                         });
@@ -429,15 +477,14 @@ namespace doan.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("username")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<Guid>("userId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("productId");
 
-                    b.HasIndex("username");
+                    b.HasIndex("userId");
 
                     b.ToTable("subscriptions", (string)null);
                 });
@@ -466,14 +513,55 @@ namespace doan.Migrations
                         });
                 });
 
+            modelBuilder.Entity("doan.Entities.RoleClaim", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>");
+
+                    b.HasDiscriminator().HasValue("RoleClaim");
+                });
+
+            modelBuilder.Entity("doan.Entities.UserClaim", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.HasDiscriminator().HasValue("UserClaim");
+                });
+
+            modelBuilder.Entity("doan.Entities.UserLogin", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>");
+
+                    b.HasDiscriminator().HasValue("UserLogin");
+                });
+
+            modelBuilder.Entity("doan.Entities.AppUserRole", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AppUserRoles", (string)null);
+
+                    b.HasDiscriminator().HasValue("AppUserRole");
+                });
+
+            modelBuilder.Entity("doan.Entities.UserToken", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>");
+
+                    b.ToTable("AppUserTokens", (string)null);
+
+                    b.HasDiscriminator().HasValue("UserToken");
+                });
+
             modelBuilder.Entity("doan.Entities.ImageToTextResult", b =>
                 {
-                    b.HasOne("doan.Entities.AppUser", "user")
+                    b.HasOne("doan.Entities.AppUser", null)
                         .WithMany("imageToTexts")
-                        .HasForeignKey("username")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("user");
+                        .HasForeignKey("AppUserId");
                 });
 
             modelBuilder.Entity("doan.Entities.Invoice", b =>
@@ -486,7 +574,7 @@ namespace doan.Migrations
 
                     b.HasOne("doan.Entities.AppUser", "appUser")
                         .WithMany("invoices")
-                        .HasForeignKey("username")
+                        .HasForeignKey("userId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -535,7 +623,7 @@ namespace doan.Migrations
 
                     b.HasOne("doan.Entities.AppUser", "AppUser")
                         .WithMany("Subscriptions")
-                        .HasForeignKey("username")
+                        .HasForeignKey("userId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -544,13 +632,95 @@ namespace doan.Migrations
                     b.Navigation("product");
                 });
 
+            modelBuilder.Entity("doan.Entities.RoleClaim", b =>
+                {
+                    b.HasOne("doan.Entities.AppRole", "role")
+                        .WithOne("claim")
+                        .HasForeignKey("doan.Entities.RoleClaim", "RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("role");
+                });
+
+            modelBuilder.Entity("doan.Entities.UserClaim", b =>
+                {
+                    b.HasOne("doan.Entities.AppUser", "user")
+                        .WithOne("claim")
+                        .HasForeignKey("doan.Entities.UserClaim", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("doan.Entities.UserLogin", b =>
+                {
+                    b.HasOne("doan.Entities.AppUser", "user")
+                        .WithOne("login")
+                        .HasForeignKey("doan.Entities.UserLogin", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("doan.Entities.AppUserRole", b =>
+                {
+                    b.HasOne("doan.Entities.AppRole", "role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("doan.Entities.AppUser", "user")
+                        .WithMany("roles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("role");
+
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("doan.Entities.UserToken", b =>
+                {
+                    b.HasOne("doan.Entities.AppUser", "user")
+                        .WithOne("token")
+                        .HasForeignKey("doan.Entities.UserToken", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("user");
+                });
+
+            modelBuilder.Entity("doan.Entities.AppRole", b =>
+                {
+                    b.Navigation("Users");
+
+                    b.Navigation("claim")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("doan.Entities.AppUser", b =>
                 {
                     b.Navigation("Subscriptions");
 
+                    b.Navigation("claim")
+                        .IsRequired();
+
                     b.Navigation("imageToTexts");
 
                     b.Navigation("invoices");
+
+                    b.Navigation("login")
+                        .IsRequired();
+
+                    b.Navigation("roles");
+
+                    b.Navigation("token")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("doan.Entities.Duration", b =>

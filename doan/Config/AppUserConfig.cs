@@ -10,7 +10,13 @@ namespace doan.Config
         {
             builder.ToTable("AppUsers");
             builder.Property(x=>x.UserName).IsRequired(true);
-            builder.HasKey(x => x.UserName);
+            builder.HasAlternateKey(x => x.UserName);
+            builder.HasKey(x => x.Id);
+            builder.HasOne(x => x.token).WithOne(x => x.user).HasForeignKey<UserToken>(x => x.UserId);
+            builder.HasOne(x => x.login).WithOne(x => x.user).HasForeignKey<UserLogin>(x => x.UserId);
+            builder.HasOne(x => x.claim).WithOne(x => x.user).HasForeignKey<UserClaim>(x => x.UserId);
+
+
         }
     }
 }

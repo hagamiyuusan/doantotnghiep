@@ -10,5 +10,7 @@ namespace doan.Entities
         public AppRole(string roleName) : base(roleName)
         {
         }
+        public ICollection<AppUserRole> Users { get; set; }
+        public RoleClaim claim { set; get; }
     }
 }

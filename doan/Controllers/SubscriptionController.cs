@@ -6,6 +6,7 @@ using doan.Interface;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using PayPal;
 using PayPal.Api;
 using System.Runtime.InteropServices;
 using Invoice = doan.Entities.Invoice;
@@ -69,7 +70,7 @@ namespace doan.Controllers
             });
         }
         [HttpPost("createpayment")]
-        public async Task<Payment> createPayment(SubscriptionCreateRequest request)
+        public async Task<IActionResult> createPayment(SubscriptionCreateRequest request)
         {
             var clientID = _config["PaypalSettings:ClientId"];
             var SecretKey = _config["PaypalSettings:SecretKey"];
@@ -147,26 +148,30 @@ namespace doan.Controllers
                 }
 
             });
-            //var createdPayment = payment.Create(apiContext);
-            //var approvalUrl = createdPayment.links.FirstOrDefault(l => l.rel == "approval_url").href;
 
+            var approvalUrl = payment.links.FirstOrDefault(l => l.rel == "approval_url").href;
+
+      
             var createdInvoice = new Invoice
             {
                 paypalId = paypalOrderId,
+                paypalIdCore = payment.id,
+                Token = payment.token,
                 Total = productDuration.price,
                 appUser = userId,
                 productDuration = productDuration
             };
             await _context.Invoices.AddAsync(createdInvoice);
             await _context.SaveChangesAsync();
-            return payment;
+            return Redirect(approvalUrl);
         }
         [HttpGet("success/{IdOrder}")]
-        public async Task<IActionResult> SuccessfulPaid([FromRoute(Name = "IdOrder")] string IdOrder)
+        public async Task<IActionResult> SuccessfulPaid([FromRoute(Name = "IdOrder")] string IdOrder, string paymentId, string token)
         {
             var request = Request.RouteValues.ToList();
 
-            var payment = await _context.Invoices.Where(x=> x.paypalId == IdOrder).Include(x => x.appUser).FirstOrDefaultAsync();
+            var payment = await _context.Invoices.Where(x=> x.paypalId == IdOrder && x.paypalIdCore == paymentId && x.Token == token)
+                .Include(x => x.appUser).FirstOrDefaultAsync();
             if (payment == null)
             {
                 return BadRequest( new
