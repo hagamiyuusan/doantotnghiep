@@ -124,11 +124,14 @@ const Header = ({ setShowModalLogin, user }: IProps) => {
       {/* Dropdown Admin */}
       {profile?.role === 'admin' ? (
         <ul className={`${styles.dropdown_menu} ${openDropdownUser ? styles.open : ''} `} ref={DropdownMenuRef}>
-          <li>
-            <Link to='/admin/usermanager'>User Manager</Link>
+          <li className='hover:bg-slate-600'>
+            <Link to='/admin/usermanager' className='hover:bg-slate-600 hover:text-white'>User Manager</Link>
+          </li>
+          <li >
+            <Link to='/admin/durationmanager' className='hover:bg-slate-600 hover:text-white'>Duration Manager</Link>
           </li>
           <li>
-            <Link to='/admin/productmanager'>Product Manager</Link>
+            <Link to='/admin/productmanager' className='hover:bg-slate-600 hover:text-white'>Product Manager</Link>
           </li>
           <li>
             {!user.isAuthenticated ? (

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { IDuration } from '~/pages/Profile/AdminPage/DurationManager/ProductManager'
+import { IDuration } from '~/pages/Profile/AdminPage/DurationManager/DurationManager'
 import ConfirmPopup from '../ConfirmPopup'
 import axios from 'axios'
 

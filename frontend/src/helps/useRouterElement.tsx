@@ -5,7 +5,8 @@ import UserProfile from '../pages/Profile'
 import { useContext } from 'react'
 import { AppContext } from 'src/Context/context'
 import ChangePassword from 'src/pages/ChangePassword'
-import ProductManager from 'src/pages/Profile/AdminPage/DurationManager'
+import DurationManager from 'src/pages/Profile/AdminPage/DurationManager'
+import ProductManager from 'src/pages/Profile/AdminPage/ProductManager'
 
 export default function useRouterElement() {
   const { isAuthenticated, profile } = useContext(AppContext)
@@ -63,6 +64,14 @@ export default function useRouterElement() {
           element: (
             <MainLayout>
               <UserProfile />
+            </MainLayout>
+          )
+        },
+        {
+          path: '/admin/durationmanager',
+          element: (
+            <MainLayout>
+              <DurationManager />
             </MainLayout>
           )
         },

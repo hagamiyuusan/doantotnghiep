@@ -1,5 +1,5 @@
 import React from 'react'
-import { IDuration } from '~/pages/Profile/AdminPage/DurationManager/ProductManager'
+import { IDuration } from '~/pages/Profile/AdminPage/DurationManager/DurationManager'
 
 interface IProps {
   message: string
