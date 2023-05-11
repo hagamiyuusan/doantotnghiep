@@ -65,7 +65,7 @@ namespace doan.Repository
                                       id = product.Id,
                                       durations = product.productDurations.Select(
                                           pd => new DurationView
-                                          {
+                                          {   id = pd.duration.Id,
                                               Day = pd.duration.day,
                                               Price = pd.price
                                           }).ToList()
@@ -84,6 +84,7 @@ namespace doan.Repository
                     durations = product.productDurations.Select(
                                           pd => new DurationView
                                           {
+                                              id = pd.duration.Id,
                                               Day = pd.duration.day,
                                               Price = pd.price
                                           }).ToList()
