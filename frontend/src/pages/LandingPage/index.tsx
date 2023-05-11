@@ -1,11 +1,25 @@
-
+import { useRef, useState,useContext } from 'react'
 import OCR from '../OCR'
 import img_section1 from '../../imgs/anhnen.png'
 import { ReviewProduct } from '../../components/ReviewProduct'
 import Footer from 'src/components/Footer'
-
+import { AppContext, AppContextInterface } from 'src/Context/context'
 import Products from 'src/components/Products/index'
+import LoginModal from 'src/components/LoginRegisterModal'
+
 export default function LandingPage() {
+  const myVarRef = useRef(0);
+  const [showModalLogin, setShowModalLogin] = useState(false);
+  const { ocrRef, profile } = useContext(AppContext);
+  const scrollToOCR = () => {
+    if (ocrRef.current) {
+      // Perform the desired action using ocrRef.current
+      ocrRef.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
+  const handleClick = () => {
+    setShowModalLogin(true);
+  }
   return (
     <div className='container mx-auto'>
       <section className='pt-8 h-[800px] bg-zinc-900 px-8 rounded-sm mt-28 rounded-sm'>
@@ -33,13 +47,14 @@ export default function LandingPage() {
         </div>
 
         <div className='mt-8 flex justify-center items-center gap-10'>
-          <button className='text-black bg-white w-48 h-12'>Login To Get Start</button>
+         { !profile?.userName ? <button className='text-black bg-white w-48 h-12' onClick={handleClick}>Login To Get Start</button> :             
+         <button  className='text-black bg-white w-48 h-12'  onClick={scrollToOCR}>Try it now!</button>}
         </div>
       </section>
       <ReviewProduct />
       <Products />
       <OCR />
-
+            {!profile?.userName && showModalLogin && <LoginModal showModalLogin={showModalLogin} setShowModalLogin={setShowModalLogin}/>}
     </div>
   )
 }
