@@ -9,7 +9,14 @@
   padding: 0 2rem;
   /* box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px; */
 }
-
+.blink {
+  animation: blinker 0.8s linear infinite;
+}
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
 .navbar {
   width: 100%;
   height: 60px;

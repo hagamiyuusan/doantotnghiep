@@ -31,11 +31,11 @@ const Header = ({ setShowModalLogin, user }: IProps) => {
     <header className={`${styles.header} mb-16`}>
       <div className={styles.navbar}>
         <div className={styles.logo}>
-          <a href='#'>LoGO</a>
+          <a href='http://127.0.0.1:3000/'>LoGO</a>
         </div>
         <ul className={styles.nav_links}>
           <li>
-            <a href='#'>Home</a>
+            <a href='http://127.0.0.1:3000/'>Home</a>
           </li>
           <li>
             <a href='#'>About</a>
@@ -44,14 +44,14 @@ const Header = ({ setShowModalLogin, user }: IProps) => {
             <a href='#'>Services</a>
           </li>
           <li>
-            <a href='#'>Contact</a>
+            <a href='https://www.facebook.com/Hau.VT07' target='_blank'>Contact</a>
           </li>
         </ul>
         {!user.isAuthenticated ? (
           <div className=' flex gap-6'>
             <a
               href='#!'
-              className={`${styles.action_btn} border text-yellow-500 border-yellow-300 hover:border-yellow-300  hover:text-zinc-50 `}
+              className={`${styles.action_btn} ${ styles.blink} border text-yellow-500 border-yellow-300 hover:border-yellow-300  hover:text-zinc-50 `}
               onClick={scrollToOCR}
             >
               Try It Now!
@@ -67,7 +67,7 @@ const Header = ({ setShowModalLogin, user }: IProps) => {
           <>
             <div className=''>
               <button
-                className={`${styles.action_btn} border text-yellow-500 border-yellow-300 hover:border-yellow-300  hover:text-zinc-50 `}
+                className={`${styles.action_btn} ${styles.blink} bg-yellow-800 border text-yellow-500 border-yellow-300 hover:border-yellow-300  hover:text-zinc-50 `}
                 onClick={scrollToOCR}
               >
                 Try It Now!
@@ -96,7 +96,7 @@ const Header = ({ setShowModalLogin, user }: IProps) => {
       {/* Dropdown Menu when reponsive*/}
       <ul className={`${styles.dropdown_menu} ${openDropdownMenu ? styles.open : ''} `} ref={DropdownMenuRef}>
         <li>
-          <a href='#'>Home</a>
+          <a href='http://127.0.0.1:3000/'>Home</a>
         </li>
         <li>
           <a href='#'>About</a>

@@ -1,7 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Table from 'src/components/Table/Table'
-
 export type IProduct = {
   id: string
   name: string
