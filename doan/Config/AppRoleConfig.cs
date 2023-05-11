@@ -8,7 +8,7 @@ namespace doan.Config
     {
         public void Configure(EntityTypeBuilder<AppRole> builder)
         {
-            builder.ToTable("AppRoles");
+            builder.ToTable("AppRole");
             builder.HasKey(x => x.Id);
             builder.HasOne(x => x.claim).WithOne(x => x.role).HasForeignKey<RoleClaim>(x => x.RoleId);
 

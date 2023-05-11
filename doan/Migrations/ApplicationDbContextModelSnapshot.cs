@@ -178,13 +178,13 @@ namespace doan.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppRoles", (string)null);
+                    b.ToTable("AppRole", (string)null);
 
                     b.HasData(
                         new
                         {
                             Id = new Guid("823b98ec-f77f-4ccc-a5f7-3765156b9950"),
-                            ConcurrencyStamp = "a568f267-ef94-4549-9e66-716625eb5363",
+                            ConcurrencyStamp = "09b7974c-4176-484c-ac47-d9bf27162a04",
                             Name = "admin",
                             NormalizedName = "admin"
                         });
@@ -250,13 +250,13 @@ namespace doan.Migrations
                         {
                             Id = new Guid("0790f531-8010-4bf4-8b92-0a8b7549c406"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "0182c8c5-460b-4fa0-b841-18c5eaae7f97",
+                            ConcurrencyStamp = "1f9472ff-bed5-4cec-89a4-de8952e8fdfe",
                             Email = "vinhhuyqna@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "vinhhuyqna@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOTMaAAjFbqHkgSYbhdb7PXBBoOzl1YNArJP2vT6RvoC8ZWVEIaTg7qJpgZdUPa9lA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJ9bxroWl0qcdEiBIr9gueBYEXoOtgV6OrS3Dwff8c+LmyuzKafB1qHVB8qO59XnaA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -408,7 +408,7 @@ namespace doan.Migrations
                         {
                             Id = 1,
                             API_URL = "",
-                            Created = new DateTime(2023, 5, 10, 0, 0, 0, 0, DateTimeKind.Local),
+                            Created = new DateTime(2023, 5, 11, 0, 0, 0, 0, DateTimeKind.Local),
                             Name = "API Image Captioning",
                             productTypeId = 1
                         });

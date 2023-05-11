@@ -7,7 +7,7 @@ import { AppContext } from 'src/Context/context'
 import ChangePassword from 'src/pages/ChangePassword'
 import DurationManager from 'src/pages/Profile/AdminPage/DurationManager'
 import ProductManager from 'src/pages/Profile/AdminPage/ProductManager'
-
+import Payment from 'src/pages/Payment'
 export default function useRouterElement() {
   const { isAuthenticated, profile } = useContext(AppContext)
   const isAdmin = Boolean(profile?.role)
@@ -36,6 +36,10 @@ export default function useRouterElement() {
     {
       path: 'sendMailChangePassword',
       element: <ChangePassword />
+    },
+    {
+      path: 'payment',
+      element : <Payment/>
     },
     {
       path: 'sendMailChangePassword/:username/:token',
