@@ -1,22 +1,27 @@
-import React from 'react'
-import { ProductDuration } from '~/pages/Profile/AdminPage/ProductManager/ProductManager'
+import React, { useState } from 'react'
+import { IProduct } from '~/pages/Profile/AdminPage/ProductManager/ProductManager'
+import TablePopup from 'src/pages/Profile/AdminPage/ProductManager/TablePopup'
 
 interface IProps {
   title: string
   columnNames: string[]
   desc?: string
-  data: ProductDuration[]
+  data: IProduct[]
 }
 
 export default function Table({ title, columnNames, data, desc }: IProps) {
-  console.log("🚀 ~ file: Table.tsx:12 ~ Table ~ data:", data)
+  const [showDetailPopup, setShowDetailPopup] = useState(false)
+  const [productDetail, setProductDetail] = useState<IProduct>()
+  const handleDetailClick = (element: IProduct) => {
+    setShowDetailPopup(true)
+    console.log(element);
+    setProductDetail(element)
+
+  }
   return (
     <div className=' container'>
-      <div className='relative overflow-x-auto shadow-md sm:rounded-lg mt-52'>
+      <div className='relative overflow-x-auto shadow-md sm:rounded-lg'>
         <div className='flex justify-center items-center mb-6'>
-          {/* <button className='bg-blue-700 text-white px-3 py-4 h-auto hover:bg-gray-600' onClick={handleAddNewDuration}>
-            Create New Duration
-          </button> */}
         </div>
         <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
           <caption className='p-5 text-lg font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800'>
@@ -26,37 +31,36 @@ export default function Table({ title, columnNames, data, desc }: IProps) {
           <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
             <tr>
               {columnNames?.map((column) => (
-                <th scope='col' className='px-6 py-3' key={column}>
-                  {column}
-                </th>
+                <>
+                  <th scope='col' className='px-6 py-3' key={column} >
+                    {column}
+                  </th>
+                </>
               ))}
-              <th scope='col' className='px-6 py-3' >
-
-              </th>
+              <th scope='col' className='px-6 py-3'></th>
             </tr>
           </thead>
           <tbody>
             {data.map((element, index) => (
-              <tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700' key={element.durationId}>
-                <th scope='row' className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
+              <tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700' key={element.id} >
+                <th scope='row' className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white' >
                   {element.id}
                 </th>
                 <td className='px-6 py-4'>{element.name}</td>
-                <td className='px-6 py-4'>{element.price}</td>
                 <td className='px-6 py-4 text-right flex gap-6'>
                   <button
                     className='font-medium text-blue-600 dark:text-blue-500 hover:underline'
-                  // onClick={() => handleEdit(element)}
+                    onClick={() => handleDetailClick(element)}
                   >
                     Details
                   </button>
-                  {/* <button
+                  <button
                     className='font-medium text-blue-600 dark:text-blue-500 hover:underline'
                   // onClick={() => handleClickDelete(duration)}
                   >
                     {' '}
                     Delete
-                  </button> */}
+                  </button>
                 </td>
               </tr>
             ))}
@@ -72,6 +76,7 @@ export default function Table({ title, columnNames, data, desc }: IProps) {
           onCancel={() => setShowConfirmPopup(false)}
         />
       )} */}
+      {showDetailPopup && <TablePopup productDetail={productDetail as IProduct} />}
     </div>
   )
 }

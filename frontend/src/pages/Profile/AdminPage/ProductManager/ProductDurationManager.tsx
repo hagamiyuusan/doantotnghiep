@@ -13,7 +13,7 @@ export default function ProductManager() {
 
   return (
     <div>
-      <Table columnNames={columnNames} title='Product Duration Manager' data={data} />
+      {/* <Table columnNames={columnNames} title='Product Duration Manager' data={data} /> */}
     </div>
   )
 }
