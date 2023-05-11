@@ -62,6 +62,7 @@ namespace doan.Repository
                                   .ThenInclude(b => b.duration).Select(product => new ProductView
                                   {
                                       Name = product.Name,
+                                      id = product.Id,
                                       durations = product.productDurations.Select(
                                           pd => new DurationView
                                           {
