@@ -1,4 +1,5 @@
-﻿using doan.DTO.Subscription;
+﻿using doan.DTO.Payment;
+using doan.DTO.Subscription;
 using doan.EF;
 using doan.Entities;
 using doan.Helpers;
@@ -97,7 +98,7 @@ namespace doan.Controllers
             var paypalOrderId = RandomHelper.RandomString(10);
 
 
-            var hostname = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
+            var hostname = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.Host}";
 
             var payment = Payment.Create(apiContext, new Payment
             {
@@ -143,7 +144,7 @@ namespace doan.Controllers
             },
                 redirect_urls = new RedirectUrls
                 {
-                    return_url = $"{hostname}/api/Subscription/success/{paypalOrderId}",
+                    return_url = $"{hostname}:3000/payment",
                     cancel_url = $"{hostname}/api/Subscription/fail"
                 }
 
@@ -165,12 +166,11 @@ namespace doan.Controllers
             await _context.SaveChangesAsync();
             return Ok(approvalUrl);
         }
-        [HttpGet("success/{IdOrder}")]
-        public async Task<IActionResult> SuccessfulPaid([FromRoute(Name = "IdOrder")] string IdOrder, string paymentId, string token)
+        [HttpPost("payment")]
+        public async Task<IActionResult> SuccessfulPaid([FromBody] PaymentSucessClass request)
         {
-            var request = Request.RouteValues.ToList();
 
-            var payment = await _context.Invoices.Where(x=> x.paypalId == IdOrder && x.paypalIdCore == paymentId && x.Token == token)
+            var payment = await _context.Invoices.Where(x=> x.paypalIdCore == request.paymentId && x.Token == request.token)
                 .Include(x => x.appUser).FirstOrDefaultAsync();
             if (payment == null)
             {
