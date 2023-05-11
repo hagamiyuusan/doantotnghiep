@@ -51,7 +51,7 @@ const Header = ({ setShowModalLogin, user }: IProps) => {
           <div className=' flex gap-6'>
             <a
               href='#!'
-              className={`${styles.action_btn} border text-yellow-500 border-yellow-300 hover:border-yellow-300  hover:text-zinc-50 `}
+              className={`${styles.action_btn} ${ styles.blink} border text-yellow-500 border-yellow-300 hover:border-yellow-300  hover:text-zinc-50 `}
               onClick={scrollToOCR}
             >
               Try It Now!
