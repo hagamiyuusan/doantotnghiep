@@ -80,6 +80,7 @@ namespace doan.Repository
                 product => new ProductView
                 {
                     Name = product.Name,
+                    id = product.Id,
                     durations = product.productDurations.Select(
                                           pd => new DurationView
                                           {
