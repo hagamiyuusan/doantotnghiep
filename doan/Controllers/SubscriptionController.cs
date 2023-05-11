@@ -163,7 +163,7 @@ namespace doan.Controllers
             };
             await _context.Invoices.AddAsync(createdInvoice);
             await _context.SaveChangesAsync();
-            return Redirect(approvalUrl);
+            return Ok(approvalUrl);
         }
         [HttpGet("success/{IdOrder}")]
         public async Task<IActionResult> SuccessfulPaid([FromRoute(Name = "IdOrder")] string IdOrder, string paymentId, string token)

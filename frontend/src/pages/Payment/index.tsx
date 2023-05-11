@@ -1,4 +1,21 @@
+import { useRef, useState, ChangeEvent, useContext, useEffect } from 'react'
+import axios from 'axios'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+
 export default function Payment() {
+  const [payment, setPayment] =  useState(false)
+  const location = useLocation()
+  const currentPath = location.pathname
+  const searchParams = new URLSearchParams(location.search);
+  const idOrder = searchParams.get('IdOrder');
+  const paymentId = searchParams.get('paymentId');
+  const token = searchParams.get('token');
+  console.log("🚀 ~ file: ChangePassword.tsx:29 ~ ChangePassword ~ IdOrder, paymentId, token:", idOrder, paymentId, token)
+
+
+  useEffect(() => {
+
+  },[]) 
   return (
     <div className='bg-gray-100 h-screen'>
       <div className='bg-white p-6  md:mx-auto'>

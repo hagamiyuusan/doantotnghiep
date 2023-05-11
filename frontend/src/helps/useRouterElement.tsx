@@ -38,7 +38,7 @@ export default function useRouterElement() {
       element: <ChangePassword />
     },
     {
-      path: 'payment',
+      path: '/payment',
       element : <Payment/>
     },
     {
