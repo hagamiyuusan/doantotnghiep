@@ -50,7 +50,7 @@ export default function OCR() {
 
   return (
     <div
-      className={`container mx-auto bg-gray-100	rounded-lg ${styles.ocr} pb-40`}
+      className={`container mx-auto bg-gray-50 rounded-lg ${styles.ocr} pb-40`}
       ref={ocrRef as React.LegacyRef<HTMLDivElement>}
     >
       <h1
