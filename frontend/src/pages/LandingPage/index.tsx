@@ -35,7 +35,7 @@ export default function LandingPage() {
         ></video>
         <div className='container'>
           <section className='pt-8 h-[800px] bg-gray-50 rounded-lg px-8 mt-28'>
-            <div className='flex justify-center items-center gap-7'>
+            <div className='flex justify-center items-center gap-7 flex-col md:flex-row'>
               <div className='w-full mx-auto mt-9 text-center'>
                 <h1 className='mb-4 text-3xl font-extrabold text-gray-900 dark:text-black md:text-5xl lg:text-6xl'>
                   <span className='text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400'>
@@ -54,18 +54,18 @@ export default function LandingPage() {
               applications
             </p> */}
               </div>
-              <div className='mst-12 w-full h-[500px]'>
+              <div className='mst-12 w-full h-[500px] md:w-auto md:h-auto'>
                 <img
                   src='https://votingweb3.space/assets/features-img-2-a2e6b2ac.png'
                   alt='noimg'
-                  className=' h-full object-cover'
+                  className=' h-full object-cover md:max-w-md lg:max-w-lg xl:max-w-xl'
                 />
               </div>
             </div>
 
             <div className='mt-8 flex justify-center items-center gap-10'>
               {!profile?.userName ? (
-                <button className='text-black bg-white w-48 h-12 rounded-md shadow-md hover:shadow-lg focus:outline-none focus:shadow-outline'>
+                <button onClick={handleClick} className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800hite w-48 h-12 rounded-md shadow-md hover:shadow-lg focus:outline-none focus:shadow-outline'>
                   Login To Get Start
                 </button>
               ) : (

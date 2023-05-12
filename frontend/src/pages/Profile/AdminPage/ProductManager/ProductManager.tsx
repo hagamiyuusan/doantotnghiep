@@ -4,7 +4,7 @@ import Table from 'src/components/Table/Table'
 export type IProduct = {
   id: string
   name: string
-  durations: { id: number; day: number; price: number }[]
+  durations: {  id: number; original_duration_id: number; day: number; price: number }[]
 }
 
 export default function ProductManager() {
