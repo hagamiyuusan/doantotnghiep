@@ -1,6 +1,7 @@
-import { useRef, useState,useContext } from 'react'
+import { useRef, useState, useContext } from 'react'
 import OCR from '../OCR'
-import img_section1 from '../../imgs/anhnen.png'
+import './styles.css'
+import img_section1 from '../../imgs/8953489.jpg'
 import { ReviewProduct } from '../../components/ReviewProduct'
 import Footer from 'src/components/Footer'
 import { AppContext, AppContextInterface } from 'src/Context/context'
@@ -8,9 +9,9 @@ import Products from 'src/components/Products/index'
 import LoginModal from 'src/components/LoginRegisterModal'
 
 export default function LandingPage() {
-  const myVarRef = useRef(0);
-  const [showModalLogin, setShowModalLogin] = useState(false);
-  const { ocrRef, profile } = useContext(AppContext);
+  const myVarRef = useRef(0)
+  const [showModalLogin, setShowModalLogin] = useState(false)
+  const { ocrRef, profile } = useContext(AppContext)
   const scrollToOCR = () => {
     if (ocrRef.current) {
       // Perform the desired action using ocrRef.current
@@ -18,19 +19,31 @@ export default function LandingPage() {
     }
   }
   const handleClick = () => {
-    setShowModalLogin(true);
+    setShowModalLogin(true)
   }
   return (
-    <div className='container mx-auto'>
-      <section className='pt-8 h-[800px] bg-zinc-900 px-8 rounded-sm mt-28 rounded-sm'>
-        <div className='flex justify-center items-center gap-7'>
-          <div className='w-full mx-auto mt-9 text-center'>
-            <h1
-              className='uppercase text-4xl  text-center mb-8 
-              bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 inline-block text-transparent bg-clip-text'
-            >
-              Image Captioning
-            </h1>
+    <div className='mx-auto'>
+      <section className='video-container'>
+        <video
+          src='https://clova.ai/ocr/res/videos/247728f.mp4'
+          muted={true}
+          autoPlay={true}
+          loop={true}
+          height='100%'
+          width='100%'
+          data-v-35c79de6=''
+        ></video>
+        <div className='container'>
+          <section className='pt-8 h-[800px] bg-gray-50 rounded-lg px-8 mt-28'>
+            <div className='flex justify-center items-center gap-7'>
+              <div className='w-full mx-auto mt-9 text-center'>
+                <h1 className='mb-4 text-3xl font-extrabold text-gray-900 dark:text-black md:text-5xl lg:text-6xl'>
+                  <span className='text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400'>
+                    IMAGE
+                  </span>{' '}
+                  CAPTIONING
+                </h1>
+                {/* 
             <h6 className='text-white text-lg text-center'>See the world from a Picture</h6>
 
             <p className='text-white mt-4  flex-1'>
@@ -39,22 +52,43 @@ export default function LandingPage() {
               that breathe life into your visuals. With a user-friendly interface and seamless API integration,
               SceneXplain empowers developers to effortlessly incorporate our advanced service into their multimodal
               applications
-            </p>
-          </div>
-          <div className='mst-12 w-full h-[500px]'>
-            <img src={img_section1} alt='noimg' className=' h-full' />
-          </div>
-        </div>
+            </p> */}
+              </div>
+              <div className='mst-12 w-full h-[500px]'>
+                <img
+                  src='https://votingweb3.space/assets/features-img-2-a2e6b2ac.png'
+                  alt='noimg'
+                  className=' h-full object-cover'
+                />
+              </div>
+            </div>
 
-        <div className='mt-8 flex justify-center items-center gap-10'>
-         { !profile?.userName ? <button className='text-black bg-white w-48 h-12' onClick={handleClick}>Login To Get Start</button> :             
-         <button  className='text-black bg-white w-48 h-12'  onClick={scrollToOCR}>Try it now!</button>}
+            <div className='mt-8 flex justify-center items-center gap-10'>
+              {!profile?.userName ? (
+                <button className='text-black bg-white w-48 h-12 rounded-md shadow-md hover:shadow-lg focus:outline-none focus:shadow-outline'>
+                  Login To Get Start
+                </button>
+              ) : (
+                <button
+                  className='inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900'
+                  onClick={scrollToOCR}
+                >
+                  Try it now!
+                </button>
+              )}
+            </div>
+          </section>
         </div>
       </section>
-      <ReviewProduct />
-      <Products />
-      <OCR />
-            {!profile?.userName && showModalLogin && <LoginModal showModalLogin={showModalLogin} setShowModalLogin={setShowModalLogin}/>}
+      <div className='container'>
+        <ReviewProduct />
+        <Products />
+        <OCR />
+      </div>
+
+      {!profile?.userName && showModalLogin && (
+        <LoginModal showModalLogin={showModalLogin} setShowModalLogin={setShowModalLogin} />
+      )}
     </div>
   )
 }

@@ -40,7 +40,7 @@ export default function Products() {
       const res = await axios.get('https://localhost:7749/api/Product')
       if (res.data) {
         setData(res.data.value)
-        console.log(data)
+        console.log(res)
       }
     } catch (error) {
       console.log(error)
