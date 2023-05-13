@@ -1,9 +1,12 @@
-﻿using doan.DTO.Payment;
+﻿using doan.DTO;
+using doan.DTO.Payment;
 using doan.DTO.Subscription;
 using doan.EF;
 using doan.Entities;
 using doan.Helpers;
 using doan.Interface;
+using doan.Services;
+using doan.Wrapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,31 +25,42 @@ namespace doan.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly ApplicationDbContext _context;
         private readonly IConfiguration _config;
+        private readonly IUriService _IUriService;
 
-        public SubscriptionController(ISubscription subscription, UserManager<AppUser> userManager, ApplicationDbContext context, IConfiguration config)
+        public SubscriptionController(ISubscription subscription, UserManager<AppUser> userManager, ApplicationDbContext context, IConfiguration config, IUriService iUriService)
         {
             _subscription = subscription;
             _userManager = userManager;
             _context = context;
             _config = config;
+            _IUriService = iUriService;
         }
+
         [HttpGet]
-        public async Task<IActionResult> getAllSubscription()
+        public async Task<IActionResult> getAllSubscription([FromQuery] PaginationFilter filter)
         {
+            var route = Request.Path.Value;
+            var result = await _subscription.getAllSubscription(filter);
+            var pagedReponse = PaginationHelper.CreatePagedReponse<SubscriptionView>(result.Item1, result.Item2, result.Item3, _IUriService, route);
+
             return Ok(new
             {
                 status = 200,
-                value = await _subscription.getAllSubscription()
+                value = new JsonResult(pagedReponse)
             });
         }
         [HttpGet("user/{username}")]
-        public async Task<IActionResult> getUserSubscriptionByName([FromRoute(Name = "username")] string username)
+        public async Task<IActionResult> getUserSubscriptionByName([FromRoute(Name = "username")] string username, [FromQuery] PaginationFilter filter)
         {
+            var route = Request.Path.Value;
+            var result = await _subscription.getSubscriptionByUsername(username, filter);
+            var pagedReponse = PaginationHelper.CreatePagedReponse<SubscriptionView>(result.Item1, result.Item2, result.Item3, _IUriService, route);
+
             return Ok(new
-            {
-                code = 200,
-                data = _subscription.getSubscriptionByUsername(username)
-            });
+                {
+                    code = 200,
+                    data = new JsonResult(pagedReponse)
+                });;
         }
         
         
@@ -70,16 +84,7 @@ namespace doan.Controllers
         //    var result = await _subscription.createSubscription(request);
         //    return Ok(result);
         //}
-        [HttpGet("user/{username}")]
-        public async Task<IActionResult> getSubscriptionByUsername([FromRoute(Name = "username")]string username)
-        {
-            var result = await _subscription.getSubscriptionByUsername(username);
-            return Ok(new
-            {
-                status = 200,
-                value = result
-            });
-        }
+
         [HttpPost("createpayment")]
         public async Task<IActionResult> createPayment(SubscriptionCreateRequest request)
         {

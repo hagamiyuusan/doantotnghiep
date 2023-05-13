@@ -15,6 +15,7 @@ using System.Xml.Schema;
 using System.Net.WebSockets;
 using System.Runtime.InteropServices;
 using doan.DTO.Invoice;
+using doan.Wrapper;
 
 namespace doan.Repository
 {
@@ -113,9 +114,13 @@ namespace doan.Repository
             throw new NotImplementedException();
         }
 
-        public async Task<List<SubscriptionView>> getAllSubscription()
+        public async Task<(List<SubscriptionView>, PaginationFilter, int)> getAllSubscription(PaginationFilter filter)
         {
-            var result = await _context.Subscriptions.Include(x => x.AppUser).Include(x => x.product).Select(
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize,"");
+
+            var result = await _context.Subscriptions.Include(x => x.AppUser).Include(x => x.product)
+                .Skip((filter.PageNumber - 1) * validFilter.PageSize)
+                .Take(validFilter.PageSize).Select(
                 sb => new SubscriptionView
                 {
                     id = sb.Id,
@@ -130,28 +135,34 @@ namespace doan.Repository
                         }).ToList()
 
                 }).ToListAsync();
-            return result;
+            var count = await _context.Subscriptions.CountAsync();
+            return (result, validFilter, count);
         }
 
-        public async Task<List<SubscriptionView>> getSubscriptionByUsername(string username)
+        public async Task<(List<SubscriptionView>, PaginationFilter, int)> getSubscriptionByUsername(string username, PaginationFilter filter)
         {
             var user = await _userManager.FindByNameAsync(username);
-            var result = await _context.Subscriptions.Include(x => x.AppUser).Include(x => x.product).Where(x=>x.AppUser == user).Select(
-                           sb => new SubscriptionView
-                           {
-                               id = sb.Id,
-                               dueDate = sb.dueDate,
-                               productName = sb.product.Name,
-                               token = sb.token,
-                               invoiceViews = _context.Invoices.Where(x => x.appUser == sb.AppUser && x.productDuration.product == sb.product).Select(
-                                   iv => new InvoiceView
-                                   {
-                                       isPaid = iv.isPaid,
-                                       amount = iv.Total
-                                   }).ToList()
+            var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize, "");
 
-                           }).ToListAsync();
-            return result;
+            var result = await _context.Subscriptions.Include(x => x.AppUser).Where(x=>x.AppUser == user).Include(x => x.product)
+                .Skip((filter.PageNumber - 1) * validFilter.PageSize)
+                .Take(validFilter.PageSize).Select(
+                sb => new SubscriptionView
+                {
+                    id = sb.Id,
+                    dueDate = sb.dueDate,
+                    productName = sb.product.Name,
+                    token = sb.token,
+                    invoiceViews = _context.Invoices.Where(x => x.appUser == sb.AppUser && x.productDuration.product == sb.product).Select(
+                        iv => new InvoiceView
+                        {
+                            isPaid = iv.isPaid,
+                            amount = iv.Total
+                        }).ToList()
+
+                }).ToListAsync();
+            var count = await _context.Subscriptions.CountAsync();
+            return (result, validFilter, count);
         }
 
         public async Task<SubscriptionView> getSubscriptionsById(int id)
