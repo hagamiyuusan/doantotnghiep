@@ -165,7 +165,7 @@ namespace doan.Controllers
             //    }
             //    ); ;
             //}
-            var hostname = $"{HttpContext.Request.Host.Host}";
+            var hostname = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.Host}";
             return Redirect(hostname + $":3000/sendMailChangePassword/{username}/{token}");
 
         }
