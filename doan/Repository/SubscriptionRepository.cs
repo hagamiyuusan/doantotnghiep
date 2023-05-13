@@ -13,6 +13,8 @@ using System.Text;
 using PayPal.Api;
 using System.Xml.Schema;
 using System.Net.WebSockets;
+using System.Runtime.InteropServices;
+using doan.DTO.Invoice;
 
 namespace doan.Repository
 {
@@ -111,30 +113,65 @@ namespace doan.Repository
             throw new NotImplementedException();
         }
 
-        public async Task<List<Subscription>> getAllSubscription()
+        public async Task<List<SubscriptionView>> getAllSubscription()
         {
-            return await _context.Subscriptions.ToListAsync();
+            var result = await _context.Subscriptions.Include(x => x.AppUser).Include(x => x.product).Select(
+                sb => new SubscriptionView
+                {
+                    id = sb.Id,
+                    dueDate = sb.dueDate,
+                    productName = sb.product.Name,
+                    token = sb.token,
+                    invoiceViews = _context.Invoices.Where(x => x.appUser == sb.AppUser && x.productDuration.product == sb.product).Select(
+                        iv => new InvoiceView
+                        {
+                            isPaid = iv.isPaid,
+                            amount = iv.Total
+                        }).ToList()
+
+                }).ToListAsync();
+            return result;
         }
 
-        public async Task<List<Subscription>> getSubscriptionByUsername(string username)
+        public async Task<List<SubscriptionView>> getSubscriptionByUsername(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
-            var listSubscription = await _context.Subscriptions.Where(x => x.AppUser == user).ToListAsync();
-            return listSubscription;
+            var result = await _context.Subscriptions.Include(x => x.AppUser).Include(x => x.product).Where(x=>x.AppUser == user).Select(
+                           sb => new SubscriptionView
+                           {
+                               id = sb.Id,
+                               dueDate = sb.dueDate,
+                               productName = sb.product.Name,
+                               token = sb.token,
+                               invoiceViews = _context.Invoices.Where(x => x.appUser == sb.AppUser && x.productDuration.product == sb.product).Select(
+                                   iv => new InvoiceView
+                                   {
+                                       isPaid = iv.isPaid,
+                                       amount = iv.Total
+                                   }).ToList()
+
+                           }).ToListAsync();
+            return result;
         }
 
-        public async Task<Subscription> getSubscriptionsById(int id)
+        public async Task<SubscriptionView> getSubscriptionsById(int id)
         {
-            var subscription = await _context.Subscriptions.FindAsync(id);
-            return subscription;
-        }
+            var result = await _context.Subscriptions.Include(x => x.AppUser).Include(x => x.product).Where(x => x.Id == id).Select(
+                           sb => new SubscriptionView
+                           {
+                               id = sb.Id,
+                               dueDate = sb.dueDate,
+                               productName = sb.product.Name,
+                               token = sb.token,
+                               invoiceViews = _context.Invoices.Where(x => x.appUser == sb.AppUser && x.productDuration.product == sb.product).Select(
+                                   iv => new InvoiceView
+                                   {
+                                       isPaid = iv.isPaid,
+                                       amount = iv.Total
+                                   }).ToList()
 
-
-        public async Task<List<Subscription>> getSubscriptionsByUserId(Guid id)
-        {
-            var user = await _userManager.FindByIdAsync(id.ToString());
-            List<Subscription> listSubscription = await _context.Subscriptions.Where(x => x.AppUser == user).ToListAsync();
-            return listSubscription;
+                           }).FirstOrDefaultAsync();
+            return result;
         }
 
 

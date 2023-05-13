@@ -36,11 +36,21 @@ namespace doan.Controllers
             return Ok(new
             {
                 status = 200,
-                value = await _context.Subscriptions.ToListAsync()
+                value = await _subscription.getAllSubscription()
             });
         }
-                
+        [HttpGet("user/{username}")]
+        public async Task<IActionResult> getUserSubscriptionByName([FromRoute(Name = "username")] string username)
+        {
+            return Ok(new
+            {
+                code = 200,
+                data = _subscription.getSubscriptionByUsername(username)
+            });
+        }
         
+        
+
         [HttpGet("{id}")]
         public async Task<IActionResult> getSubscriptionById([FromRoute(Name = "id")] int id)
         {
