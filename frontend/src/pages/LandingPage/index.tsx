@@ -1,7 +1,8 @@
 import { useRef, useState, useContext } from 'react'
 import OCR from '../OCR'
 import './styles.css'
-import img_section1 from '../../imgs/8953489.jpg'
+import img_section1 from '../../imgs/features-img 1.png'
+
 import { ReviewProduct } from '../../components/ReviewProduct'
 import Footer from 'src/components/Footer'
 import { AppContext, AppContextInterface } from 'src/Context/context'
@@ -56,7 +57,7 @@ export default function LandingPage() {
               </div>
               <div className='mst-12 w-full h-[500px] md:w-auto md:h-auto'>
                 <img
-                  src='https://votingweb3.space/assets/features-img-2-a2e6b2ac.png'
+                  src={img_section1}
                   alt='noimg'
                   className=' h-full object-cover md:max-w-md lg:max-w-lg xl:max-w-xl'
                 />

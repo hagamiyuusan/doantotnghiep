@@ -1,9 +1,8 @@
-import img1 from '../../imgs/sofia.png'
-import img2 from '../../imgs/wang.png'
-import img3 from '../../imgs/james.png'
+import img_section2 from '../../imgs/features-img 2.png'
+
 export const reviews = [
   {
-    img: "https://votingweb3.space/assets/features-img-1-937b91a9.png",
+    img: img_section2,
     name: 'Giá trị học thuật',
     position: 'Liên quan đến việc xây dựng bộ khung cho việc nghiên cứu ngôn ngữ',
     review:
@@ -11,14 +10,14 @@ export const reviews = [
       
   },
   {
-    img: "https://votingweb3.space/assets/features-img-1-937b91a9.png",
+    img: img_section2,
     name: 'Giá trị kinh tế',
     position: 'Sử dụng mô hình trong việc quản lý và phát triển nội dung kỹ thuật số',
     review:
       'Sử dụng mô hình sinh mô tả ảnh sẽ góp phần giảm tải khối lượng công việc trong việc kiểm duyệt nội dung video cũng như tạo ra các nội dung đa nền tảng'
   },
   {
-    img: "https://votingweb3.space/assets/features-img-1-937b91a9.png",
+    img: img_section2,
     name: 'Giá trị nhân văn',
     position: 'Để không ai bị bỏ lại phía sau',
     review:
