@@ -142,8 +142,8 @@ namespace doan.Controllers
             return Ok(new
             {
                 status = 200,
-                value = await _context.Products.FindAsync(id)
-            });
+                value = await _product.getProductsById(id)
+            });;
         }
 
 
