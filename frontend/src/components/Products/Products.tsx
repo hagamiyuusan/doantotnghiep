@@ -8,6 +8,8 @@ import 'slick-carousel/slick/slick-theme.css'
 import { AppContext, AppContextInterface } from 'src/Context/context'
 import LoginModal from 'src/components/LoginRegisterModal'
 
+
+
 export default function Products() {
   const [isLoading, setIsLoading] = useState(false)
   const [showModalLogin, setShowModalLogin] = useState(false)

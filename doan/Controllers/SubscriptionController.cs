@@ -147,7 +147,7 @@ namespace doan.Controllers
                     return_url = $"{hostname}:3000/payment",
                     cancel_url = $"{hostname}/api/Subscription/fail"
                 }
-
+                
             });
 
             var approvalUrl = payment.links.FirstOrDefault(l => l.rel == "approval_url").href;
