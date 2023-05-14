@@ -108,7 +108,7 @@ namespace doan.Controllers
         {
             var result = await _product.deleteProduct(id);
             if (result == 0)
-            {
+            { 
                 return BadRequest("Không thể thực hiện");
             }
             return Ok("Thực hiện thành công");

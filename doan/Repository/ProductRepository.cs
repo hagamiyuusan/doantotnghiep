@@ -62,6 +62,7 @@ namespace doan.Repository
                                   .ThenInclude(b => b.duration).Select(product => new ProductView
                                   {
                                       Name = product.Name,
+                                      API_URL = product.API_URL,
                                       id = product.Id,
                                       durations = product.productDurations.Select(
                                           pd => new DurationView
@@ -82,6 +83,7 @@ namespace doan.Repository
                 product => new ProductView
                 {
                     Name = product.Name,
+                    API_URL =  product.API_URL,
                     id = product.Id,
                     durations = product.productDurations.Select(
                                           pd => new DurationView
