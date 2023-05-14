@@ -16,21 +16,21 @@ module.exports = {
     // }
   },
   fontFamily: {
-    'body': [
-      'Open Sans', 
-      'ui-sans-serif', 
-      'system-ui',
+    body: [
+      'Open Sans',
+      'ui-sans-serif',
+      'system-ui'
       // other fallback fonts
     ],
-    'sans': [
-      'Inter', 
-      'ui-sans-serif', 
-      'system-ui',
+    sans: [
+      'Inter',
+      'ui-sans-serif',
+      'system-ui'
       // other fallback fonts
     ]
   },
   colors: {
-    "text" : '3b3951'
+    text: '3b3951'
   },
   plugins: []
 }

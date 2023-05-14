@@ -35,7 +35,7 @@ export default function LandingPage() {
           data-v-35c79de6=''
         ></video>
         <div className='container'>
-          <section className='pt-8 h-[800px] bg-gray-50 rounded-lg px-8 mt-28'>
+          <section className='pt-8 h-[650px] bg-gray-50 rounded-lg px-8 mt-[180px]'>
             <div className='flex justify-center items-center gap-7 flex-col md:flex-row'>
               <div className='w-full mx-auto mt-9 text-center'>
                 <h1 className='mb-4 text-3xl font-extrabold text-gray-900 dark:text-black md:text-5xl lg:text-6xl'>
