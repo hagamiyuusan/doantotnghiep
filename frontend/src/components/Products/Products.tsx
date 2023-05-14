@@ -1,21 +1,15 @@
-<<<<<<< Updated upstream
 import { useState, useEffect, useContext } from 'react'
-=======
-import { useState, useEffect } from 'react'
->>>>>>> Stashed changes
-import { IProduct } from '~/pages/Profile/AdminPage/ProductManager/ProductManager'
+import { IProduct } from 'src/pages/Profile/AdminPage/ProductManager/ProductManager'
 import axios from 'axios'
 import './style.css'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
-<<<<<<< Updated upstream
+
 import { AppContext, AppContextInterface } from 'src/Context/context'
-import LoginModal from 'src/components/LoginRegisterModal'
+// import LoginModal from 'src/components/LoginRegisterModal'
 
 
-=======
->>>>>>> Stashed changes
 
 export default function Products() {
   const [isLoading, setIsLoading] = useState(false)
@@ -54,7 +48,6 @@ export default function Products() {
     ]
   }
 
-<<<<<<< Updated upstream
   const payload = async (id: number, username: string) => {
     try {
       setIsLoading(true)
@@ -72,8 +65,6 @@ export default function Products() {
     }
   }
 
-=======
->>>>>>> Stashed changes
   const getAllProduct = async () => {
     try {
       const res = await axios.get('https://localhost:7749/api/Product')
@@ -90,18 +81,13 @@ export default function Products() {
   }, [])
   const divs = data?.map((product) =>
     product.durations.map((duration) => (
-<<<<<<< Updated upstream
-      <div>
-=======
       <div key={duration.id}>
->>>>>>> Stashed changes
         <div className='grid-cols-1 bg-white rounded shadow-sm pt-4 ' style={{ margin: '0px 10px' }}>
           <h1 className=' text-xl text-blue-800 mb-2 text-center'>{product.name}</h1>
           <p className=' text-gray-600 text-center'>Lorem ipsum dolor sit, amet consectetur adipisicingconsectetur</p>
           <p className=' text-5xl text-slate-800 mt-6 text-center'>$ {duration.price}</p>
           <p className=' text-gray-400 mb-6 text-center'>{duration.day} days</p>
           <div className=' px-4'>
-<<<<<<< Updated upstream
             <button
               onClick={
                 profile?.userName
@@ -136,12 +122,9 @@ export default function Products() {
                     d='M111.4 295.9c-3.5 19.2-17.4 108.7-21.5 134-.3 1.8-1 2.5-3 2.5H12.3c-7.6 0-13.1-6.6-12.1-13.9L58.8 46.6c1.5-9.6 10.1-16.9 20-16.9 152.3 0 165.1-3.7 204 11.4 60.1 23.3 65.6 79.5 44 140.3-21.5 62.6-72.5 89.5-140.1 90.3-43.4 .7-69.5-7-75.3 24.2zM357.1 152c-1.8-1.3-2.5-1.8-3 1.3-2 11.4-5.1 22.5-8.8 33.6-39.9 113.8-150.5 103.9-204.5 103.9-6.1 0-10.1 3.3-10.9 9.4-22.6 140.4-27.1 169.7-27.1 169.7-1 7.1 3.5 12.9 10.6 12.9h63.5c8.6 0 15.7-6.3 17.4-14.9 .7-5.4-1.1 6.1 14.4-91.3 4.6-22 14.3-19.7 29.3-19.7 71 0 126.4-28.8 142.9-112.3 6.5-34.8 4.6-71.4-23.8-92.6z'
                   ></path>
                 )}
-              </svg>
+              </svg>s
               Check out with PayPal
             </button>
-=======
-            <button className='w-full bg-blue-800 text-white'>Subscrise</button>
->>>>>>> Stashed changes
           </div>
           <div className='pb-8 mt-6'>
             <div className='flex items-center gap-3 px-4 mb-3'>
@@ -172,13 +155,6 @@ export default function Products() {
       <Slider {...settings} className=''>
         {divs}
       </Slider>
-<<<<<<< Updated upstream
-
-      {!profile?.userName && showModalLogin && (
-        <LoginModal showModalLogin={showModalLogin} setShowModalLogin={setShowModalLogin} />
-      )}
-=======
->>>>>>> Stashed changes
     </div>
   )
 }
