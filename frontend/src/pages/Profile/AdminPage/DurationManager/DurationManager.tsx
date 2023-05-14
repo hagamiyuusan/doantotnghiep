@@ -4,12 +4,14 @@ import { useEffect, useState } from 'react'
 import PopupEdit from 'src/components/PopupEdit'
 import ConfirmPopUp from 'src/components/ConfirmPopup/ConfirmPop'
 export interface IDuration {
-  id: string
+  original_duration_id: number
+  id: number
   name: string
   day: number
 }
 const initDuration = {
-  id: '',
+  id: 0,
+  original_duration_id: 0,
   name: '',
   day: 0
 }

@@ -1,14 +1,21 @@
+<<<<<<< Updated upstream
 import { useState, useEffect, useContext } from 'react'
+=======
+import { useState, useEffect } from 'react'
+>>>>>>> Stashed changes
 import { IProduct } from '~/pages/Profile/AdminPage/ProductManager/ProductManager'
 import axios from 'axios'
 import './style.css'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
+<<<<<<< Updated upstream
 import { AppContext, AppContextInterface } from 'src/Context/context'
 import LoginModal from 'src/components/LoginRegisterModal'
 
 
+=======
+>>>>>>> Stashed changes
 
 export default function Products() {
   const [isLoading, setIsLoading] = useState(false)
@@ -47,6 +54,7 @@ export default function Products() {
     ]
   }
 
+<<<<<<< Updated upstream
   const payload = async (id: number, username: string) => {
     try {
       setIsLoading(true)
@@ -64,6 +72,8 @@ export default function Products() {
     }
   }
 
+=======
+>>>>>>> Stashed changes
   const getAllProduct = async () => {
     try {
       const res = await axios.get('https://localhost:7749/api/Product')
@@ -80,13 +90,18 @@ export default function Products() {
   }, [])
   const divs = data?.map((product) =>
     product.durations.map((duration) => (
+<<<<<<< Updated upstream
       <div>
+=======
+      <div key={duration.id}>
+>>>>>>> Stashed changes
         <div className='grid-cols-1 bg-white rounded shadow-sm pt-4 ' style={{ margin: '0px 10px' }}>
           <h1 className=' text-xl text-blue-800 mb-2 text-center'>{product.name}</h1>
           <p className=' text-gray-600 text-center'>Lorem ipsum dolor sit, amet consectetur adipisicingconsectetur</p>
           <p className=' text-5xl text-slate-800 mt-6 text-center'>$ {duration.price}</p>
           <p className=' text-gray-400 mb-6 text-center'>{duration.day} days</p>
           <div className=' px-4'>
+<<<<<<< Updated upstream
             <button
               onClick={
                 profile?.userName
@@ -124,6 +139,9 @@ export default function Products() {
               </svg>
               Check out with PayPal
             </button>
+=======
+            <button className='w-full bg-blue-800 text-white'>Subscrise</button>
+>>>>>>> Stashed changes
           </div>
           <div className='pb-8 mt-6'>
             <div className='flex items-center gap-3 px-4 mb-3'>
@@ -154,10 +172,13 @@ export default function Products() {
       <Slider {...settings} className=''>
         {divs}
       </Slider>
+<<<<<<< Updated upstream
 
       {!profile?.userName && showModalLogin && (
         <LoginModal showModalLogin={showModalLogin} setShowModalLogin={setShowModalLogin} />
       )}
+=======
+>>>>>>> Stashed changes
     </div>
   )
 }

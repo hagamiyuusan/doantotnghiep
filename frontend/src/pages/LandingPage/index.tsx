@@ -64,6 +64,7 @@ export default function LandingPage() {
               </div>
             </div>
 
+<<<<<<< Updated upstream
             <div className='mt-8 flex justify-center items-center gap-10'>
               {!profile?.userName ? (
                 <button onClick={handleClick} className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800hite w-48 h-12 rounded-md shadow-md hover:shadow-lg focus:outline-none focus:shadow-outline'>
@@ -90,6 +91,17 @@ export default function LandingPage() {
       {!profile?.userName && showModalLogin && (
         <LoginModal showModalLogin={showModalLogin} setShowModalLogin={setShowModalLogin} />
       )}
+=======
+        <div className='mt-8 flex justify-center items-center gap-10'>
+          {!profile?.userName ? <button className='text-black bg-white w-48 h-12' onClick={handleClick}>Login To Get Start</button> :
+            <button className='text-black bg-white w-48 h-12' onClick={scrollToOCR}>Try it now!</button>}
+        </div>
+      </section>
+      <ReviewProduct />
+      <Products />
+      <OCR />
+      {!profile?.userName && showModalLogin && <LoginModal showModalLogin={showModalLogin} setShowModalLogin={setShowModalLogin} />}
+>>>>>>> Stashed changes
     </div>
   )
 }

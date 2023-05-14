@@ -26,7 +26,7 @@ namespace doan.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = "admin")]
+        // [Authorize(Roles = "admin")]
 
         public async Task<ActionResult<Product>> addProduct(ProductCreateRequest product)
         {
