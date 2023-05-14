@@ -32,7 +32,7 @@ namespace doan.Controllers
             return Ok(new JsonResult(result));
         }
         [HttpPost]
-        // [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
 
         public async Task<IActionResult> createProductDuration([FromBody] ProductDurationCreateRequest request)
         {
@@ -50,7 +50,7 @@ namespace doan.Controllers
             return Ok("Thực hiện thành công");
         }
         [HttpDelete("{id}")]
-        // [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
 
         public async Task<IActionResult> deleteProductDuration([FromRoute(Name = "id")] int id)
         {

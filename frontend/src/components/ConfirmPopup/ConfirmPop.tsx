@@ -8,7 +8,6 @@ interface IProps {
   value?: IDuration | undefined
 }
 export default function ConfirmPopUp({ message, onOke, onCancel, value }: IProps) {
-  console.log("🚀 ~ file: ConfirmPop.tsx:11 ~ ConfirmPopUp ~ value:", value)
   const handleOke = () => {
     if (typeof onOke === "function") {
       onOke()
