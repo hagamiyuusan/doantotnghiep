@@ -8,13 +8,13 @@ export function ReviewProduct() {
     <>
       <nav className='flex border-b border-gray-300  justify-center items-center'>
         <TabSelector isActive={selectedTab === 'content1'} onClick={() => setSelectedTab('content1')} >
-          Content Creators and Digital Marketers
+          Giá trị học thuật
         </TabSelector>
         <TabSelector isActive={selectedTab === 'content2'} onClick={() => setSelectedTab('content2')}>
-          News and Media Organizations
+          Giá trị kinh tế
         </TabSelector>
         <TabSelector isActive={selectedTab === 'content3'} onClick={() => setSelectedTab('content3')}>
-          E-commerce and Retail Businesses
+          Giá trị nhân văn
         </TabSelector>
       </nav>
       <div className='p-4'>

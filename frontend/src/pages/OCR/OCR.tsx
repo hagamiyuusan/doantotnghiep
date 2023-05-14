@@ -50,18 +50,17 @@ export default function OCR() {
 
   return (
     <div
-      className={`container mx-auto bg-zinc-900 ${styles.ocr} pb-40`}
+      className={`container mx-auto bg-gray-50 rounded-lg ${styles.ocr} pb-40`}
       ref={ocrRef as React.LegacyRef<HTMLDivElement>}
     >
       <h1
-        className='uppercase text-4xl  text-center mt-8 
-              bg-gradient-to-r from-blue-600 via-green-500 to-indigo-400 inline-block text-transparent bg-clip-text'
+        className='uppercase text-4xl text-black font-bold	'
       >
         Image Captioning
       </h1>
       <div className='rounded '>
         <div className='header text-center mt-5 mb-16'>
-          <p className='text-3xl text-white'>Try It Now!</p>
+          <p className='text-3xl text-black'>Try It Now!</p>
         </div>
 
         <div className='flex justify-center gap-5 items-stretch'>

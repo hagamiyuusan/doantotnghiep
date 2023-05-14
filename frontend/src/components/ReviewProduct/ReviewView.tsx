@@ -7,7 +7,7 @@ interface IProps {
 
 export default function ReviewView(props: IProps) {
   return (
-    <div className=' bg-zinc-900 flex items-center justify-center mt-6'>
+    <div className=' bg-slate-400	 rounded-lg  flex items-center justify-center mt-6'>
       <div className=' w-7/12 animate-loading'>
         <img src={props.img} alt='' className='w-full object-cover object-center animate-loading' />
       </div>

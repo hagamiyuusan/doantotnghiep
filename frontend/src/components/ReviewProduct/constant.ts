@@ -1,26 +1,25 @@
-import img1 from '../../imgs/sofia.png'
-import img2 from '../../imgs/wang.png'
-import img3 from '../../imgs/james.png'
+import img_section2 from '../../imgs/features-img 2.png'
+
 export const reviews = [
   {
-    img: img1,
-    name: 'Sophia',
-    position: 'Digital Marketing Specialist',
+    img: img_section2,
+    name: 'Giá trị học thuật',
+    position: 'Liên quan đến việc xây dựng bộ khung cho việc nghiên cứu ngôn ngữ',
     review:
-      ' As a digital marketing specialist, I always strive to create content that captures the audience "&apos;" attention and tells a captivating story. SceneXplain has transformed the way I approach visual content, providing detailed and engaging descriptions that elevate the user experience. With SceneXplain, I can enhance my images with rich narratives that resonate with our audience, improving engagement and boosting our SEO efforts. The multilingual support has also allowed us to connect with our global customer base in a more meaningful way. SceneXplain has become an indispensable tool for creating compelling digital marketing campaigns.'
+      ' Xây dựng được mô hình ngữ nghĩa riêng của tiếng Việt giúp thể hiện được mối quan hệ giữa các từ (cụm từ) một cách chính xác và trong nhiều ngữ cảnh, văn hóa và sắc thái ngôn ngữ.'
+      
   },
   {
-    img: img2,
-    name: 'James',
-    position: 'Editor-in-Chief',
+    img: img_section2,
+    name: 'Giá trị kinh tế',
+    position: 'Sử dụng mô hình trong việc quản lý và phát triển nội dung kỹ thuật số',
     review:
-      'As the Editor-in-Chief of a major news organization, I"m constantly looking for ways to streamline our processes and improve content quality. SceneXplain has been a game-changer for our team, allowing us to generate accurate and detailed image descriptions quickly and efficiently. It saves our journalists and editors valuable time, enabling them to focus on crafting impactful stories. SceneXplain"s advanced AI technology ensures that our visual content is not only informative but also accessible to visually impaired readers, making our news platform more inclusive.'
+      'Sử dụng mô hình sinh mô tả ảnh sẽ góp phần giảm tải khối lượng công việc trong việc kiểm duyệt nội dung video cũng như tạo ra các nội dung đa nền tảng'
   },
   {
-    img: img3,
-    name: 'Wang',
-    position: 'E-commerce Product Manager',
+    img: img_section2,
+    name: 'Giá trị nhân văn',
+    position: 'Để không ai bị bỏ lại phía sau',
     review:
-      'As an E-commerce Product Manager, I"m constantly seeking ways to improve our online catalog and provide a richer shopping experience for our customers. SceneXplain has been a game-changer for our business, automating the process of generating compelling and accurate product descriptions based on images. With SceneXplain, our team can manage the catalog more efficiently, ensuring that product information is always up-to-date and engaging. Our customers now enjoy a seamless shopping experience, leading to increased sales and improved customer satisfaction. SceneXplain has truly revolutionized the way we showcase our products online.'
-  }
+      'Tiến hành xây dựng các hệ thống hỗ trợ người khiếm thị và trẻ em trong việc nhận biết những gì đang diễn ra ' }
 ]
