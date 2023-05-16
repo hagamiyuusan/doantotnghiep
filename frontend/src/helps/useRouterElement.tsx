@@ -39,7 +39,7 @@ export default function useRouterElement() {
     },
     {
       path: '/payment',
-      element : <Payment/>
+      element: <Payment />
     },
     {
       path: 'sendMailChangePassword/:username/:token',

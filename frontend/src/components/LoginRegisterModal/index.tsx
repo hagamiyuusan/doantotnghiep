@@ -7,6 +7,7 @@ import axios from 'axios'
 import jwt_decode from 'jwt-decode'
 import { AppContext } from '../../Context/context'
 import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
 // create modal login
 
 interface IProps {
@@ -72,11 +73,18 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
           email: formData.email
         })
         if (res.status === 200) {
+          toast.success('Register is success !', {
+            position: toast.POSITION.TOP_RIGHT
+          });
           appContext.setProfile(res.data)
           setErrorMessage(`Check your email to verify account`)
           // setShowModalLogin(false)
         }
       } catch (error: any) {
+        toast.error('Register is falise! Try again', {
+          position: toast.POSITION.TOP_RIGHT
+        });
+        setErrorMessage('Something Bug?')
         // setErrorMessage(error.response.data)
       }
     } else {
@@ -87,14 +95,22 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
           password: formData.password
         })
         if (res.data) {
+          toast.success('Login Success !', {
+            position: toast.POSITION.TOP_RIGHT
+          });
           appContext.setProfile(jwt_decode(res.data?.token))
           appContext.setIsAuthenticated(true)
           console.log(jwt_decode(res.data?.token))
           localStorage.setItem('access_token', res.data?.token)
           setShowModalLogin(false)
+
         }
       } catch (error: any) {
-        // setErrorMessage(error.response.data)
+        toast.error('Login falise!', {
+          position: toast.POSITION.TOP_RIGHT
+        });
+
+        setErrorMessage(error?.response?.data)
       }
     }
   }

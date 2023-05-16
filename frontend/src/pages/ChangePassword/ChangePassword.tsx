@@ -1,14 +1,15 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { ErrorMessage } from 'src/components/ErrorMessage'
 
 interface IFormData {
-  email?: string
-  password?: string
+  email: string
+  newPassword: string
 }
 const initFormData = {
   email: '',
-  password: ''
+  newPassword: ''
 }
 enum TYPESUBMIT {
   SENDMAIL = 'SENDMAIL',
@@ -16,22 +17,24 @@ enum TYPESUBMIT {
 }
 enum TYPEFORM {
   SENDMAIL = '/sendMailChangePassword',
-  RESET = '/changePassword'
+  RESET = '/sendMailChangePassword/:username/:token'
 }
 export default function ChangePassword() {
   const [formData, setFormData] = useState<IFormData>(initFormData)
   const [loading, setLoading] = useState<boolean>(false)
-  const baseUSRL = import.meta.env.VITE_BASE_URL
   const location = useLocation()
   const currentPath = location.pathname
-  // const params = useParams()
+  const typeForm = currentPath === TYPEFORM.SENDMAIL ? TYPESUBMIT.SENDMAIL : TYPESUBMIT.RESET
   const { username, token } = useParams()
-  console.log("🚀 ~ file: ChangePassword.tsx:29 ~ ChangePassword ~ username, token:", username, token)
+  const [message, setMessage] = useState('')
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
+  console.log(formData);
+
   const navigate = useNavigate()
-  const hanldeSubmit = (typeSubmit: string) => async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (typeSubmit: string) => async (e: React.FormEvent<HTMLFormElement>) => {
+
     e.preventDefault()
     if (typeSubmit === TYPESUBMIT.SENDMAIL) {
       setLoading(true)
@@ -40,12 +43,32 @@ export default function ChangePassword() {
           email: formData.email
         })
         if (res.status === 200) {
-          console.log()
-          // navigate('/changePassword')
+          setMessage('Check your mail to change password')
+          // navigate('');
+          window.open('https://www.gmail.com')
           setLoading(false)
         }
       } catch (error) {
-        console.log('error:', error)
+        setMessage('Something bug')
+        setLoading(false)
+      }
+    } else {
+      setLoading(true)
+      try {
+        const res = await axios.post(`https://localhost:7749/api/UserService/resetpassword/${username}/${token}`, {
+          newPassword: formData.newPassword
+        })
+        if (res.status === 200) {
+          setMessage('Change password success! Redirect Homepage after 2s!')
+          setTimeout(() => {
+            window.open('https://localhost:3000')
+
+          }, 2000)
+          setLoading(false)
+        }
+      } catch (error) {
+        setMessage('Something Bug?')
+        setLoading(false)
       }
     }
   }
@@ -56,21 +79,25 @@ export default function ChangePassword() {
         <h1 className='text-3xl text-white text-center mb-10 mt-[45px] '>
           {currentPath === TYPEFORM.SENDMAIL ? 'Send Email To Reset Password' : 'Reset Your Password'}
         </h1>
-        <form className='flex justify-center items-center flex-col' onSubmit={hanldeSubmit(TYPESUBMIT.SENDMAIL)}>
+        <form onSubmit={handleSubmit(typeForm)}>
+
           <div className='flex justify-center items-center'>
             <input
-              type='email'
-              name='email'
+              type={currentPath === TYPEFORM.SENDMAIL ? 'email' : 'password'}
+              name={currentPath === TYPEFORM.SENDMAIL ? 'email' : 'newPassword'}
               placeholder={
                 currentPath === TYPEFORM.SENDMAIL ? 'Enter your email to reset password...' : 'Enter new password....'
               }
               className=' pl-3 h-9 w-72'
               onChange={handleChange}
+              required
             />
           </div>
-          <button className='w-72 bg-blue-800 text-white flex items-center justify-center gap-3 mx-auto mt-9 '>
+          <button className='w-72 bg-blue-800 text-white flex items-center justify-center gap-3 mx-auto mt-9 '
+          // onClick={() => handleSubmit(typeForm)}
+          >
             {currentPath === TYPEFORM.SENDMAIL ? 'Send Mail' : 'Reset Your Password'}
-            {!loading && (
+            {loading && (
               <div role='status'>
                 <svg
                   aria-hidden='true'
@@ -92,6 +119,8 @@ export default function ChangePassword() {
             )}
           </button>
         </form>
+
+        {message && <ErrorMessage errorMessage={message} />}
       </div>
     </div>
   )
