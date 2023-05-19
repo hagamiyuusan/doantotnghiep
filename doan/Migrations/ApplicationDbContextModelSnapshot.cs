@@ -184,7 +184,7 @@ namespace doan.Migrations
                         new
                         {
                             Id = new Guid("823b98ec-f77f-4ccc-a5f7-3765156b9950"),
-                            ConcurrencyStamp = "132c80d7-abc4-4eab-83c9-03411894abe0",
+                            ConcurrencyStamp = "619d906d-f53c-424a-af5e-b7166dd218a8",
                             Name = "admin",
                             NormalizedName = "admin"
                         });
@@ -250,13 +250,13 @@ namespace doan.Migrations
                         {
                             Id = new Guid("0790f531-8010-4bf4-8b92-0a8b7549c406"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2bf74bb5-978f-4ed7-9bdb-156beeb1c6b2",
+                            ConcurrencyStamp = "df2dba5f-a753-4fff-ab1b-30b62cbab59c",
                             Email = "vinhhuyqna@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "vinhhuyqna@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAELFrUTPbSul+66wU885wsWXqCb3EtByJ+3LVp25nv8oPmstkGPrvvCIpnjiHFW6Oig==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGTTj8RASv4tS4jOgNtqtsBRSqhqooZ66mTDiMdlvS27bH8bVu6ASRKQWoaUO+Q7lw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -408,7 +408,7 @@ namespace doan.Migrations
                         {
                             Id = 1,
                             API_URL = "",
-                            Created = new DateTime(2023, 5, 12, 0, 0, 0, 0, DateTimeKind.Local),
+                            Created = new DateTime(2023, 5, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             Name = "API Image Captioning",
                             productTypeId = 1
                         });
