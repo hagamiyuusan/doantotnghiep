@@ -54,7 +54,7 @@ export default function DuarationManager() {
         }
       });
       if (res.status === 200) {
-        console.log('Respone:', res.data)
+
         setDuration(initDuration)
         setShowConfirmPopup(false)
       }

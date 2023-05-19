@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import ConfirmPopUp from 'src/components/ConfirmPopup/ConfirmPop'
 import AddProductDurationPopup from './AddProductDurationPopup'
 import { IProduct } from './ProductManager'
+import { toast } from 'react-toastify'
 interface IProps {
   productDetailId: number
   setShowDetailPopup: React.Dispatch<React.SetStateAction<boolean>>
@@ -46,12 +47,19 @@ export default function TablePopup({
       })
       if (res.status === 200) {
         // setProductDetail({} as IProduct)
+        toast.error('Delete duration success!', {
+          position: toast.POSITION.TOP_RIGHT
+        })
         setShowConfirmPopup(false)
         setRefresh(true)
         setShowDetailPopup(false)
+
       }
     } catch (error) {
       console.log(error)
+      toast.error('Delete defective products!', {
+        position: toast.POSITION.TOP_RIGHT
+      })
       setShowConfirmPopup(false)
       setShowDetailPopup(false)
     }
@@ -93,12 +101,18 @@ export default function TablePopup({
       )
       if (res.status === 200) {
         // setProductDetail({} as IProduct)
+        toast.success('Edit duration success!', {
+          position: toast.POSITION.TOP_RIGHT
+        })
         setShowConfirmPopup(false)
         // setRefreshComponent(true)
         setShowDetailPopup(false)
         setRefresh(true)
       }
     } catch (error) {
+      toast.error('Delete defective duration!', {
+        position: toast.POSITION.TOP_RIGHT
+      })
       console.log(error)
       setShowConfirmPopup(false)
     }

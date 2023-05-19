@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import ConfirmPopUp from 'src/components/ConfirmPopup/ConfirmPop'
 import { IProduct } from './ProductManager'
 import axios from 'axios'
+import { toast } from 'react-toastify'
 
 interface IProps {
   setShowAddProductPopup: React.Dispatch<React.SetStateAction<boolean>>
@@ -41,6 +42,9 @@ export default function AddProductPopup({ setShowAddProductPopup, setRefresh }: 
         }
       )
       if (res.status === 200) {
+        toast.success('Add Product Success!', {
+          position: toast.POSITION.TOP_RIGHT
+        })
         setShowAddProductPopup(false)
         setRefresh(true)
         // setProductDetail({} as IProduct)
@@ -49,6 +53,9 @@ export default function AddProductPopup({ setShowAddProductPopup, setRefresh }: 
         // setShowDetailPopup(false)
       }
     } catch (error) {
+      toast.error('Delete defective Product!', {
+        position: toast.POSITION.TOP_RIGHT
+      })
       console.log(error)
       setShowConfirmPopup(false)
       // setShowDetailPopup(false)

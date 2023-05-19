@@ -3,6 +3,7 @@ import { IProduct } from '~/pages/Profile/AdminPage/ProductManager/ProductManage
 import TablePopup from 'src/pages/Profile/AdminPage/ProductManager/TablePopup'
 import axios from 'axios'
 import ConfirmPopUp from '../ConfirmPopup/ConfirmPop'
+import { toast } from 'react-toastify'
 
 interface IProps {
   title: string
@@ -40,7 +41,9 @@ export default function Table({ title, columnNames, data, desc, setRefresh }: IP
         }
       )
       if (res.status === 200) {
-        console.log('Respone:', res.data)
+        toast.success('Delete Product success!', {
+          position: toast.POSITION.TOP_RIGHT
+        })
         setRefresh(true)
         // setProductDetail({} as IProduct)
         setShowConfirmPopup(false)
@@ -48,6 +51,9 @@ export default function Table({ title, columnNames, data, desc, setRefresh }: IP
         // setShowDetailPopup(false)
       }
     } catch (error) {
+      toast.error('Delete defective products!', {
+        position: toast.POSITION.TOP_RIGHT
+      })
       console.log(error)
       // setShowConfirmPopup(false)
     }
