@@ -42,7 +42,7 @@ export default function Payment() {
               <p className='text-gray-600 my-2'>Thank you for completing your secure online payment.</p>
               <p> Have a great day! </p>
               <div className='py-10 text-center'>
-                <a href='#!' className='px-12 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3'>
+                <a href='https://127.0.0.1:3000/' className='px-12 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3'>
                   GO BACK
                 </a>
               </div>
@@ -59,7 +59,7 @@ export default function Payment() {
             <div className='text-center'>
               <h3 className='md:text-2xl text-base text-gray-900 font-semibold text-center'>Payment Failed!</h3>
               <div className='py-10 text-center'>
-                <a href='#!' className='px-12 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3'>
+                <a href='https://127.0.0.1:3000/' className='px-12 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3'>
                   GO BACK
                 </a>
               </div>

@@ -39,7 +39,7 @@ export default function HistoryPurchase() {
   return (
     <div className='mt-[150px]'>
       <h1 className='text-center text-5xl mb-[60px]'>History Purcharse</h1>
-      <Table columnNames={columnNames} title='Product Duration Manager' data={data} setRefresh={setRefresh} />
+      <Table columnNames={columnNames} title='History Purcharse' data={data} setRefresh={setRefresh} />
 
     </div>
   )

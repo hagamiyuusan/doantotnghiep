@@ -13,7 +13,7 @@ export default function InputPopup({ setshowInputPrice, setPriceDuration, addPro
     <div className='fixed z-10 inset-0 overflow-y-auto'>
       <div className='flex items-center justify-center min-h-screen'>
         <div className='bg-white rounded-lg shadow-lg p-6 w-[40rem] px-5'>
-          <h2 className='text-4xl mb-8 text-center'>Set Price For Duations</h2>
+          <h2 className='text-4xl mb-8 text-center'>Set Price For Duration</h2>
           <div className='flex justify-center items-center'>
             <input
               type='number'

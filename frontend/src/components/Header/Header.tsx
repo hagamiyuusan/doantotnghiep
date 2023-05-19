@@ -31,11 +31,11 @@ const Header = ({ setShowModalLogin, user }: IProps) => {
     <header className={`${styles.header} mb-16`}>
       <div className={styles.navbar}>
         <div className={styles.logo}>
-          <a href='http://127.0.0.1:3000/'>LoGO</a>
+          <a href='https://127.0.0.1:3000/'>LoGO</a>
         </div>
         <ul className={styles.nav_links}>
           <li>
-            <a href='http://127.0.0.1:3000/'>Home</a>
+            <a href='https://127.0.0.1:3000/'>Home</a>
           </li>
           <li>
             <a href='#'>About</a>

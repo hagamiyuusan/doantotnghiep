@@ -81,7 +81,7 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
           // setShowModalLogin(false)
         }
       } catch (error: any) {
-        toast.error('Register is falise! Try again', {
+        toast.error('Register is failed! Try again', {
           position: toast.POSITION.TOP_RIGHT
         });
         setErrorMessage('Something Bug?')
@@ -106,7 +106,7 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
 
         }
       } catch (error: any) {
-        toast.error('Login falise!', {
+        toast.error('Login failed!', {
           position: toast.POSITION.TOP_RIGHT
         });
 

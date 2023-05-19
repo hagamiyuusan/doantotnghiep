@@ -94,13 +94,13 @@ export default function AddProductDurationPopup({
               <ul className='bg-slate-500 rounded-md w-[90%]'>
                 {currentDurations?.durations.map((duration, index) => (
                   <li className='flex justify-center items-center gap-5 p-4' key={index}>
-                    <span className='w-[175px]'>{duration.day}</span>
+                    <span className='w-[175px]'>{duration.day} ngày</span>
                   </li>
                 ))}
               </ul>
             </div>
 
-            <div className='flex gap-4 '>
+            <div className='flex mb-5 '>
               <label htmlFor='day' className='block  m-0 text-black text-base '>
                 Durations Aviable:
               </label>
@@ -108,7 +108,7 @@ export default function AddProductDurationPopup({
                 <ul className='bg-slate-500 rounded-md '>
                   {availableDuration.map((duration, index) => (
                     <li className='flex justify-center items-center gap-5 p-4' key={index}>
-                      <span className='w-[175px]'>{duration.day}</span>
+                      <span className='w-[175px]'>{duration.day} ngày</span>
                       <button
                         className='font-medium text-blue-600 dark:text-blue-500 hover:underline'
                         onClick={() => handleClickAdd(duration.id)}
