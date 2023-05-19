@@ -4,6 +4,7 @@ import { IDuration } from '../DurationManager/DurationManager'
 import InputPopup from './InputPopup'
 import { IProduct } from './ProductManager'
 import ConfirmPopUp from 'src/components/ConfirmPopup/ConfirmPop'
+import { toast } from 'react-toastify'
 
 interface IProps {
   data: IProduct
@@ -62,6 +63,9 @@ export default function AddProductDurationPopup({
         }
       )
       if (res.status === 200) {
+        toast.success('Add Product Duration Success!', {
+          position: toast.POSITION.TOP_RIGHT
+        })
         setShowInputPrice(false)
         setDurationId(0)
         setRefreshComponent(false)
@@ -70,6 +74,9 @@ export default function AddProductDurationPopup({
         // console.log('Respone:', res.data)
       }
     } catch (error) {
+      toast.error('Delete defective Product Duration!', {
+        position: toast.POSITION.TOP_RIGHT
+      })
       console.log(error)
     }
   }

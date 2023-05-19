@@ -5,10 +5,10 @@ import img_section1 from '../../imgs/features-img 1.png'
 
 import { ReviewProduct } from '../../components/ReviewProduct'
 import Footer from 'src/components/Footer'
-import { AppContext, AppContextInterface } from 'src/Context/context'
+import { AppContext } from 'src/Context/context'
 import Products from 'src/components/Products/index'
 import LoginModal from 'src/components/LoginRegisterModal'
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 export default function LandingPage() {
   const [showModalLogin, setShowModalLogin] = useState(false)
@@ -22,12 +22,7 @@ export default function LandingPage() {
   const handleClick = () => {
     setShowModalLogin(true)
   }
-  const clickme = () => {
-    toast.success('Success Notification !', {
-      position: toast.POSITION.TOP_RIGHT
-    });
 
-  }
   return (
     <div className='mx-auto'>
       <section className='video-container'>
@@ -49,7 +44,6 @@ export default function LandingPage() {
                     IMAGE
                   </span>{' '}
                   CAPTIONING
-                  <button onClick={clickme}>CLick heheheh</button>
 
                 </h1>
 
