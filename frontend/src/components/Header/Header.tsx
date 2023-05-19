@@ -44,14 +44,16 @@ const Header = ({ setShowModalLogin, user }: IProps) => {
             <a href='#'>Services</a>
           </li>
           <li>
-            <a href='https://www.facebook.com/Hau.VT07' target='_blank'>Contact</a>
+            <a href='https://www.facebook.com/Hau.VT07' target='_blank'>
+              Contact
+            </a>
           </li>
         </ul>
         {!user.isAuthenticated ? (
           <div className=' flex gap-6'>
             <a
               href='#!'
-              className={`${styles.action_btn} ${ styles.blink} border text-yellow-500 border-yellow-300 hover:border-yellow-300  hover:text-zinc-50 `}
+              className={`${styles.action_btn} ${styles.blink} border text-yellow-500 border-yellow-300 hover:border-yellow-300  hover:text-zinc-50 `}
               onClick={scrollToOCR}
             >
               Try It Now!
@@ -125,13 +127,24 @@ const Header = ({ setShowModalLogin, user }: IProps) => {
       {profile?.role === 'admin' ? (
         <ul className={`${styles.dropdown_menu} ${openDropdownUser ? styles.open : ''} `} ref={DropdownMenuRef}>
           <li className='hover:bg-slate-600'>
-            <Link to='/admin/usermanager' className='hover:bg-slate-600 hover:text-white'>User Manager</Link>
-          </li>
-          <li >
-            <Link to='/admin/durationmanager' className='hover:bg-slate-600 hover:text-white'>Duration Manager</Link>
+            <Link to='/admin/usermanager' className='hover:bg-slate-600 hover:text-white'>
+              User Manager
+            </Link>
           </li>
           <li>
-            <Link to='/admin/productmanager' className='hover:bg-slate-600 hover:text-white'>Product Manager</Link>
+            <Link to='/admin/durationmanager' className='hover:bg-slate-600 hover:text-white'>
+              Duration Manager
+            </Link>
+          </li>
+          <li>
+            <Link to='/admin/productmanager' className='hover:bg-slate-600 hover:text-white'>
+              Product Manager
+            </Link>
+          </li>
+          <li>
+            <Link to='/historypurchase' className='hover:bg-slate-600 hover:text-white'>
+              History Purchase
+            </Link>
           </li>
           <li>
             {!user.isAuthenticated ? (
@@ -143,7 +156,6 @@ const Header = ({ setShowModalLogin, user }: IProps) => {
                 className={styles.action_btn}
                 onClick={() => {
                   user.reset(), setOpenDropdownUser(false), console.log(openDropdownMenu)
-
                 }}
               >
                 Logout
@@ -157,12 +169,20 @@ const Header = ({ setShowModalLogin, user }: IProps) => {
             <Link to='/profile'>Go To Profile</Link>
           </li>
           <li>
+            <Link to='/historypurchase'>History Purchase</Link>
+          </li>
+          <li>
             {!user.isAuthenticated ? (
               <button className={styles.action_btn} onClick={() => setShowModalLogin(true)}>
                 Login
               </button>
             ) : (
-              <button className={styles.action_btn} onClick={() => { user.reset(), setOpenDropdownUser(false) }}>
+              <button
+                className={styles.action_btn}
+                onClick={() => {
+                  user.reset(), setOpenDropdownUser(false)
+                }}
+              >
                 Logout
               </button>
             )}

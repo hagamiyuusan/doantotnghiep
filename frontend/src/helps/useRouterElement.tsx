@@ -8,6 +8,7 @@ import ChangePassword from 'src/pages/ChangePassword'
 import DurationManager from 'src/pages/Profile/AdminPage/DurationManager'
 import ProductManager from 'src/pages/Profile/AdminPage/ProductManager'
 import Payment from 'src/pages/Payment'
+import HistoryPurchase from 'src/components/HistoryPurchase'
 export default function useRouterElement() {
   const { isAuthenticated, profile } = useContext(AppContext)
   const isAdmin = Boolean(profile?.role)
@@ -44,6 +45,12 @@ export default function useRouterElement() {
     {
       path: 'sendMailChangePassword/:username/:token',
       element: <ChangePassword />
+    },
+    {
+      path: 'historypurchase',
+      element: (<MainLayout>
+        <HistoryPurchase />
+      </MainLayout>)
     },
     {
       path: '',
