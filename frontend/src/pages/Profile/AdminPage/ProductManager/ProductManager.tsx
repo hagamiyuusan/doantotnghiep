@@ -5,7 +5,7 @@ import AddProductPopup from './AddProductPopup'
 export type IProduct = {
   id: number | undefined
   name: string
-  api_URL: string
+  apI_URL: string
   durations: {
     id: number
     day: number
@@ -22,7 +22,7 @@ export default function ProductManager() {
   const [showAddProductPopup, setShowAddProductPopup] = useState(false)
   const getAllProduct = async () => {
     try {
-      const res = await axios.get('https://localhost:7749/api/Product')
+      const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/Product`)
       if (res.data) {
         setData(res.data.value)
         setRefresh(false)
@@ -48,7 +48,9 @@ export default function ProductManager() {
         </div>
         <Table columnNames={columnNames} title='Product Duration Manager' data={data} setRefresh={setRefresh} />
       </div>
-      {showAddProductPopup && <AddProductPopup setShowAddProductPopup={setShowAddProductPopup} setRefresh={setRefresh} />}
+      {showAddProductPopup && (
+        <AddProductPopup setShowAddProductPopup={setShowAddProductPopup} setRefresh={setRefresh} />
+      )}
     </div>
   )
 }

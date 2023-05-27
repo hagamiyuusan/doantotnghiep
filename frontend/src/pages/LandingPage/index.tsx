@@ -8,7 +8,7 @@ import Footer from 'src/components/Footer'
 import { AppContext } from 'src/Context/context'
 import Products from 'src/components/Products/index'
 import LoginModal from 'src/components/LoginRegisterModal'
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'
 
 export default function LandingPage() {
   const [showModalLogin, setShowModalLogin] = useState(false)
@@ -44,7 +44,6 @@ export default function LandingPage() {
                     IMAGE
                   </span>{' '}
                   CAPTIONING
-
                 </h1>
 
                 {/* 
@@ -69,7 +68,10 @@ export default function LandingPage() {
 
             <div className='mt-14 flex justify-center items-center gap-10'>
               {!profile?.userName ? (
-                <button onClick={handleClick} className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800hite w-48 h-12 rounded-md shadow-md hover:shadow-lg focus:outline-none focus:shadow-outline'>
+                <button
+                  onClick={handleClick}
+                  className='text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800hite w-48 h-12 rounded-md shadow-md hover:shadow-lg focus:outline-none focus:shadow-outline'
+                >
                   Login To Get Start
                 </button>
               ) : (
@@ -93,7 +95,6 @@ export default function LandingPage() {
       {!profile?.userName && showModalLogin && (
         <LoginModal showModalLogin={showModalLogin} setShowModalLogin={setShowModalLogin} />
       )}
-
     </div>
   )
 }

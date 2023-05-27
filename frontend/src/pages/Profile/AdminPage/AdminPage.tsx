@@ -26,7 +26,7 @@ export default function AdminPage() {
 
   const getAllUser = async () => {
     try {
-      const res = await axios.get('https://localhost:7749/api/AppUser', {
+      const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/AppUser`, {
         params: {
           pageNumber: currentPage
         },

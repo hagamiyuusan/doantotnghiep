@@ -23,14 +23,12 @@ export default function HistoryPurchase() {
   // });
   const getSubcription = async () => {
     try {
-      const res = await axios.get(`https://localhost:7749/api/Subscription/user/${profile?.userName}`)
+      const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/Subscription/user/${profile?.userName}`)
       if (res.status === 200) {
-        console.log('Respone:', res.data.data.value.data)
         setData(res.data.data.value.data)
       }
     } catch (error) {
       console.log(error)
-
     }
   }
   useEffect(() => {
@@ -40,7 +38,6 @@ export default function HistoryPurchase() {
     <div className='mt-[150px]'>
       <h1 className='text-center text-5xl mb-[60px]'>History Purcharse</h1>
       <Table columnNames={columnNames} title='History Purcharse' data={data} setRefresh={setRefresh} />
-
     </div>
   )
 }

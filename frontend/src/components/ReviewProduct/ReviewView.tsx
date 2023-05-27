@@ -16,8 +16,6 @@ export default function ReviewView(props: IProps) {
         <p className='text-white mb-3 text-base'>{props.position}</p>
         <p className='text-white font-serif leading-6'>{props.review}</p>
       </div>
-
-
     </div>
   )
 }

@@ -42,13 +42,12 @@
   /* background-color: #00acff; */
   border-radius: 4px;
   transition: all 1s ease;
-
 }
 
 .nav_links a:hover {
   border: 1px solid #050b0e;
   background-color: #fff;
-  color: black
+  color: black;
 }
 
 .action_btn {
@@ -63,12 +62,11 @@
   cursor: pointer;
   /* animation: scale 0.2 ease; */
   transition: all 0.5s ease;
-
 }
 
 .action_btn:hover {
   /* background-color: #00acff; */
-  color: black
+  color: black;
 }
 
 .action_btn:active {
@@ -132,7 +130,6 @@
 
 /* Reponsive */
 @media (max-width: 992px) {
-
   .navbar .nav_links,
   .navbar .action_btn {
     display: none;

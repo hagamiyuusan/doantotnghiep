@@ -10,7 +10,6 @@ interface IProps {
 export default function MainLayout({ children }: IProps) {
   const [showModalLogin, setShowModalLogin] = useState(false)
   const user = useContext(AppContext)
-  console.log('User from context', user);
 
   return (
     <div>
@@ -18,7 +17,6 @@ export default function MainLayout({ children }: IProps) {
       {children}
       <LoginModal showModalLogin={showModalLogin} setShowModalLogin={setShowModalLogin} />
       {/* <Footer /> */}
-
     </div>
   )
 }

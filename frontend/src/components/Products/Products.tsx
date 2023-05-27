@@ -9,8 +9,6 @@ import 'slick-carousel/slick/slick-theme.css'
 import { AppContext, AppContextInterface } from 'src/Context/context'
 // import LoginModal from 'src/components/LoginRegisterModal'
 
-
-
 export default function Products() {
   const [isLoading, setIsLoading] = useState(false)
   const [showModalLogin, setShowModalLogin] = useState(false)
@@ -51,7 +49,7 @@ export default function Products() {
   const payload = async (id: number, username: string) => {
     try {
       setIsLoading(true)
-      const res = await axios.post('https://localhost:7749/api/Subscription/createpayment', {
+      const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/Subscription/createpayment`, {
         productDurationId: id,
         username: username
       })
@@ -67,10 +65,9 @@ export default function Products() {
 
   const getAllProduct = async () => {
     try {
-      const res = await axios.get('https://localhost:7749/api/Product')
+      const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/Product`)
       if (res.data) {
         setData(res.data.value)
-        console.log(res)
       }
     } catch (error) {
       console.log(error)

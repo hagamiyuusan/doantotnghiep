@@ -12,12 +12,11 @@ export default function Payment() {
   useEffect(() => {
     const getPayment = async () => {
       try {
-        const res = await axios.post(`https://localhost:7749/api/Subscription/payment`, {
+        const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/Subscription/payment`, {
           paymentId: paymentId,
           token: token
         })
         if (res.status === 200) {
-          console.log('Respone:', res.data)
           setPayment(true)
         }
       } catch (error) {
@@ -42,7 +41,10 @@ export default function Payment() {
               <p className='text-gray-600 my-2'>Thank you for completing your secure online payment.</p>
               <p> Have a great day! </p>
               <div className='py-10 text-center'>
-                <a href='https://127.0.0.1:3000/' className='px-12 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3'>
+                <a
+                  href='https://localhost:3000'
+                  className='px-12 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3'
+                >
                   GO BACK
                 </a>
               </div>
@@ -59,7 +61,10 @@ export default function Payment() {
             <div className='text-center'>
               <h3 className='md:text-2xl text-base text-gray-900 font-semibold text-center'>Payment Failed!</h3>
               <div className='py-10 text-center'>
-                <a href='https://127.0.0.1:3000/' className='px-12 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3'>
+                <a
+                  href='https://localhost:3000/'
+                  className='px-12 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3'
+                >
                   GO BACK
                 </a>
               </div>

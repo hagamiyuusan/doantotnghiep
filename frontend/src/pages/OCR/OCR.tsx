@@ -5,7 +5,7 @@ import axios from 'axios'
 import { AppContext } from 'src/Context/context'
 
 export default function OCR() {
-  const pRef = useRef<HTMLParagraphElement>(null);
+  const pRef = useRef<HTMLParagraphElement>(null)
   const inputRef = useRef(null)
   const [loading, setLoading] = useState(false)
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
@@ -17,16 +17,16 @@ export default function OCR() {
   }
   const handleCopy = () => {
     if (pRef.current) {
-      const range = document.createRange();
-      range.selectNodeContents(pRef.current);
+      const range = document.createRange()
+      range.selectNodeContents(pRef.current)
 
-      const selection = window.getSelection();
+      const selection = window.getSelection()
       if (selection) {
-        selection.removeAllRanges();
-        selection.addRange(range);
+        selection.removeAllRanges()
+        selection.addRange(range)
       }
 
-      document.execCommand('copy');
+      document.execCommand('copy')
     }
   }
   const onClickHandler = () => {
@@ -40,7 +40,6 @@ export default function OCR() {
       .then((res) => {
         setCaption(res.data.filename)
         setLoading(false)
-        console.log(res.data)
       })
       .catch((err) => {
         console.log(err)
@@ -53,11 +52,7 @@ export default function OCR() {
       className={`container mx-auto bg-gray-50 rounded-lg ${styles.ocr} pb-40`}
       ref={ocrRef as React.LegacyRef<HTMLDivElement>}
     >
-      <h1
-        className='uppercase text-4xl text-black font-bold	'
-      >
-        Image Captioning
-      </h1>
+      <h1 className='uppercase text-4xl text-black font-bold	'>Image Captioning</h1>
       <div className='rounded '>
         <div className='header text-center mt-5 mb-16'>
           <p className='text-3xl text-black'>Try It Now!</p>
@@ -138,10 +133,30 @@ export default function OCR() {
             <div className='title  text-center  border-b border-white'>
               <h1 className='text-xl text-cyan-600 uppercase -translate-y-6'>Description</h1>
             </div> */}
-            <div className="flex items-center relative text-gray-200 bg-gray-800 px-4 py-2 text-xs font-sans justify-between rounded-t-md " ><span>Description</span><button onClick={handleCopy} className="flex ml-auto gap-2"><svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>Copy text</button></div>
+            <div className='flex items-center relative text-gray-200 bg-gray-800 px-4 py-2 text-xs font-sans justify-between rounded-t-md '>
+              <span>Description</span>
+              <button onClick={handleCopy} className='flex ml-auto gap-2'>
+                <svg
+                  stroke='currentColor'
+                  fill='none'
+                  strokeWidth='2'
+                  viewBox='0 0 24 24'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  className='h-4 w-4'
+                  height='1em'
+                  width='1em'
+                  xmlns='http://www.w3.org/2000/svg'
+                >
+                  <path d='M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2'></path>
+                  <rect x='8' y='2' width='8' height='4' rx='1' ry='1'></rect>
+                </svg>
+                Copy text
+              </button>
+            </div>
 
             {/* <div className='pt-3 px-3 text-lg text-white' > */}
-            <div className="p-4 overflow-y-auto bg-gray-500 h-full ">
+            <div className='p-4 overflow-y-auto bg-gray-500 h-full '>
               {!caption ? (
                 <>
                   <p className='  text-gray-200'>There are no recognized results.</p>
@@ -149,12 +164,12 @@ export default function OCR() {
                 </>
               ) : (
                 <>
-                  <p className='  text-gray-200' ref={pRef}>{caption}</p>
-
+                  <p className='  text-gray-200' ref={pRef}>
+                    {caption}
+                  </p>
                 </>
               )}
             </div>
-
           </div>
         </div>
       </div>

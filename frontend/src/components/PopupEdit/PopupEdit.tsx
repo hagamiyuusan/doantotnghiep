@@ -22,7 +22,6 @@ const PopupEdit: React.FC<IProps> = ({ setShowPopupEdit, duration, setDuration }
   const [showConfirmPopup, setShowConfirmPopup] = useState(false)
   const token = localStorage.getItem('access_token') || ''
   const typeSubmit = formEdit.id ? TYPESUBMIT.EDIT : TYPESUBMIT.ADD
-  console.log('typeSubmit', typeSubmit)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormEdit((prev) => {
@@ -46,14 +45,13 @@ const PopupEdit: React.FC<IProps> = ({ setShowPopupEdit, duration, setDuration }
         }
     if (typeSubmit === TYPESUBMIT.EDIT) {
       try {
-        const res = await axios.put(`https://localhost:7749/api/Duration`, formSubmit, {
+        const res = await axios.put(`${import.meta.env.VITE_BASE_URL}/Duration`, formSubmit, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json'
           }
         })
         if (res.status === 200) {
-          console.log('Respone:', res.data)
           setDuration(formEdit)
           setShowConfirmPopup(false)
           setShowPopupEdit(false)
@@ -63,14 +61,13 @@ const PopupEdit: React.FC<IProps> = ({ setShowPopupEdit, duration, setDuration }
       }
     } else {
       try {
-        const res = await axios.post(`https://localhost:7749/api/Duration`, formSubmit, {
+        const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/Duration`, formSubmit, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json'
           }
         })
         if (res.status === 200) {
-          console.log('Respone:', res.data)
           setDuration(formEdit)
           setShowConfirmPopup(false)
           setShowPopupEdit(false)
@@ -83,7 +80,6 @@ const PopupEdit: React.FC<IProps> = ({ setShowPopupEdit, duration, setDuration }
   const handleCancel = () => {
     setShowConfirmPopup(false)
   }
-  console.log('FormEdit', formEdit)
 
   return (
     <div className='fixed z-10 inset-0 overflow-y-auto'>

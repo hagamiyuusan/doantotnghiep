@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { toast } from 'react-toastify'
 import iconCopy from 'src/imgs/copyIcon.png'
-import TablePopup from 'src/pages/Profile/AdminPage/ProductManager/TablePopup'
 import { ISubcription } from '../HistoryPurchase'
 interface IProps {
   title: string
@@ -11,31 +10,31 @@ interface IProps {
   setRefresh: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function Table({ title, columnNames, data, desc, setRefresh }: IProps) {
+export default function Table({ title, columnNames, data, desc }: IProps) {
   const convertDate = (stringDate: string) => {
-    const date = new Date(stringDate);
+    const date = new Date(stringDate)
 
     const day = date.getDate()
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
+    const month = date.getMonth() + 1
+    const year = date.getFullYear()
 
-    const formattedDate = `${day < 10 ? '0' + day : day}/${month < 10 ? '0' + month : month}/${year}`;
+    const formattedDate = `${day < 10 ? '0' + day : day}/${month < 10 ? '0' + month : month}/${year}`
     return formattedDate
-
   }
   const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text)
+    navigator.clipboard
+      .writeText(text)
       .then(() => {
-        console.log('Text copied to clipboard');
+        console.log('Text copied to clipboard')
       })
       .catch((error) => {
-        console.error('Error copying text to clipboard:', error);
-      });
-  };
+        console.error('Error copying text to clipboard:', error)
+      })
+  }
   const handleCopyClick = (text: string) => {
-    copyToClipboard(text);
+    copyToClipboard(text)
     toast.success('Copy Token Success!')
-  };
+  }
   return (
     <div className=' container'>
       <div className='relative overflow-x-auto shadow-md sm:rounded-lg'>
@@ -57,17 +56,17 @@ export default function Table({ title, columnNames, data, desc, setRefresh }: IP
             </tr>
           </thead>
           <tbody>
-            {data.map((element, index) => (
+            {data.map((element) => (
               <tr className='bg-white border-b dark:bg-gray-800 dark:border-gray-700' key={element.id}>
                 <th scope='row' className='px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'>
                   {element.id}
                 </th>
                 <th className='px-6 py-4'>{element.productName}</th>
                 <th className='px-6 py-4'>{convertDate(element.dueDate)}</th>
-                <th className='px-6 py-4' onClick={() => handleCopyClick(element.token)} >
-                  <div className="flex justify-center items-center gap-2">
+                <th className='px-6 py-4' onClick={() => handleCopyClick(element.token)}>
+                  <div className='flex justify-center items-center gap-2'>
                     {element.token}
-                    <img src={iconCopy} alt="iconcopy" className='w-[18px] h-[18px] hover' />
+                    <img src={iconCopy} alt='iconcopy' className='w-[18px] h-[18px] hover' />
                   </div>
                 </th>
                 <th className='px-6 py-4'>

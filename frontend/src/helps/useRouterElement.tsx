@@ -39,19 +39,10 @@ export default function useRouterElement() {
       element: <ChangePassword />
     },
     {
-      path: '/payment',
-      element: <Payment />
-    },
-    {
       path: 'sendMailChangePassword/:username/:token',
       element: <ChangePassword />
     },
-    {
-      path: 'historypurchase',
-      element: (<MainLayout>
-        <HistoryPurchase />
-      </MainLayout>)
-    },
+
     {
       path: '',
       element: <ProtectedRoute />,
@@ -63,6 +54,18 @@ export default function useRouterElement() {
               <UserProfile />
             </MainLayout>
           )
+        },
+        {
+          path: 'historypurchase',
+          element: (
+            <MainLayout>
+              <HistoryPurchase />
+            </MainLayout>
+          )
+        },
+        {
+          path: '/payment',
+          element: <Payment />
         }
       ]
     },

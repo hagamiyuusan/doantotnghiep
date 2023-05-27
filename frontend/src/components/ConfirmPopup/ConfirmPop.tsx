@@ -9,26 +9,23 @@ interface IProps {
 }
 export default function ConfirmPopUp({ message, onOke, onCancel, value }: IProps) {
   const handleOke = () => {
-    if (typeof onOke === "function") {
+    if (typeof onOke === 'function') {
       onOke()
     }
   }
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="absolute inset-0 bg-gray-900 opacity-50"></div>
-      <div className="relative bg-white p-8 rounded-lg w-80 h-40 flex justify-center items-center flex-col">
-        <p className="mb-4">{message}</p>
-        <div className="flex justify-end">
+    <div className='fixed inset-0 z-50 flex items-center justify-center'>
+      <div className='absolute inset-0 bg-gray-900 opacity-50'></div>
+      <div className='relative bg-white p-8 rounded-lg w-80 h-40 flex justify-center items-center flex-col'>
+        <p className='mb-4'>{message}</p>
+        <div className='flex justify-end'>
           <button
-            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
+            className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2'
             onClick={onOke}
           >
             OK
           </button>
-          <button
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-            onClick={onCancel}
-          >
+          <button className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded' onClick={onCancel}>
             Cancel
           </button>
         </div>

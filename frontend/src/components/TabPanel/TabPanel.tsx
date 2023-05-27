@@ -10,7 +10,6 @@ export function TabPanelCustom() {
         <TabSelector isActive={selectedTab === 'Text'} onClick={() => setSelectedTab('Text')}>
           Description
         </TabSelector>
-
       </nav>
       <div className='p-4'>
         <TabPanel hidden={selectedTab !== 'Text'}>Text</TabPanel>
