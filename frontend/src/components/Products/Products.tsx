@@ -91,7 +91,7 @@ export default function Products() {
             <button
               onClick={
                 profile?.userName
-                  ? () => payload(duration.original_duration_id, profile?.userName)
+                  ? () => payload(duration.id, profile?.userName)
                   : () => setShowModalLogin(true)
               }
               type='button'
@@ -148,7 +148,7 @@ export default function Products() {
         </div>
       </div>
     ))
-  )
+                )
   return (
     // <div className='grid grid-cols-3 gap-5 text-center mt-20'>
     <div className='slider-container'>

@@ -38,16 +38,19 @@ namespace doan.EF
 
             builder.Entity<IdentityUserClaim<Guid>>()
                 
-                .ToTable("AppUserClaims");
-                
+                .ToTable("AppUserClaims")
+                .HasKey(x => x.Id);
+
             builder.Entity<IdentityUserLogin<Guid>>().ToTable("AppUserLogins")
-                .HasKey(x=>x.UserId);
+                .HasKey(x=> new {x.LoginProvider,x.ProviderKey,x.UserId});
+            //.HasKey(x=>x.UserId);
 
 
             builder.Entity<IdentityRoleClaim<Guid>>().ToTable("AppRoleClaims")
-                .HasKey(x=>x.RoleId);
-            builder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens")
-                .HasKey(x => x.UserId);
+                .HasKey(x=>x.Id);
+            //.HasKey(x=>x.RoleId);
+            builder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").
+                HasKey(x => new { x.LoginProvider,x.UserId,x.Name});
 
             builder.Seed();
 

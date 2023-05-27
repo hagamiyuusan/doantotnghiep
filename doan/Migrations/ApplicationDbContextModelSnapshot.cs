@@ -24,8 +24,11 @@ namespace doan.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
@@ -37,10 +40,10 @@ namespace doan.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("RoleId");
+                    b.HasKey("Id");
 
                     b.ToTable("AppRoleClaims", (string)null);
 
@@ -81,6 +84,12 @@ namespace doan.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
@@ -88,16 +97,10 @@ namespace doan.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UserId");
+                    b.HasKey("LoginProvider", "ProviderKey", "UserId");
 
                     b.ToTable("AppUserLogins", (string)null);
 
@@ -136,23 +139,23 @@ namespace doan.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("UserId");
+                    b.HasKey("LoginProvider", "UserId", "Name");
 
                     b.ToTable("AppUserTokens", (string)null);
 
@@ -184,7 +187,7 @@ namespace doan.Migrations
                         new
                         {
                             Id = new Guid("823b98ec-f77f-4ccc-a5f7-3765156b9950"),
-                            ConcurrencyStamp = "619d906d-f53c-424a-af5e-b7166dd218a8",
+                            ConcurrencyStamp = "a5bdfe14-a912-4396-9d84-9dceb4206bcc",
                             Name = "admin",
                             NormalizedName = "admin"
                         });
@@ -250,13 +253,13 @@ namespace doan.Migrations
                         {
                             Id = new Guid("0790f531-8010-4bf4-8b92-0a8b7549c406"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "df2dba5f-a753-4fff-ab1b-30b62cbab59c",
+                            ConcurrencyStamp = "2f2e6c35-5193-40d6-ab94-6144e47de11a",
                             Email = "vinhhuyqna@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "vinhhuyqna@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGTTj8RASv4tS4jOgNtqtsBRSqhqooZ66mTDiMdlvS27bH8bVu6ASRKQWoaUO+Q7lw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENzfsftBu5KwQ7E/G8afFxEldMZUA954Fp+X4lAgo2YAU684Ltfy1YKcPWeAByg2pA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -408,7 +411,7 @@ namespace doan.Migrations
                         {
                             Id = 1,
                             API_URL = "",
-                            Created = new DateTime(2023, 5, 19, 0, 0, 0, 0, DateTimeKind.Local),
+                            Created = new DateTime(2023, 5, 26, 0, 0, 0, 0, DateTimeKind.Local),
                             Name = "API Image Captioning",
                             productTypeId = 1
                         });
@@ -517,6 +520,9 @@ namespace doan.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>");
 
+                    b.HasIndex("RoleId")
+                        .IsUnique();
+
                     b.HasDiscriminator().HasValue("RoleClaim");
                 });
 
@@ -533,6 +539,9 @@ namespace doan.Migrations
             modelBuilder.Entity("doan.Entities.UserLogin", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.HasDiscriminator().HasValue("UserLogin");
                 });
@@ -551,6 +560,9 @@ namespace doan.Migrations
             modelBuilder.Entity("doan.Entities.UserToken", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("AppUserTokens", (string)null);
 
