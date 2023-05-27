@@ -27,7 +27,6 @@ export const getInitialAppContext: () => AppContextInterface = () => ({
   ocrRef: { current: null }
 })
 const initialAppContext = getInitialAppContext()
-console.log("🚀 ~ file: context.tsx:28 ~ initialAppContext:", initialAppContext)
 
 export const AppContext = createContext<AppContextInterface>(initialAppContext)
 

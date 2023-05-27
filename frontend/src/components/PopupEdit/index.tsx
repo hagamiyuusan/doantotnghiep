@@ -1,3 +1,3 @@
-import PopupEdit from "./PopupEdit";
+import PopupEdit from './PopupEdit'
 
 export default PopupEdit

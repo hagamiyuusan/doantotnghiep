@@ -20,11 +20,11 @@ export default function TablePopup({
   // data,
   setRefresh
 }: // setProductDetail
-  IProps) {
+IProps) {
   const [productDetailForm, setproductDetailForm] = useState<IProduct>({
     id: productDetailId,
     name: '',
-    api_URL: ''
+    apI_URL: ''
   } as IProduct)
   const [showConfirmPopup, setShowConfirmPopup] = useState(false)
   const [showAddProductDuration, setShowAddProductDuration] = useState(false)
@@ -39,7 +39,7 @@ export default function TablePopup({
 
   const handleOke = async () => {
     try {
-      const res = await axios.delete(`https://localhost:7749/api/ProductDuration/${durationId}`, {
+      const res = await axios.delete(`${import.meta.env.VITE_BASE_URL}/ProductDuration/${durationId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -53,7 +53,6 @@ export default function TablePopup({
         setShowConfirmPopup(false)
         setRefresh(true)
         setShowDetailPopup(false)
-
       }
     } catch (error) {
       console.log(error)
@@ -69,7 +68,7 @@ export default function TablePopup({
   }
   const getProductDetail = async () => {
     try {
-      const res = await axios.get(`https://localhost:7749/api/Product/${productDetailId}`)
+      const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/Product/${productDetailId}`)
       if (res.status === 200) {
         setproductDetailForm(res.data?.value)
       }
@@ -86,11 +85,11 @@ export default function TablePopup({
   const handleEdit = async () => {
     try {
       const res = await axios.put(
-        `https://localhost:7749/api/Product/${productDetailId}`,
+        `${import.meta.env.VITE_BASE_URL}/Product/${productDetailId}`,
         {
           id: productDetailId,
           name: productDetailForm.name,
-          apI_URL: productDetailForm.api_URL
+          apI_URL: productDetailForm.apI_URL
         },
         {
           headers: {
@@ -150,11 +149,11 @@ export default function TablePopup({
               URL:
             </label>
             <input
-              id='api_URL'
-              name='api_URL'
+              id='apI_URL'
+              name='apI_URL'
               type='text'
               className='border-gray-400 p-4 w-9/12 '
-              value={productDetailForm.api_URL}
+              value={productDetailForm.apI_URL}
               required
               onChange={handleChange}
             />

@@ -34,7 +34,7 @@ export default function AddProductDurationPopup({
 
   const getAllDuration = async () => {
     try {
-      const res = await axios.get('https://localhost:7749/api/Duration')
+      const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/Duration`)
       if (res.data.value) {
         setDurations(res.data.value)
       }
@@ -49,7 +49,7 @@ export default function AddProductDurationPopup({
   const handleOke = async () => {
     try {
       const res = await axios.post(
-        `https://localhost:7749/api/ProductDuration`,
+        `${import.meta.env.VITE_BASE_URL}/ProductDuration`,
         {
           productId: currentDurations.id,
           durationId: durationId,
@@ -71,7 +71,6 @@ export default function AddProductDurationPopup({
         setRefreshComponent(false)
         setShowAddProductDuration(false)
         setShowDetailPopup(false)
-        // console.log('Respone:', res.data)
       }
     } catch (error) {
       toast.error('Delete defective Product Duration!', {
@@ -142,7 +141,9 @@ export default function AddProductDurationPopup({
           // setDrationID={setDurationId}
           />
         )}
-        {showConfirmPopup && <ConfirmPopUp message='Do you want add?' onOke={handleOke} onCancel={() => setShowConfirmPopup(false)} />}
+        {showConfirmPopup && (
+          <ConfirmPopUp message='Do you want add?' onOke={handleOke} onCancel={() => setShowConfirmPopup(false)} />
+        )}
       </div>
     </div>
   )

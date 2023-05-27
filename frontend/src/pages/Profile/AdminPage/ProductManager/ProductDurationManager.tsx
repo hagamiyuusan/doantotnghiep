@@ -11,9 +11,5 @@ export default function ProductManager() {
   const columnNames = ['Product_Id', 'Duration_Id', 'Price']
   const [data, setData] = useState<ProductDuration[]>([])
 
-  return (
-    <div>
-      {/* <Table columnNames={columnNames} title='Product Duration Manager' data={data} /> */}
-    </div>
-  )
+  return <div>{/* <Table columnNames={columnNames} title='Product Duration Manager' data={data} /> */}</div>
 }

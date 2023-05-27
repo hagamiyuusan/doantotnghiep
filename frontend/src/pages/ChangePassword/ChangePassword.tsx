@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import { ErrorMessage } from 'src/components/ErrorMessage'
 
 interface IFormData {
@@ -30,21 +30,16 @@ export default function ChangePassword() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
-  console.log(formData);
-
-  const navigate = useNavigate()
   const handleSubmit = (typeSubmit: string) => async (e: React.FormEvent<HTMLFormElement>) => {
-
     e.preventDefault()
     if (typeSubmit === TYPESUBMIT.SENDMAIL) {
       setLoading(true)
       try {
-        const res = await axios.post(`https://localhost:7749/api/UserService/password/reset`, {
+        const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/UserService/password/reset`, {
           email: formData.email
         })
         if (res.status === 200) {
           setMessage('Check your mail to change password')
-          // navigate('');
           window.open('https://www.gmail.com')
           setLoading(false)
         }
@@ -55,14 +50,16 @@ export default function ChangePassword() {
     } else {
       setLoading(true)
       try {
-        const res = await axios.post(`https://localhost:7749/api/UserService/resetpassword/${username}/${token}`, {
-          newPassword: formData.newPassword
-        })
+        const res = await axios.post(
+          `${import.meta.env.VITE_BASE_URL}/UserService/resetpassword/${username}/${token}`,
+          {
+            newPassword: formData.newPassword
+          }
+        )
         if (res.status === 200) {
           setMessage('Change password success! Redirect Homepage after 2s!')
           setTimeout(() => {
             window.open('https://localhost:3000')
-
           }, 2000)
           setLoading(false)
         }
@@ -80,7 +77,6 @@ export default function ChangePassword() {
           {currentPath === TYPEFORM.SENDMAIL ? 'Send Email To Reset Password' : 'Reset Your Password'}
         </h1>
         <form onSubmit={handleSubmit(typeForm)}>
-
           <div className='flex justify-center items-center'>
             <input
               type={currentPath === TYPEFORM.SENDMAIL ? 'email' : 'password'}
@@ -93,7 +89,8 @@ export default function ChangePassword() {
               required
             />
           </div>
-          <button className='w-72 bg-blue-800 text-white flex items-center justify-center gap-3 mx-auto mt-9 '
+          <button
+            className='w-72 bg-blue-800 text-white flex items-center justify-center gap-3 mx-auto mt-9 '
           // onClick={() => handleSubmit(typeForm)}
           >
             {currentPath === TYPEFORM.SENDMAIL ? 'Send Mail' : 'Reset Your Password'}

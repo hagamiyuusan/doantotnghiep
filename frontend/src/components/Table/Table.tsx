@@ -31,7 +31,7 @@ export default function Table({ title, columnNames, data, desc, setRefresh }: IP
   const handleDeleteById = async () => {
     try {
       const res = await axios.delete(
-        `https://localhost:7749/api/Product/${productDeleteId}`,
+        `${import.meta.env.VITE_BASE_URL}/Product/${productDeleteId}`,
 
         {
           headers: {

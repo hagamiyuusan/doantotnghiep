@@ -67,7 +67,7 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
       }
       // handle Register
       try {
-        const res = await axios.post('https://localhost:7749/api/UserService/register', {
+        const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/UserService/register`, {
           userName: formData.username,
           password: formData.password,
           email: formData.email
@@ -75,7 +75,7 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
         if (res.status === 200) {
           toast.success('Register is success !', {
             position: toast.POSITION.TOP_RIGHT
-          });
+          })
           appContext.setProfile(res.data)
           setErrorMessage(`Check your email to verify account`)
           // setShowModalLogin(false)
@@ -83,32 +83,30 @@ export default function LoginModal({ showModalLogin, setShowModalLogin }: IProps
       } catch (error: any) {
         toast.error('Register is failed! Try again', {
           position: toast.POSITION.TOP_RIGHT
-        });
+        })
         setErrorMessage('Something Bug?')
         // setErrorMessage(error.response.data)
       }
     } else {
       // handle Login
       try {
-        const res = await axios.post('https://localhost:7749/api/UserService/authenticate', {
+        const res = await axios.post(`${import.meta.env.VITE_BASE_URL}/UserService/authenticate`, {
           UserName: formData.username,
           password: formData.password
         })
         if (res.data) {
           toast.success('Login Success !', {
             position: toast.POSITION.TOP_RIGHT
-          });
+          })
           appContext.setProfile(jwt_decode(res.data?.token))
           appContext.setIsAuthenticated(true)
-          console.log(jwt_decode(res.data?.token))
           localStorage.setItem('access_token', res.data?.token)
           setShowModalLogin(false)
-
         }
       } catch (error: any) {
         toast.error('Login failed!', {
           position: toast.POSITION.TOP_RIGHT
-        });
+        })
 
         setErrorMessage(error?.response?.data)
       }

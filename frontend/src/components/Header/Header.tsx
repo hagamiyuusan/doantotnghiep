@@ -31,11 +31,11 @@ const Header = ({ setShowModalLogin, user }: IProps) => {
     <header className={`${styles.header} mb-16`}>
       <div className={styles.navbar}>
         <div className={styles.logo}>
-          <a href='https://127.0.0.1:3000/'>LoGO</a>
+          <a href='https://localhost:3000'>LoGO</a>
         </div>
         <ul className={styles.nav_links}>
           <li>
-            <a href='https://127.0.0.1:3000/'>Home</a>
+            <a href='https://localhost:3000'>Home</a>
           </li>
           <li>
             <a href='#'>About</a>
@@ -155,7 +155,7 @@ const Header = ({ setShowModalLogin, user }: IProps) => {
               <button
                 className={styles.action_btn}
                 onClick={() => {
-                  user.reset(), setOpenDropdownUser(false), console.log(openDropdownMenu)
+                  user.reset(), setOpenDropdownUser(false)
                 }}
               >
                 Logout

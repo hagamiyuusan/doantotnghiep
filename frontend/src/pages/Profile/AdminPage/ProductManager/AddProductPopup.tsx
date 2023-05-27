@@ -10,7 +10,7 @@ interface IProps {
 }
 const initFormdData: Omit<IProduct, 'durations' | 'id'> = {
   name: '',
-  api_URL: ''
+  apI_URL: ''
 }
 export default function AddProductPopup({ setShowAddProductPopup, setRefresh }: IProps) {
   const [showConfirmPopup, setShowConfirmPopup] = useState(false)
@@ -23,14 +23,14 @@ export default function AddProductPopup({ setShowAddProductPopup, setRefresh }: 
       [e.target.name]: e.target.value
     }))
   }
-  console.log('FormData', formData)
+  console.log(formData)
   const handleOke = async () => {
     try {
       const res = await axios.post(
-        `https://localhost:7749/api/Product`,
+        `${import.meta.env.VITE_BASE_URL}/Product`,
         {
           typeProductId: 1,
-          apI_URL: formData.api_URL,
+          apI_URL: formData.apI_URL,
           name: formData.name,
           created: new Date()
         },
@@ -86,8 +86,8 @@ export default function AddProductPopup({ setShowAddProductPopup, setRefresh }: 
               URL:
             </label>
             <input
-              id='api_URL'
-              name='api_URL'
+              id='apI_URL'
+              name='apI_URL'
               type='text'
               className='border-gray-400 p-4 w-9/12 '
               // value={productDetailForm.api_URL}

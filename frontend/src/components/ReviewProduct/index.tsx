@@ -7,7 +7,7 @@ export function ReviewProduct() {
   return (
     <>
       <nav className='flex border-b border-gray-300  justify-center items-center'>
-        <TabSelector isActive={selectedTab === 'content1'} onClick={() => setSelectedTab('content1')} >
+        <TabSelector isActive={selectedTab === 'content1'} onClick={() => setSelectedTab('content1')}>
           Giá trị học thuật
         </TabSelector>
         <TabSelector isActive={selectedTab === 'content2'} onClick={() => setSelectedTab('content2')}>
