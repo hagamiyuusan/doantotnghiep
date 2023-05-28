@@ -68,9 +68,8 @@ namespace doan.Controllers
                     message = "Có lỗi xảy ra, vui lòng kiểm tra lại"
                 });
             }
-            var subscription = await _context.Subscriptions.Where(x => x.token == request.token)
-                .Include(a => a.product)
-                .FirstAsync();
+            var subscription = await _context.Subscriptions.Include(x => x.product).Where(x => x.token == request.token).FirstAsync();
+
             if (subscription == null)
             {
                 return BadRequest(new

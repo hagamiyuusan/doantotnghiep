@@ -30,18 +30,27 @@ export default function OCR() {
     }
   }
   const onClickHandler = () => {
-    if (!selectedFile) return
+    if (!selectedFile) return 
     setLoading(true)
     const data = new FormData()
-    data.append('file', selectedFile)
-
+    data.append('idProduct', '1')
+    data.append('image', selectedFile)
+    data.append('token','')
     axios
-      .post<{ filename: string }>('http://localhost:5000/upload', data, {})
+      .post<{ result: string, code : number }>(`${import.meta.env.VITE_BASE_URL}/Product/imagecaptioning`, data, {})
       .then((res) => {
-        setCaption(res.data.filename)
-        setLoading(false)
+        console.log(res.data.code)
+        if (res.data.code !=200) {
+          
+          setCaption("You reached limit!")
+        }
+        else {
+          setCaption(res.data.result)
+          setLoading(false)
+        }
       })
       .catch((err) => {
+        setCaption("You reached limit!")
         console.log(err)
         setLoading(false)
       })

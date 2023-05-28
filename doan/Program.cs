@@ -106,7 +106,7 @@ builder.Services.Configure<IpRateLimitOptions>(options =>
             {
                 Endpoint = "POST:/api/Product/imagecaptioning",
                 Period = "30d",
-                Limit = 2,
+                Limit = 10,
             }
         };
 });

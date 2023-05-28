@@ -371,3 +371,4 @@ FodyWeavers.xsd
 .vscode/tasks.json
 doan/appsettings.json
 doan/appsettings.json
+/doan/wwwroot/images
