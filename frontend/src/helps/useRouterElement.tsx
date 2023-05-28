@@ -9,6 +9,7 @@ import DurationManager from 'src/pages/Profile/AdminPage/DurationManager'
 import ProductManager from 'src/pages/Profile/AdminPage/ProductManager'
 import Payment from 'src/pages/Payment'
 import HistoryPurchase from 'src/components/HistoryPurchase'
+import TestApi from 'src/pages/TestApi/TestApi'
 export default function useRouterElement() {
   const { isAuthenticated, profile } = useContext(AppContext)
   const isAdmin = Boolean(profile?.role)
@@ -42,7 +43,10 @@ export default function useRouterElement() {
       path: 'sendMailChangePassword/:username/:token',
       element: <ChangePassword />
     },
-
+    {
+      path: '/testapi',
+      element: <TestApi />
+    },
     {
       path: '',
       element: <ProtectedRoute />,
