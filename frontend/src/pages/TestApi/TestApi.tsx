@@ -46,7 +46,7 @@ export default function TestApi() {
     data.append('idProudct', formData.idProduct + '')
     data.append('token', formData.token)
     axios
-      .post<{ filename: string }>('http://localhost:5000/upload', data, {})
+      .post<{ filename: string }>(`${import.meta.env.VITE_BASE_URL}/Product/subsription`, data, {})
       .then((res) => {
         setCaption(res.data.filename)
         setLoading(false)
