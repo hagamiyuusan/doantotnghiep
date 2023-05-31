@@ -42,13 +42,13 @@ export default function TestApi() {
     if (!selectedFile) return
     setLoading(true)
     const data = new FormData()
-    data.append('file', selectedFile)
-    data.append('idProudct', formData.idProduct + '')
+    data.append('image', selectedFile)
+    data.append('idProduct', '1')
     data.append('token', formData.token)
     axios
-      .post<{ filename: string }>(`${import.meta.env.VITE_BASE_URL}/Product/subsription`, data, {})
+      .post<{ result: string, code : number }>(`${import.meta.env.VITE_BASE_URL}/Product/subscription`, data, {})
       .then((res) => {
-        setCaption(res.data.filename)
+        setCaption(res.data.result)
         setLoading(false)
       })
       .catch((err) => {
@@ -72,15 +72,17 @@ export default function TestApi() {
           <div className='header text-center mt-5 mb-16'>
             <p className='text-3xl text-black'>Try It Now!</p>
           </div>
-          <div className=' mb-16 flex flex-col justify-stretch'>
-            <div className='w-full mb-7'>
-              <input type='text' placeholder='Enter Id Product...' required onChange={handleChange} name='idProduct' />
-            </div>
-            <div className='w-full'>
-              <input type='text' placeholder='Enter Your Token...' required onChange={handleChange} name='token' />
+        
+          <div className=' mb-16 flex flex-col justify-stretch w-90%'>
+            {/* <div className='w-[920px] mx-auto mb-[12px] h-[32px]'>
+              <input className='pl-[12px]' type='text' placeholder='Enter Id Product...' required onChange={handleChange} name='idProduct' />
+            </div> */}
+            <div className='w-[920px] mx-auto h-[32px]'>
+              <input className='pl-[12px]' type='text' placeholder='Enter Your Token...' required onChange={handleChange} name='token' />
             </div>
           </div>
-          <div className='flex justify-center gap-5 items-stretch'>
+        
+           <div className='flex justify-center gap-5 items-stretch'>
             <div className=''>
               <div
                 onClick={() => {

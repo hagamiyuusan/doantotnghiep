@@ -55,9 +55,12 @@ namespace doan.Controllers
 
         [HttpGet("confirmregister")]
         [AllowAnonymous]
-        public async Task<bool> confirmEmail(string code, string username)
+        public async Task<IActionResult> confirmEmail(string code, string username)
         {
-            return await _userService.confirmEmail(code, username);
+            var hostname = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.Host}:3000";
+
+            await _userService.confirmEmail(code, username);
+            return Redirect(hostname);
         }
 
         [HttpPost("register")]

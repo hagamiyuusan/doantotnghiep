@@ -53,37 +53,38 @@ namespace doan.Controllers
         {
             if (String.IsNullOrEmpty(request.token))
             {
-                return BadRequest(new
+                return Ok(new
                 {
                     code = 400,
-                    message = "Có lỗi xảy ra, vui lòng kiểm tra lại"
+                    result = "You didn't enter token"
+                });
+            }
+            var subscription = await _context.Subscriptions.Where(x => x.token == request.token).FirstOrDefaultAsync();
+
+            if (subscription == null)
+            {
+                return Ok(new
+                {
+                    code = 404,
+                    result = "Wrong token"
                 });
             }
             var product = await _context.Products.Where(x => x.Id == request.idProduct).FirstAsync();
             if (product == null)
             {
-                return BadRequest(new
+                return Ok(new
                 {
                     code = 404,
-                    message = "Có lỗi xảy ra, vui lòng kiểm tra lại"
+                    result = "Có lỗi xảy ra, vui lòng kiểm tra lại"
                 });
             }
-            var subscription = await _context.Subscriptions.Include(x => x.product).Where(x => x.token == request.token).FirstAsync();
 
-            if (subscription == null)
-            {
-                return BadRequest(new
-                {
-                    code = 404,
-                    message = "Có lỗi xảy ra, vui lòng kiểm tra lại"
-                });
-            }
             if (subscription.dueDate < DateTime.Now)
             {
-                return BadRequest(new
+                return Ok(new
                 {
                     code = 401,
-                    message = "Có lỗi xảy ra, vui lòng kiểm tra lại"
+                    result = "Your subscription is expired"
                 });
             }
 

@@ -187,7 +187,7 @@ namespace doan.Migrations
                         new
                         {
                             Id = new Guid("823b98ec-f77f-4ccc-a5f7-3765156b9950"),
-                            ConcurrencyStamp = "9443c863-2644-40ab-9e18-91a6c60c45c5",
+                            ConcurrencyStamp = "3a7fe0e6-6fb4-481f-93b0-eb261ea9bd6b",
                             Name = "admin",
                             NormalizedName = "admin"
                         });
@@ -253,13 +253,13 @@ namespace doan.Migrations
                         {
                             Id = new Guid("0790f531-8010-4bf4-8b92-0a8b7549c406"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "97fb45b0-0012-40e8-a3f8-607429e62704",
-                            Email = "vinhhuyqna@gmail.com",
+                            ConcurrencyStamp = "8a5254bd-fe77-4bb9-bb10-b00d99a60fe5",
+                            Email = "hagamiyuusan@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
-                            NormalizedEmail = "vinhhuyqna@gmail.com",
+                            NormalizedEmail = "hagamiyuusan@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAENwsGJO7iT3f7IPCKXuCA2sF43RArZ4LhqyymcLj33DTsc4AYlMq4U7bBfNPF0RWPQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOjWsJTBrJbXDdB3lOMgeC1uUEYSgZCjwIGJ2o4EM+4GFNjiPfKbw6K/n5fVv7Su/Q==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -304,7 +304,13 @@ namespace doan.Migrations
                         {
                             Id = 3,
                             day = 120,
-                            name = "90 ngày"
+                            name = "120 ngày"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            day = 365,
+                            name = "365 ngày"
                         });
                 });
 
@@ -410,7 +416,7 @@ namespace doan.Migrations
                         new
                         {
                             Id = 1,
-                            API_URL = "",
+                            API_URL = "http://127.0.0.1:5000/upload",
                             Created = new DateTime(2023, 5, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             Name = "API Image Captioning",
                             productTypeId = 1
@@ -447,14 +453,28 @@ namespace doan.Migrations
                         {
                             Id = 1,
                             durationId = 1,
-                            price = 3000,
+                            price = 30,
                             productId = 1
                         },
                         new
                         {
                             Id = 2,
                             durationId = 2,
-                            price = 9000,
+                            price = 90,
+                            productId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            durationId = 3,
+                            price = 120,
+                            productId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            durationId = 4,
+                            price = 365,
                             productId = 1
                         });
                 });
